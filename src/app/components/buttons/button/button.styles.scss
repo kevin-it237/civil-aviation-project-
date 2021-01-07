@@ -1,0 +1,214 @@
+@import '../../../../assets/styles/base/variables';
+@import '../../../../assets/styles/base/mixins';
+
+@mixin outline ($color){
+    &.btn-outline{
+        background-color: transparent;
+        border-color: $color;
+        color: $color;
+        @include svgColor($color)
+    }
+}
+
+.btn{
+    @include getFontSize(btn);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    gap: 5px;
+    margin: 0 5px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    font-size: 16px;
+    color: $secondary;
+    cursor: pointer;
+    outline: none !important;
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    svg{
+        display: flex;
+        align-self: center;
+        justify-self: center;
+    }
+
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    &.btn-rounded{
+        border-radius: 50px;
+    }
+
+    &.btn-default{
+        opacity: 0.9;
+        @include svgColor($grey-400);
+        @include outline($secondary);
+    }
+
+    &.btn-transparent{
+        opacity: 0.9;
+        @include svgColor(transparent);
+        @include outline($grey-100);
+    }
+
+    &.btn-primary{
+        color: $white;
+        background-color: $primary;
+        opacity: 0.9;
+       
+        @include svgColor($white);
+        @include outline($primary);
+    }
+
+    &.btn-secondary{
+        color: $white;
+        background-color: $secondary;
+        opacity: 0.9;
+
+        @include svgColor($white);
+        @include outline($secondary);
+    }
+
+    &.btn-danger{
+        color: $white;
+        background-color: $danger;
+        opacity: 0.9;
+
+        @include svgColor($white);
+        @include outline($danger);
+    }
+
+    &.btn-success{
+        color: $white;
+        background-color: $success;
+        opacity: 0.9;
+        
+        @include svgColor($white);
+        @include outline($success);
+    }
+
+    &.btn-info{
+        color: $white;
+        background-color: $info;
+        opacity: 0.9;
+        
+        @include svgColor($white);
+        @include outline($info);
+    }
+
+    &.btn-warning{
+        color: $white;
+        background-color: $warning;
+        opacity: 0.9;
+        
+        @include svgColor($white);
+        @include outline($warning);
+    }
+
+    &:hover,
+    &.actived{
+        opacity: 1;
+    }
+    &:disabled{
+        opacity: 0.5;
+    }
+
+    &.btn-arrows{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } 
+
+    &.btn-xxl{
+        padding: 5px 2rem;
+        svg{
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    &.btn-xl{
+        padding: 5px 2rem;
+
+        svg{
+            width: 28px;
+            height: 28px;
+        }
+    }
+    
+    &.btn-lg{
+        padding: 5px 2rem;
+
+        svg{
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    &.btn-md{
+        padding: 5px 1.5rem;
+
+        svg{
+            width: 16px;
+            height: 16px;
+        }
+    }
+    
+    &.btn-sm{
+        padding: 5px 1rem;
+        svg{
+            width: 12px;
+            height: 12px;
+        }
+    }
+
+    &.btn-xsm{
+        padding: 5px 1rem;
+        svg{
+            width: 10px;
+            height: 10px;
+        }
+    }
+
+    &.btn-no-border{
+        border: none !important;
+    }
+
+    &.btn-loading{
+        cursor: progress !important;
+        place-content: center;
+        animation: 0.5s willLoad ease forwards;
+        transform-origin: center;
+        > svg > circle{
+            stroke-dasharray: 35px;
+            transform-origin: center;
+            animation: 1.5s loading cubic-bezier(.17,.67,.79,.29) infinite;
+        }
+    }
+}
+
+@keyframes loading{
+    0%{
+        transform: rotate(0);
+        stroke-dasharray: 20%;
+    }
+    100%{
+        transform: rotate(360deg);
+        stroke-dasharray: 100%;
+    }
+}
+
+@keyframes willLoad{
+    0%{
+        padding: 10px 46px;
+    }
+    100%{
+        padding: 10px;
+    }
+}

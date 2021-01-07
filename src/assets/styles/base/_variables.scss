@@ -1,0 +1,73 @@
+/*
+
+  Color Variable
+
+*/
+
+
+// Primary colors
+$primary:           #155E7C;
+$secondary:         #555555;
+
+$white:             #fff;
+
+$blue: $primary;
+
+$success:           #5DD150;
+$danger:            #FF5A5A;
+$warning:           #FFDA34;
+$info:               $primary;
+
+
+$light-success:     #E4FFDF;
+$light-danger:      #FFF1F1;
+$light-warning:     #FFFAD1;
+$light-info:        #EDF2F5;
+
+
+// Secondary colors
+$secondary-1:       #867AD3;
+$secondary-2:       #DB6EA2;
+$secondary-3:       #86B0C1;
+$secondary-4:       #E97272;
+$secondary-5:       #79BB87;
+$secondary-6:       #C4C66D;
+$secondary-7:       #A873C1;
+$secondary-8:       #FBA85C;
+
+
+$light-secondary-1: #E7E4F6; 
+$light-secondary-2: #F8E2EC;
+$light-secondary-3: #E7EFF3;
+$light-secondary-4: #FBE3E3;
+$light-secondary-5: #E4F1E7;
+$light-secondary-6: #F3F4E2;
+$light-secondary-7: #EEE3F3;
+$light-secondary-8: #FEEEDE;
+$light-secondary-9: #F7F7F7;
+$light-secondary-10: #FEFEFE;
+
+//background colors 
+$bg-light: #FDFDFD;
+
+// Greys
+$grey-100:          #FAFAFA;
+$grey-200:          #DDDDDD;
+$grey-300:          #BEBEBE;
+$grey-400:          #777777;
+$grey-500:          #555555;
+
+// Stroke Colors
+$stroke-color:      #F0F0F0;
+
+$bg-body: #F7F7F7;
+
+
+$bg-colors: (
+  blue: $primary,
+  red: $danger,
+  yellow:$warning,
+  green:$success,
+  white: $white,
+  grey: $grey-400
+);

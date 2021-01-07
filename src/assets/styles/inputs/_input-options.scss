@@ -1,0 +1,20 @@
+@import "../base/variables";
+
+.input-options {
+    appearance:none;
+    outline: none;
+    box-sizing: border-box;
+    
+    background: url('../../icons/arrow_dropdown.svg') no-repeat;
+    background-position-x: 90%;
+    background-position-y: 50%;
+    background-size: 10%;
+    
+    border: 1px solid $stroke-color;
+    border-radius: 5px;
+    
+    padding: 7px 10px;
+    
+    color: $grey-500;
+    font-family: 'Poppins Regular', sans-serif;
+}

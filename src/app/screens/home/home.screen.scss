@@ -1,0 +1,45 @@
+@import '../../../assets/styles/global.scss';
+
+#home-screen-container {
+    display: grid;
+    height: 100vh;
+    justify-content: center;
+    align-content: center;
+    >.title {
+        font-size: 18px;
+        color: $primary;
+        margin-bottom: 50px;
+        font-weight: 600;
+        text-align: center;
+    }
+    >.options {
+        display: grid;
+        grid-template-columns: repeat(2, 250px);
+        column-gap: 50px;
+        align-items: center;
+        justify-content: center;
+        >.option {
+            cursor: pointer;
+            border: solid 1px $stroke-color;
+            height: 250px;
+            padding: 50px 30px;
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            transition: all .2s ease-in;
+            background-color: $primary;
+            &:hover {
+                transform: translateY(-10px)
+            }
+            &:hover .option-name{
+                font-size: 17px;
+            }
+            >.option-name {
+                transition: all .2s ease-in;
+                color: $white;
+                font-size: 16px;
+            }
+        }
+    }
+}
