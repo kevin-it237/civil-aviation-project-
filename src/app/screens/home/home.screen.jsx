@@ -1,37 +1,54 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import LoadingScreen from '../loading.screen/loading.screen'
 import './home.screen.scss'
 
-const HomeScreen = () => {
+const HomeScreen = ({user}) => {
     const history = useHistory()
     const [loading, setLoading] = useState(true)
 
-    if(loading) {
-        setTimeout(() => {
+    useEffect(() => {
+        if(history.location.state?.isMounted) {
+            setLoading(false)
+            return
+        }
+        const timeout = setTimeout(() => {
             setLoading(false)
         }, 1000)
-    }
+        return () => {
+            clearTimeout(timeout)
+        }
+    })
 
     const select = (option) => {
-        localStorage.setItem('option', option)
-        history.push('/auth')
+        if(user) {
+            history.push(option)
+        } else {
+            history.push({
+                pathname: '/auth',
+                state: {pathname: option}
+            })
+        }
     }
 
     return (
         loading ? <LoadingScreen />:
         <div id="home-screen-container">
-            <p className="title">Select a option...</p>
+            <p className="title">Select an option...</p>
             <div className="options">
-                <div className="option option--1">
-                    <h4 onClick={() => select('yd-monitoring')} className="option-name">YD Monitoring</h4>
+                <div onClick={() => select('/yd-monitoring')} className="option option--1">
+                    <h4 className="option-name">YD Monitoring</h4>
                 </div>
-                <div className="option option--2">
-                    <h4 onClick={() => select('sata-dashboard')} className="option-name">SATA Dashboard</h4>
+                <div onClick={() => select('/sata-dashboard')} className="option option--2">
+                    <h4 className="option-name">SATA Dashboard</h4>
                 </div>
             </div>
         </div>
     )
 }
 
-export default HomeScreen;
+const mapStateToProps = ({ AuthReducer }) => ({
+    user: AuthReducer.user
+})
+export default connect(mapStateToProps)(HomeScreen);

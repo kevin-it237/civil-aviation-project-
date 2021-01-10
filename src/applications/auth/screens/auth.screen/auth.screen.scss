@@ -6,11 +6,15 @@
     width: 100vw;
     justify-content: center;
     align-items: center;
+    background-image: linear-gradient(rgba($white, 0.5), rgba($white, 0.5)), url('../../../../assets/images/bg.jpg');
+    background-size: cover;
+    background-position: center;
 
     .auth-container__card {
         border: solid 1px $stroke-color;
         padding: 50px 75px;
         border-radius: 5px;
+        background-color: $white;
         .auth-container__title {
             color: $primary;
             font-family: "Poppins Medium", sans-serif;
@@ -82,6 +86,15 @@
                 font-weight: 600;
                 text-align: center;
                 margin-top: 25px;
+            }
+
+            .back-home-text {
+                display: block;
+                margin-top: 40px;
+                cursor: pointer;
+                font-size: 12.5px;
+                text-align: center;
+                text-decoration: underline;
             }
         }
 

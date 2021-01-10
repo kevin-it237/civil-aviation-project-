@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Routes from '../app/routes/routes';
 import { useDispatch } from 'react-redux';
-import { authCurrentUserPoolUser } from '../applications/auth/redux/reducer/actions';
+import { authCurrentAuthenticatedUser } from '../applications/auth/redux/reducer/actions';
 
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
 
     useEffect(() => {
         if(hasMountedBefore){ return }
-        dispatch(authCurrentUserPoolUser());
+        dispatch(authCurrentAuthenticatedUser());
         setHasMountedBefore(true);
     }, [])
 

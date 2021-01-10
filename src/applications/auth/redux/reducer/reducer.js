@@ -16,11 +16,13 @@ const INITIAL_STATE = {
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		
 		case types.CURRENT_AUTHENTICATED_USER_SUCCESS:
 			return {
 				...state,
-				// user: action.payload,
+				user: action.payload,
 				error: null,
+				loading_current_user: false,
 			};
 
 		case types.CURRENT_AUTHENTICATED_USER_FAILURE:
@@ -30,19 +32,10 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
 				error: action.payload,
 				loading_current_user: false,
 			};
-
-			
+		
 		case types.PROFILE_INFO_SUCCESS:
-			const user = action.payload.data.userInfo;
 			return {
 				...state,
-				user: {
-					...user,
-					fullName: `${user.firstName} ${user.lastName}`,
-					status: 'Available', // this will be changed to get from database.
-				},
-				error: null,
-				loading_current_user: false,
 			};
 
 		case types.PROFILE_INFO_FAILURE:
@@ -53,37 +46,11 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
 				loading_current_user: false,
 			};
 
-		case types.CURRENT_USER_POOL_SUCCESS:
-			return {
-				...state,
-				// user: action.payload,
-				error: null,
-			};
-
-		case types.CURRENT_USER_POOL_FAILURE:
-			return {
-				...state,
-				user: null,
-				error: action.payload,
-				loading_current_user: false,
-			};
-
-		case types.FEDERATED_SIGN_IN_SUCCESS:
-			return {
-				...state,
-				error: null,
-			};
-
-		case types.FEDERATED_SIGN_IN_FAILURE:
-			return {
-				...state,
-				error: action.payload,
-			};
-
 		case types.SIGN_IN_USER_SUCCESS:
 			return {
 				...state,
 				error: null,
+				user: action.payload
 			};
 
 		case types.SIGN_IN_USER_FAILURE:

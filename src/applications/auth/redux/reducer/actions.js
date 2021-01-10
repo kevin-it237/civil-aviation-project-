@@ -8,17 +8,18 @@ export const authCurrentAuthenticatedUser = () => ({
 });
 
 /**
- * @description get current user pool request.
+ * @description login user.
  */
-export const authCurrentUserPoolUser = () => ({
-	type: types.CURRENT_USER_POOL_REQUEST,
+export const authSignIn = (payload) => ({
+	type: types.SIGN_IN_USER_REQUEST,
+	payload,
 });
 
 /**
  * @description login user.
  */
-export const authSignIn = (payload) => ({
-	type: types.SIGN_IN_USER_REQUEST,
+export const authRegister = (payload) => ({
+	type: types.REGISTER_USER_REQUEST,
 	payload,
 });
 

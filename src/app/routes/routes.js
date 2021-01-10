@@ -15,27 +15,24 @@ const Routes = () => {
 
     return (
         <Switch>
+            <PrivateRoute path={"/yd-monitoring"}>
+                <Route 
+                    exact 
+                    component={YDMonitoring}
+                    path={"/yd-monitoring"} />
+            </PrivateRoute>
+            
             <NormalRoute>
-                <Switch>
-                    <Route 
-                        exact
-                        component={HomeScreen}
-                        path={'/'} />
-                    <Route 
-                        exact
-                        component={AuthScreen}
-                        path={'/auth'} />
-                </Switch>
+                <Route 
+                    exact
+                    component={HomeScreen}
+                    path={'/'} />
+                <Route 
+                    exact
+                    component={AuthScreen}
+                    path={'/auth'} />
             </NormalRoute>
 
-            <PrivateRoute path={"/yd-monitoring"} >
-                <Switch>
-                    <Route 
-                        exact 
-                        component={YDMonitoring}
-                        path={"/yd-monitoring"} />
-                </Switch>
-            </PrivateRoute>
 
         </Switch>)
 }

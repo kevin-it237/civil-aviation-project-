@@ -3,15 +3,48 @@ import { types } from "../reducer/types";
 import authClass from "./auth.class";
 
 /**
+ * @description user sign in.  
+ */
+function* authSignIn ({payload}) 
+{
+    try {
+        const {data} = yield call(authClass.authSignIn, payload);
+        yield put({ type: types.SIGN_IN_USER_SUCCESS, payload: data });
+        localStorage.setItem('token', JSON.stringify(data.accessToken));
+        localStorage.setItem('user', JSON.stringify(data));
+        yield put({ type: types.REDIRECT_REQUEST, payload: payload.redirect });
+    } 
+    catch (error)
+    {
+        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error });
+    }
+}
+
+/**
+ * @description user sign in.  
+ */
+function* authRegister ({payload}) 
+{
+    try {
+        const {data} = yield call(authClass.authRegister, payload);
+        yield put({ type: types.SIGN_IN_USER_SUCCESS, payload: data });
+        yield authSignIn({payload: {username: payload.username, password: payload.password, redirect: payload.redirect}})
+    } 
+    catch (error)
+    {
+        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error });
+    }
+}
+
+
+/**
  * @description check the current autheticated user.   
  */
 function* authCurrentAuthenticatedUser () 
 {
     try {
-        const user = yield call(authClass.authCurrentAuthenticatedUser);
-        localStorage.setItem('token', JSON.stringify(user.signInUserSession.accessToken.jwtToken));
+        const user = JSON.parse(localStorage.getItem('user'));
         yield put({ type: types.CURRENT_AUTHENTICATED_USER_SUCCESS, payload: user });
-        yield put({ type: types.PROFILE_INFO_REQUEST });
     } 
     catch (error)
     { 
@@ -22,54 +55,7 @@ function* authCurrentAuthenticatedUser ()
     }
 }
 
-/**
- * @description check the current autheticated user.   
- */
-function* authCurrentUserPoolUser () 
-{
-    try {
-        const user = yield call(authClass.authCurrentUserPoolUser);
-        localStorage.setItem('token', JSON.stringify(user.signInUserSession.accessToken.jwtToken));
-        yield put({ type: types.CURRENT_USER_POOL_SUCCESS, payload: user });
-        yield put({ type: types.PROFILE_INFO_REQUEST });
-    } 
-    catch (error)
-    { 
-        yield put({ type: types.CURRENT_USER_POOL_FAILURE, payload: null });
-        localStorage.clear();
-    }
-}
 
-/**
- * @description login with google, facebook, apple etc... 
- */
-function* authFederatedSignIn ({payload}) 
-{
-    try {
-        yield call(authClass.authFederatedSignIn, payload);
-    } 
-    catch (error)
-    {
-        yield put({ type: types.FEDERATED_SIGN_IN_FAILURE, payload: error });
-    }
-}
-
-/**
- * @description user sign in.  
- */
-function* authSignIn ({payload}) 
-{
-    try {
-        const user = yield call(authClass.authSignIn, payload);
-        yield put({ type: types.SIGN_IN_USER_SUCCESS, payload: user });
-        localStorage.setItem('token', JSON.stringify(user.signInUserSession.accessToken.jwtToken));
-        yield put({ type: types.PROFILE_INFO_REQUEST });
-    } 
-    catch (error)
-    {
-        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error });
-    }
-}
 
 /**
  * @description user logout.  
@@ -113,9 +99,8 @@ function* authProfileInfo () {
 export default function* AuthSaga() 
 {
     yield takeLatest(types.CURRENT_AUTHENTICATED_USER_REQUEST, authCurrentAuthenticatedUser);
-    yield takeLatest(types.CURRENT_USER_POOL_REQUEST, authCurrentUserPoolUser);
     yield takeLatest(types.SIGN_IN_USER_REQUEST, authSignIn);
+    yield takeLatest(types.REGISTER_USER_REQUEST, authRegister);
     yield takeLatest(types.PROFILE_INFO_REQUEST, authProfileInfo);
-    yield takeLatest(types.FEDERATED_SIGN_IN_REQUEST, authFederatedSignIn);
     yield takeLeading(types.LOGOUT_USER_REQUEST, authLogout);
 }

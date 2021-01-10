@@ -9,11 +9,20 @@ class AuthClass {
 
     /**
      * @description sign in user.
-     * @param {object} payload 
+     * @param {email, password} payload 
      * @returns Promise
      */
-    authSignIn({email, password}) {   
-        // return Auth.signIn(email, password);
+    authSignIn(payload) {   
+        return postRequest(`${_URL}/signin`, payload);
+    }
+
+    /**
+     * @description Register a user.
+     * @param {username, email, password} payload 
+     * @returns Promise
+     */
+    authRegister(payload) {   
+        return postRequest(`${_URL}/register`, payload);
     }
 
     /**
