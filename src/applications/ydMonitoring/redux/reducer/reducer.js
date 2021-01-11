@@ -39,7 +39,7 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
                 }
             };
 
-        case types.GET_STATES_SUCCESS:console.log(action.payload)
+        case types.GET_STATES_SUCCESS:
             return {
                 ...state,
                 states: action.payload,

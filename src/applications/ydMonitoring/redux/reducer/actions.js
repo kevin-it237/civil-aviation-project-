@@ -17,8 +17,9 @@ export const getKPIsData = (payload) => ({
 });
 
 /**
- * @description Get states
+ * @description Get kpis
  */
-export const getKPIs = () => ({
-    type: types.GET_KPIS_REQUEST
+export const getKPIs = (payload) => ({
+    type: types.GET_KPIS_REQUEST,
+    payload
 });

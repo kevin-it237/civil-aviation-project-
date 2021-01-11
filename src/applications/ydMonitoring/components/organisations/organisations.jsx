@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import { Menu  } from "antd";
+import { Menu , Button } from "antd";
 import {connect, useDispatch} from 'react-redux'
-import { FlagFilled, GlobalOutlined, SettingOutlined } from '@ant-design/icons';
+import { FlagFilled, GlobalOutlined } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import {getStates} from '../../redux/reducer/actions'
+import Loader from '../../../../app/components/loader/loader'
+import {getStates, getKPIs} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
+import Empty from '../../../../app/components/empty/empty';
 import './organisations.scss'
 
 const { SubMenu } = Menu;
@@ -17,20 +19,37 @@ const { SubMenu } = Menu;
 const Organisations = ({states, loading}) => {
     
     const dispatch = useDispatch()
-    const [current, setCurrent] = useState('mail')
+    const [current, setCurrent] = useState('states')
 
     useEffect(() => {
         dispatch(getStates())
     }, [])
 
+    useEffect(() => {
+        if(states.length) {
+            dispatch(getKPIs('state'))
+        }
+    }, [states])
+
     const handleClick = e => {
-        console.log('click ', e);
         setCurrent(e.key);
     };
 
-    const STATES = states.map((state, i) => (
-        <Menu.Item key={(i+1)}>{state.full_name}</Menu.Item>
-    ))
+    const selectCountry = (state) => {
+
+    }
+
+    const fetchStates = () => {
+        dispatch(getStates())
+    }
+
+    let STATES = [states.map((state, i) => (
+        <Menu.Item key={(i+1)} onClick={() => selectCountry(state)}>{state.full_name}</Menu.Item>
+    ))]
+  
+    if(STATES.length === 0) {
+        STATES = <Empty fetch={fetchStates} />
+    }
 
     return (
         <div className="organisations">
@@ -38,12 +57,12 @@ const Organisations = ({states, loading}) => {
                 onClick={handleClick}
                 style={{ width: '100%' }}
                 defaultSelectedKeys={['0']}
-                // defaultOpenKeys={['sub1']}
+                defaultOpenKeys={['sub1']}
                 mode="inline"
             >
                 <SubMenu key="sub1" icon={<FlagFilled />} title="States">
                     <Menu.Item key={0}>All States</Menu.Item>
-                    {loading ? <p>loading</p> : STATES}
+                    {loading ? <Loader /> : STATES}
                     
                 </SubMenu>
                 <SubMenu key="sub2" icon={<GlobalOutlined />} title="Airlines">
