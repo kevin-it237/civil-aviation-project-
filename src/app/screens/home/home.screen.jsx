@@ -15,7 +15,7 @@ const HomeScreen = ({user}) => {
         }
         const timeout = setTimeout(() => {
             setLoading(false)
-        }, 1000)
+        }, 0)
         return () => {
             clearTimeout(timeout)
         }

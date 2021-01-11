@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import AuthReducer from '../applications/auth/redux/reducer/reducer';
-import TimeTrackerReducer from '../applications/ydMonitoring/redux/reducer/reducer'
+import YDMonitoringReducer from '../applications/ydMonitoring/redux/reducer/reducer'
 
 const reducerCombination = combineReducers({
 	AuthReducer,
-	TimeTrackerReducer
+	YDMonitoringReducer
 });
 
 export default reducerCombination;

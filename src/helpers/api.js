@@ -1,5 +1,4 @@
 import axios from 'axios';
-import authClass from '../applications/auth/redux/saga/auth.class';
 
 axios.interceptors.request.use(req => req, error => Promise.reject(error));
 
@@ -14,28 +13,7 @@ axios.interceptors.response.use(res => res, async (error) => { // refresh
     return new Promise(async (resolve, reject) => { 
         if(codeOrStatusHasTokenStatus.test(JSON.stringify(error.response)) && messageHasTokenString.test(JSON.stringify(error.response))){
             localStorage.removeItem('token');
-            try {
-                const cognitoUser = await authClass.authCurrentUserPoolUser();
-                
-                let {refreshToken} = cognitoUser.signInUserSession;
-                
-                cognitoUser.refreshSession(refreshToken,  (err, session) => {
-                    if(err) throw err;
-                    let {accessToken} = session;
-                
-                    latestRequest = {...latestRequest, headers: {
-                        ...latestRequest.headers,
-                        'authorization': `Bearer ${accessToken.jwtToken}`,
-                    }}
-                    
-                    localStorage.setItem('token', JSON.stringify(accessToken.jwtToken));
-                    
-                    resolve(axios(latestRequest));
-                });
-
-            } catch (e) {
-                console.log('Unable to refresh Token', e);
-            }
+            // Logout the user here
         }else {
             reject(error);
         }

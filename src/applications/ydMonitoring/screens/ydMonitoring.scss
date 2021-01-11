@@ -1,5 +1,41 @@
 @import '../../../assets/styles/global.scss';
 
 #yd-monitoring-container {
-    
+    display: grid;
+    height: 96%;
+    grid-template-columns: 30% 68%;
+    justify-content: space-between;
+    margin: 20px;
+
+    >.right-panel {
+        overflow: scroll;
+        border: solid 2px $stroke-color;
+        border-radius: 5px;
+        >.content {
+            display: grid;
+            grid-template-columns: 49% 2px 49%;
+            justify-content: space-between;
+            column-gap: 10px;
+            height: 100%;
+
+            >.org-listing {
+
+            }
+            >.kpis-listing {
+
+            }
+            .line {
+                height: 100%;
+                width: 1px;
+                background-color: $stroke-color;
+            }
+        }
+    }
+
+    >.data-content {
+        overflow: scroll;
+        border: solid 2px $stroke-color;
+        border-radius: 5px;
+        padding: 10px
+    }
 }

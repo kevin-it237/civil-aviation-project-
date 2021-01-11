@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 import AuthSaga from '../applications/auth/redux/saga/saga';
-import TimeTrackerSaga from '../applications/ydMonitoring/redux/saga/saga'
+import YDMonitoringSaga from '../applications/ydMonitoring/redux/saga/saga'
 
 /**
  * @description combine sagas.
@@ -8,6 +8,6 @@ import TimeTrackerSaga from '../applications/ydMonitoring/redux/saga/saga'
 export default function* Sagas() {
 	yield all([
 		AuthSaga(),
-		TimeTrackerSaga()
+		YDMonitoringSaga()
 	]);
 }

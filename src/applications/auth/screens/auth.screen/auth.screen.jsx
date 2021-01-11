@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import useError from '../../hooks/useError';
 import {useHistory} from 'react-router-dom'
@@ -10,7 +10,7 @@ import Button from '../../../../app/components/buttons/button/button';
 import './auth.screen.scss'
 
 
-const Login = ({ error, redirect }) => {
+const Login = ({ error, redirect, user }) => {
     const history = useHistory()
     const dispatch= useDispatch()
 
@@ -21,14 +21,20 @@ const Login = ({ error, redirect }) => {
     const [isLoginForm, setIsLoginForm] = useState(true);
     const [formError, setformError] = useState(null)
 
+    useEffect(() => {
+        if(user) {
+            history.push('/')
+        }
+    }, [])
+
     const onSubmit = (e) => {
         e.preventDefault();
         if (submited) { return }
         if(isLoginForm) {
-            dispatch(authSignIn({...loginForm, redirect: history.location.state.pathname}));
+            dispatch(authSignIn({...loginForm, redirect: history.location.state?.pathname || '/'}));
         } else {
             if(validateForm() ) {
-                dispatch(authRegister({...registerForm, redirect: history.location.state.pathname}))
+                dispatch(authRegister({...registerForm, redirect: history.location.state?.pathname || '/'}))
                 setformError(null)
             } else {
                 return;
@@ -135,5 +141,6 @@ const Login = ({ error, redirect }) => {
 const mapStateToProps = ({ AuthReducer }) => ({
     redirect: AuthReducer.redirect,
     error: AuthReducer.error,
+    user: AuthReducer.user
 })
 export default connect(mapStateToProps)(Login);

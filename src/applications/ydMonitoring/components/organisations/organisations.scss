@@ -1,0 +1,13 @@
+@import '../../../../assets/styles/global.scss';
+
+.organisations {
+    .ant-menu {
+        border: none !important;
+        .ant-menu-item {
+            padding-left: 30px !important;
+        }
+        .ant-menu-item-only-child {
+            font-size: 12px !important;
+        }
+    }
+}

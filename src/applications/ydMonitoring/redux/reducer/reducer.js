@@ -1,86 +1,60 @@
 import { types } from "./types";
 
 /**
- * @param {array} tasks
- * @param {Object} selectedTask
- * @param {Object} time
- * @param {boolean} isTracking
- * @param {String} error
- * @param {Object} activity,
- * @param {number} activityLevel,
+ * @param {array} states
+ * @param {array} kpisData
+ * @param {array} kpis
+ * @param {boolean} loader
  */
 const INITIAL_STATE = {
-    tasks: [], 
-    selectedTask: null,
-    time: 0,
-    error: "",
-    isTracking: false,
-    fetchingTasks: true,
-    activity: null,
-    activityLevel: 0,
+    states: [], 
+    kpisData: [], 
+    kpis: [], 
+    loader: {
+        actions: []
+    },
 }
 
-const TimeTrackerReducer = (state = INITIAL_STATE, action) => {
+const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
+    const { loader } = state;
+    const { payload } = action;
+    
     switch (action.type) {
-        case types.START_TRACKER:
+
+        case types.START_LOADING:
             return {
                 ...state,
-                selectedTask: action.payload,
-                isTracking: true
+                loader: {
+                    ...loader,
+                    actions: [...new Set([...loader.actions, payload])], 
+                }
             };
 
-        case types.STOP_TRACKER:
+        case types.STOP_LOADING:
             return {
                 ...state,
-                selectedTask: null,
-                isTracking: false
+                loader: {
+                    ...loader,
+                    actions: loader.actions.filter(action => action !== payload),
+                }
             };
 
-        case types.GET_TASKS_SUCCESS:
+        case types.GET_STATES_SUCCESS:console.log(action.payload)
             return {
                 ...state,
-                tasks: action.payload,
-                fetchingTasks: false
+                states: action.payload,
             };
 
-        case types.GET_TASKS_FAILURE:
+        case types.GET_KPI_DATA_SUCCESS:
             return {
                 ...state,
-                fetchingTasks: false
+                kpisData: action.payload,
             };
 
-        case types.INIT_TIME:
+        case types.GET_KPIS_SUCCESS:
             return {
                 ...state,
-                time: action.payload
-            };
-
-        case types.INCREMENT_TIME:
-            return {
-                ...state,
-                time: state.time + 1
-            };
-
-        case types.CREATE_ACTIVITY_SUCCESS:
-            return {
-                ...state,
-            };
-
-        case types.UPDATE_ACTIVITY_SUCCESS:
-            return {
-                ...state,
-            };
-
-        case types.GET_ACTIVITY_SUCCESS:
-            return {
-                ...state,
-                activity: action.payload.data
-            };
-
-        case types.SET_ACTIVITY_LEVEL:
-            return {
-                ...state,
-                activityLevel: action.payload
+                kpis: action.payload,
             };
 
         default:
@@ -88,4 +62,4 @@ const TimeTrackerReducer = (state = INITIAL_STATE, action) => {
     }
 }
 
-export default TimeTrackerReducer;
+export default YDMonitoringReducer;
