@@ -163,22 +163,29 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Fruit Consumption'
+                    text: ''
                 },
                 xAxis: {
-                    categories: ['Apples', 'Bananas', 'Oranges']
+                    categories: states.map(state => state.short_name),
+                    title: {
+                        text: ""
+                    }
                 },
                 yAxis: {
                     title: {
-                        text: 'Fruit eaten'
+                        text: 'weight'
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
                     }
                 },
                 series: [{
-                    name: 'Jane',
-                    data: [1, 0, 4]
-                }, {
-                    name: 'John',
-                    data: [5, 7, 3]
+                    name: 'Yes',
+                    data: kpisData[0].organisations.map(state => state.sp_response.questionnaire_response?100:0)
                 }]
             });
         }

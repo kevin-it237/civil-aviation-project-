@@ -4,7 +4,7 @@
     padding-left: 23px;
     padding-right: 23px;
     display: grid;
-    grid-template-areas: 'a1 a1 a1 a2 a2' 'a3 a3 a3 a3 a3';
+    grid-template-areas: 'a1 a1 a2 a2' 'a3 a3 a3 a3';
     gap: 25px;
 
     >.section {
@@ -21,10 +21,12 @@
     >.africa-chart {
         grid-area: a1;
         height: 600px;
+        padding: 10px;
     }
     >.charts {
         grid-area: a2;
-        padding: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     >.raw-datas {
         grid-area: a3;
