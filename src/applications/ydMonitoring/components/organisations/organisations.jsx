@@ -4,7 +4,7 @@ import {connect, useDispatch} from 'react-redux'
 import { FlagFilled, GlobalOutlined } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
-import {getStates, getKPIs} from '../../redux/reducer/actions'
+import {getStates, getKPIs, selectState} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import Empty from '../../../../app/components/empty/empty';
 import './organisations.scss'
@@ -36,7 +36,7 @@ const Organisations = ({states, loading}) => {
     };
 
     const selectCountry = (state) => {
-
+        dispatch(selectState(state))
     }
 
     const fetchStates = () => {
@@ -46,8 +46,8 @@ const Organisations = ({states, loading}) => {
     let STATES = [states.map((state, i) => (
         <Menu.Item key={(i+1)} onClick={() => selectCountry(state)}>{state.full_name}</Menu.Item>
     ))]
-  
-    if(STATES.length === 0) {
+
+    if(STATES.length === 0 && !loading) {
         STATES = <Empty fetch={fetchStates} />
     }
 

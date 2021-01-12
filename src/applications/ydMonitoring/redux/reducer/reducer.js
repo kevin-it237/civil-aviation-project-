@@ -4,12 +4,16 @@ import { types } from "./types";
  * @param {array} states
  * @param {array} kpisData
  * @param {array} kpis
- * @param {boolean} loader
+ * @param {object} loader
+ * @param {object} kpi
+ * @param {object} selectedState
  */
 const INITIAL_STATE = {
     states: [], 
     kpisData: [], 
     kpis: [], 
+    kpi: null, 
+    selectedState: null, 
     loader: {
         actions: []
     },
@@ -55,6 +59,18 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 kpis: action.payload,
+            };
+
+        case types.SET_KPI_REQUEST:
+            return {
+                ...state,
+                kpi: action.payload,
+            };
+
+        case types.SET_STATE_REQUEST:
+            return {
+                ...state,
+                selectedState: action.payload,
             };
 
         default:

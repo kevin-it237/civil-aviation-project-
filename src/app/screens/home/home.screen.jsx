@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import LoadingScreen from '../loading.screen/loading.screen'
+import { DashboardFilled, MonitorOutlined } from '@ant-design/icons';
 import './home.screen.scss'
 
 const HomeScreen = ({user}) => {
@@ -38,9 +39,11 @@ const HomeScreen = ({user}) => {
             <p className="title">Select an option...</p>
             <div className="options">
                 <div onClick={() => select('/yd-monitoring')} className="option option--1">
+                    <MonitorOutlined />
                     <h4 className="option-name">YD Monitoring</h4>
                 </div>
                 <div onClick={() => select('/sata-dashboard')} className="option option--2">
+                    <DashboardFilled />
                     <h4 className="option-name">SATA Dashboard</h4>
                 </div>
             </div>
