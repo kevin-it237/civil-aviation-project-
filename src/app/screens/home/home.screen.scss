@@ -5,13 +5,26 @@
     height: 100vh;
     justify-content: center;
     align-content: center;
-    background-image: linear-gradient(rgba($white, 0.5), rgba($white, 0.5)), url('../../../assets/images/bg.jpg');
+    background-image: linear-gradient(rgba($primary, 0.15), rgba($primary, .1)), url('../../../assets/images/bb.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: top;
     >.title {
-        font-size: 18px;
-        color: $primary;
         margin-bottom: 50px;
+        font-weight: 600;
+        text-align: center;
+        color: $white;
+        font-size: 30px;
+        background-color: $primary;
+        padding: 20px 30px;
+        border-radius: 20px;
+        @media screen and (max-width: 1200px) {
+            font-size: 22px;
+        }
+    }
+    >.select {
+        font-size: 17px;
+        color: $white;
+        margin-bottom: 25px;
         font-weight: 600;
         text-align: center;
     }
@@ -28,29 +41,52 @@
             display: grid;
             justify-content: center;
             align-items: center;
-            border-radius: 5px;
+            border-radius: 5px 5px 0 0;
             transition: all .2s ease-in;
-            background-color: $primary;
+            background-color: $white;
             align-content: center;
+            border-bottom: solid 5px $primary;
             &:hover {
                 transform: translateY(-10px)
             }
             &:hover .option-name{
-                font-size: 17px;
+                color: $primary;
             }
             svg {
                 width: 45px;
                 height: 45px;
                 path {
-                    fill: $white;
+                    fill: $primary;
                 }
             }
             >.option-name {
                 transition: all .2s ease-in;
-                color: $white;
-                font-size: 17px;
+                color: $primary;
+                font-size: 18px;
                 font-weight: bold;
                 margin-top: 12px
+            }
+            @media screen and (max-width: 1200px) {
+                height: 230px;
+            }
+        }
+    }
+    
+    >.icons {
+        display: flex;
+        padding: 20px 40px;
+        border-radius: 5px;
+        background-color: white;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 50px;
+        gap: 50px;
+        >img {
+            width: 80px;
+            height: 80px;
+            @media screen and (max-width: 1200px) {
+                width: 50px;
+                height: 50px;
             }
         }
     }

@@ -7,7 +7,11 @@ import { authSignIn, authRegister} from '../../redux/reducer/actions';
 import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as Uneye } from '../../../../assets/icons/uneye.svg';
 import Button from '../../../../app/components/buttons/button/button';
+import { Select } from 'antd';
+import {STATES} from '../../../saatmDashboard/helpers/constants'
 import './auth.screen.scss'
+
+const { Option } = Select;
 
 
 const Login = ({ error, redirect, user }) => {
@@ -17,7 +21,7 @@ const Login = ({ error, redirect, user }) => {
     const [showPassword, setPassword] = useState(false);
     const [submited, setSubmited] = useState(false);
     const [loginForm, setLoginForm] = useState({username: "", password: ""})
-    const [registerForm, setRegisterForm] = useState({username: "", email: "", password: "", confirmation: ""})
+    const [registerForm, setRegisterForm] = useState({username: "", email: "", password: "", confirmation: "", orgType: ""})
     const [isLoginForm, setIsLoginForm] = useState(true);
     const [formError, setformError] = useState(null)
 
@@ -95,21 +99,52 @@ const Login = ({ error, redirect, user }) => {
                         ))}
                     </>:
                     <>
-                        {Object.keys(registerForm).map((input, index) => (
-                            <div key={index} className="auth-container__input-container">
-                                <input
-                                    name={input}
-                                    onChange={onChange2}
-                                    value={registerForm[input]}
-                                    placeholder={`${input}`}
-                                    type={(input === 'password'||input ==='confirmation'||input==='username') ? (showPassword||input==='username') ? 'text' : 'password' : 'email'}
-                                    autoComplete={"off"}
-                                    required
-                                    className={`auth-container__input ${(input === 'password' || input === 'confirmation') ? 'password' : ''}`}
-                                />
-                                {(input === 'password' || input === 'confirmation') ? showPassword ? <Uneye onClick={() => setPassword(!showPassword)} /> : <Eye onClick={() => setPassword(!showPassword)} /> : ''}
-                            </div>
-                        ))}
+                        {Object.keys(registerForm).map((input, index) => {
+                            if(input === 'orgType') {
+                                return  <div>
+                                    <label key={index} className='label' htmlFor="">You are:</label>
+                                    <Select 
+                                        defaultValue="User" 
+                                        style={{width: '100%'}}
+                                        onChange={(value) => setRegisterForm({...registerForm, orgType: value})}>
+                                        <Option value="State/CAA">State/CAA</Option>
+                                        <Option value="AFCAC">AFCAC</Option>
+                                        <Option value="User">User</Option>
+                                        <Option value="Admin">Admin</Option>
+                                    </Select>
+                                </div>
+                            }
+                            if(input === 'state') return null
+                            return (
+                                <div key={index} className="auth-container__input-container">
+                                    <input
+                                        name={input}
+                                        onChange={onChange2}
+                                        value={registerForm[input]}
+                                        placeholder={`${input}`}
+                                        type={(input === 'password'||input ==='confirmation'||input==='username') ? (showPassword||input==='username') ? 'text' : 'password' : 'email'}
+                                        autoComplete={"off"}
+                                        required
+                                        className={`auth-container__input ${(input === 'password' || input === 'confirmation') ? 'password' : ''}`}
+                                    />
+                                    {(input === 'password' || input === 'confirmation') ? showPassword ? <Uneye onClick={() => setPassword(!showPassword)} /> : <Eye onClick={() => setPassword(!showPassword)} /> : ''}
+                                </div>
+                            )
+                        })}
+                        {
+                            registerForm['orgType'] === 'State/CAA'&&
+                            <>
+                                <label style={{marginTop: '13px'}} className='label' htmlFor="">Select your state:</label>
+                                <Select 
+                                    defaultValue={STATES[0]}
+                                    style={{width: '100%'}}
+                                    onChange={(value) => setRegisterForm({...registerForm, state: value})}>
+                                        {STATES.map((state, i) => (
+                                            <Option key={i} value={state}>{state}</Option>
+                                        ))}
+                                </Select>
+                            </>
+                        }
                     </>
                 }
 

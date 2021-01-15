@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import {getKPIsData, selectKPI} from '../../redux/reducer/actions'
+import {getKPIsData, selectKPI, selectOrg} from '../../redux/reducer/actions'
 import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
@@ -12,73 +12,11 @@ const Highcharts = require('highcharts/highmaps');
 require('highcharts/modules/exporting')(Highcharts);  
 const map = require('@highcharts/map-collection/custom/africa.geo.json');
 
-
-const data = [
-    ['ug', 0],
-    ['ng', 1],
-    ['st', 2],
-    ['tz', 3],
-    ['sl', 4],
-    ['gw', 5],
-    ['cv', 6],
-    ['sc', 7],
-    ['tn', 8],
-    ['mg', 9],
-    ['ke', 10],
-    ['cd', 11],
-    ['fr', 12],
-    ['mr', 13],
-    ['dz', 14],
-    ['er', 15],
-    ['gq', 16],
-    ['mu', 17],
-    ['sn', 18],
-    ['km', 19],
-    ['et', 20],
-    ['ci', 21],
-    ['gh', 22],
-    ['zm', 23],
-    ['na', 24],
-    ['rw', 25],
-    ['sx', 26],
-    ['so', 27],
-    ['cm', 28],
-    ['cg', 29],
-    ['eh', 30],
-    ['bj', 31],
-    ['bf', 32],
-    ['tg', 33],
-    ['ne', 34],
-    ['ly', 35],
-    ['lr', 36],
-    ['mw', 37],
-    ['gm', 38],
-    ['td', 39],
-    ['ga', 40],
-    ['dj', 41],
-    ['bi', 42],
-    ['ao', 43],
-    ['gn', 44],
-    ['zw', 45],
-    ['za', 46],
-    ['mz', 47],
-    ['sz', 48],
-    ['ml', 49],
-    ['bw', 50],
-    ['sd', 51],
-    ['ma', 52],
-    ['eg', 53],
-    ['ls', 54],
-    ['ss', 55],
-    ['cf', 56]
-];
-
-
 /**
  * @description content
  */
 
-const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
+const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates}) => {
     
     const dispatch = useDispatch()
     const [MAPDATA, setMAPDATA] = useState([])
@@ -87,13 +25,12 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
     useEffect(() => {
         // Get the first kpi
         if(kpis.length) {
-            dispatch(getKPIsData('kpi_0')) // get the initial kpi
+            dispatch(getKPIsData(kpis[0].YDMS_KPIs_id)) // get the initial kpi
             dispatch(selectKPI(kpis[0])) // init the first kpi
         }
     }, [kpis])
 
     useEffect(() => {
-        // Get the first kpi
         if(kpisData.length) {
             generateMapData()
             generateRawData()
@@ -101,7 +38,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
     }, [kpisData])
 
     useEffect(() => {
-        if(kpisData.length && !loading && kpi) {
+        if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
            
             Highcharts.mapChart('africa-map', {
                 chart: {
@@ -149,15 +86,35 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
                     },
                     dataLabels: {
                         enabled: true,
-                        format: '{point.name}'
+                        style: {
+                            fontWeight: 'normal',
+                            fontSize: '9px',
+                            fontFamily: 'sans-serif'
+                        },
+                        formatter: function () {
+                            if (this.point.value) {
+                                return this.point.name;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '',
+                        pointFormat: '{point.name}'
+                    },
+                    point: {
+                        events: {
+                          click(e) {
+                            console.log("Code : ", this.key)
+                          }
+                        }
                     }
                 }]
             });
         }
-    }, [kpisData, loading, kpi])
+    }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
 
     useEffect(() => {
-        if(kpisData.length && !loading && kpi) {
+        if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
             Highcharts.chart('div-for-chart', {
                 chart: {
                     type: 'bar'
@@ -189,13 +146,13 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
                 }]
             });
         }
-    }, [kpisData, loading, kpi])
+    }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
 
     const generateMapData = () => {
         const orgs = kpisData[0].organisations
 
         const ORGS = orgs.map(org => {
-            const state = states.find(st => st.short_name === org.short_name)
+            const state = states.find(st => st.YDMS_AU_id === org.YDMS_Org_id)
             if(state) {
                 org.country_code = state.country_code.toLowerCase()
             }
@@ -221,19 +178,23 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
         setRAWDATA([yes, no, 0])
     }
 
-    if(loading) {
+    if(loading || loadingKPIs || loadingStates) {
         return <Loader />
     }
 
     if(kpisData.length === 0 && !loading) {
-        return <Empty />
+        return (
+            <div style={{height: '80%', margin: '0 20px'}}>
+                <Alert message={`KPI text: ${kpi?.KPIs_text}`} type="success" />
+                <Empty />
+            </div>
+        )
     }
     
     return (
         <> 
             <div className="kpi-infos-box">
-            <Alert message={`Survey Protocol: ${kpisData[0].questionnaire_text}`} type="warning" />
-            <Alert message={`KPI: ${kpi?.KPIs_text}`} type="success" />
+            <Alert message={`KPI text: ${kpi?.KPIs_text}`} type="success" />
             </div>
             <div className="yd-content">
                 <div className="section africa-chart">
@@ -244,16 +205,12 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedState}) => {
                 </div>
                 <div className="section raw-datas">
                     <div className="raw raw--1">
-                        <h2>Total Accepted</h2>
-                        <h3>{RAWDATA[0]}</h3>
+                        <h2>Total Compliant</h2>
+                        <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/states.length*100).toFixed(2)}%`}</span></h3>
                     </div>
                     <div className="raw raw--2">
-                        <h2>Total not Accepted</h2>
-                        <h3>{RAWDATA[1]}</h3>
-                    </div>
-                    <div className="raw raw--3">
-                        <h2>Not Concerned</h2>
-                        <h3>{RAWDATA[2]}</h3>
+                        <h2>Not Compliant</h2>
+                        <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/states.length*100).toFixed(2)}%`}</span></h3>
                     </div>
                 </div>
             </div>
@@ -268,8 +225,10 @@ const mapStateToProps = ({ YDMonitoringReducer}) => ({
     kpis: YDMonitoringReducer.kpis,
     kpi: YDMonitoringReducer.kpi,
     kpisData: YDMonitoringReducer.kpisData,
-    selectedState: YDMonitoringReducer.selectedState,
+    selectedOrg: YDMonitoringReducer.selectedOrg,
     loading: checkIfLoader(YDMonitoringReducer, types.GET_KPI_DATA_REQUEST),
+    loadingKPIs: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
+    loadingStates: checkIfLoader(YDMonitoringReducer, types.GET_STATES_REQUEST),
 })
 
 export default connect(mapStateToProps)(Content);

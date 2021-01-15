@@ -6,7 +6,7 @@
     width: 100vw;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(rgba($white, 0.5), rgba($white, 0.5)), url('../../../../assets/images/bg.jpg');
+    background-image: linear-gradient(rgba($white, 0.1), rgba($white, 0.1)), url('../../../../assets/images/aa.jpg');
     background-size: cover;
     background-position: center;
 
@@ -14,7 +14,7 @@
         border: solid 1px $stroke-color;
         padding: 50px 75px;
         border-radius: 5px;
-        background-color: $white;
+        background-color: rgba($white, 0.95);
         .auth-container__title {
             color: $primary;
             font-family: "Poppins Medium", sans-serif;
@@ -22,6 +22,18 @@
             text-align: center;
             padding: 40px;
             padding-top: 0;
+        }
+
+        select:focus, select:active {
+            box-shadow: none !important;
+            outline: none !important;
+            border-color: $grey-100 !important;
+        }
+        .label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: $grey-400;
+            display: block;
         }
 
         .auth-container__input-container {
@@ -46,7 +58,7 @@
 
         .auth-container__button-primary {
             display: block;
-            margin: 40px auto;
+            margin: 25px auto;
             background-color: $primary;
             padding: 5px 70px;
             color: $white;
@@ -59,7 +71,7 @@
         }
 
         .auth-container__line-element {
-            margin-top: 40px;
+            margin-top: 20px;
             opacity: 0.8;
 
             .auth-container__line {

@@ -7,6 +7,7 @@ import { types } from "./types";
  * @param {object} loader
  * @param {object} kpi
  * @param {object} selectedState
+ * @param {object} selectedOrg
  */
 const INITIAL_STATE = {
     states: [], 
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
     kpis: [], 
     kpi: null, 
     selectedState: null, 
+    selectedOrg: "state", 
     loader: {
         actions: []
     },
@@ -56,9 +58,15 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             };
 
         case types.GET_KPIS_SUCCESS:
+            let allKPIs = action.payload.map(kpi => {
+                const id = kpi.YDMS_KPIs_id.split('_')[1]
+                kpi.id = parseInt(id)
+                return kpi
+            })
+            allKPIs.sort((a, b) => (a.id - b.id))
             return {
                 ...state,
-                kpis: action.payload,
+                kpis: allKPIs,
             };
 
         case types.SET_KPI_REQUEST:
@@ -71,6 +79,12 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 selectedState: action.payload,
+            };
+
+        case types.SET_ORG_REQUEST:
+            return {
+                ...state,
+                selectedOrg: action.payload,
             };
 
         default:

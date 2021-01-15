@@ -16,7 +16,7 @@ const { SubMenu } = Menu;
  * @description YD monitoring screen
  */
 
-const KPIsList = ({kpis, loading}) => {
+const KPIsList = ({kpis, loading, selectedOrg}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('state')
@@ -26,12 +26,16 @@ const KPIsList = ({kpis, loading}) => {
     };
 
     const handleSelectKPI = (kpi) => {
-        dispatch(selectKPI(kpi))
         dispatch(getKPIsData(kpi.YDMS_KPIs_id))
+        dispatch(selectKPI(kpi))
     }
 
     const fetchKPIs = () => {
-        dispatch(getKPIs())
+        dispatch(getKPIs(selectedOrg))
+    }
+
+    if(loading) {
+        return <Loader />
     }
 
     let KPIS = [kpis.map((kpi, i) => (
@@ -53,7 +57,7 @@ const KPIsList = ({kpis, loading}) => {
                 mode="inline"
             >
                 <SubMenu key="sub1" icon={<BulbFilled />} title="All KPIs">
-                    {loading ? <Loader /> : KPIS}
+                    {KPIS}
                 </SubMenu>
             </Menu>
         </div>
@@ -64,7 +68,8 @@ const KPIsList = ({kpis, loading}) => {
 
 const mapStateToProps = ({ YDMonitoringReducer }) => ({
     kpis: YDMonitoringReducer.kpis,
-    loading: checkIfLoader(YDMonitoringReducer, types.GET_STATES_REQUEST),
+    loading: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
+    selectedOrg: YDMonitoringReducer.selectedOrg,
 })
 
 export default connect(mapStateToProps)(KPIsList);

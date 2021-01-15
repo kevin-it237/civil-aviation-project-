@@ -7,15 +7,16 @@
     justify-content: space-between;
     margin: 20px;
 
-    >.right-panel {
+    >.left-panel {
         overflow: scroll;
         border: solid 2px $stroke-color;
         border-radius: 5px;
-        >.content {
+        >.org-kpis-content {
             display: grid;
-            grid-template-columns: 49% 2px 49%;
+            grid-template-columns: 49% 1px 49%;
+            grid-auto-columns: 1fr;
             justify-content: space-between;
-            column-gap: 10px;
+            column-gap: 0px;
             height: 100%;
 
             >.org-listing {

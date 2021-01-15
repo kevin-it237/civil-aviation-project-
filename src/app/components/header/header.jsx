@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 import { PageHeader, Button, Descriptions } from "antd";
 import {connect, useDispatch} from 'react-redux'
-import { FlagFilled, GlobalOutlined, SettingOutlined } from '@ant-design/icons';
 
 import './header.scss'
 
@@ -10,7 +10,7 @@ import './header.scss'
  * @description Header
  */
 
-const Header = ({}) => {
+const Header = ({selectedOrg, kpi}) => {
     
     const dispatch = useDispatch()
 
@@ -22,8 +22,9 @@ const Header = ({}) => {
 
     return (
         <div className="header">
+            <Link className="back" to='/'>Back to Home</Link>
             <PageHeader
-                title="Civil Aviation Data"
+                title={`${selectedOrg.toUpperCase()} - ${kpi?.KPIs_label}`}
                 extra={[
                     <Button key="2">My Account</Button>,
                     <Button key="1" type="primary">Logout</Button>,
@@ -36,8 +37,10 @@ const Header = ({}) => {
 
 
 
-const mapStateToProps = ({ AuthReducer }) => ({
+const mapStateToProps = ({ AuthReducer, YDMonitoringReducer }) => ({
     user: AuthReducer.user,
+    kpi: YDMonitoringReducer.kpi,
+    selectedOrg: YDMonitoringReducer.selectedOrg,
 })
 
 export default connect(mapStateToProps)(Header);

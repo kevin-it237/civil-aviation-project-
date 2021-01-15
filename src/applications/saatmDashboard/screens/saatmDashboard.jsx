@@ -6,7 +6,7 @@ import Organisations from '../components/organisations/organisations'
 import KPIsList from '../components/kpis.list/kpis.list'
 import Header from '../../../app/components/header/header'
 import Content from '../components/content/content'
-import './ydMonitoring.scss'
+import './saatmDashboard.scss'
 
 const { SubMenu } = Menu;
 
@@ -15,7 +15,7 @@ const { SubMenu } = Menu;
  * @description YD monitoring screen
  */
 
-const YDMonitoring = ({}) => {
+const SaatmDashboard = ({}) => {
     
     const dispatch = useDispatch()
 
@@ -25,8 +25,8 @@ const YDMonitoring = ({}) => {
 
     return (
         <div id="yd-monitoring-container">
-            <div className="right-panel">
-              <div className="content">
+            <div className="left-panel">
+              <div className="org-kpis-content">
                 <div className="org-listing">
                     <Organisations />
                 </div>
@@ -44,7 +44,7 @@ const YDMonitoring = ({}) => {
     )
 }
 
-YDMonitoring.propTypes = {
+SaatmDashboard.propTypes = {
     user: PropTypes.object,
 }
 
@@ -52,5 +52,5 @@ const mapStateToProps = ({ AuthReducer }) => ({
     user: AuthReducer.user,
 })
 
-export default connect(mapStateToProps)(YDMonitoring);
+export default connect(mapStateToProps)(SaatmDashboard);
 

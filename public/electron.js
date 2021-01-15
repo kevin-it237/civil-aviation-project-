@@ -38,6 +38,8 @@ function createWindow () {
     title: 'Civil Aviation',
     width: 1024,
     height: 768,
+    minWidth: 1024,
+    minHeight: 768,
     resizable: true,
     maximizable: true,
     webPreferences: {

@@ -1,26 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-import LoadingScreen from '../loading.screen/loading.screen'
+import { Typography } from 'antd';
 import { DashboardFilled, MonitorOutlined } from '@ant-design/icons';
+import img1 from '../../../assets/images/1.png'
+import img2 from '../../../assets/images/2.png'
+import img3 from '../../../assets/images/3.png'
+import img4 from '../../../assets/images/4.png'
+import img5 from '../../../assets/images/5.png'
 import './home.screen.scss'
+
+const { Title } = Typography;
 
 const HomeScreen = ({user}) => {
     const history = useHistory()
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        if(history.location.state?.isMounted) {
-            setLoading(false)
-            return
-        }
-        const timeout = setTimeout(() => {
-            setLoading(false)
-        }, 0)
-        return () => {
-            clearTimeout(timeout)
-        }
-    })
 
     const select = (option) => {
         if(user) {
@@ -34,18 +27,26 @@ const HomeScreen = ({user}) => {
     }
 
     return (
-        loading ? <LoadingScreen />:
         <div id="home-screen-container">
-            <p className="title">Select an option...</p>
+            <Title className="title">Welcome to the YD Monitoring <br/>and SAATM Dashboard</Title>
+            <p className="select">Please select</p>
             <div className="options">
-                <div onClick={() => select('/yd-monitoring')} className="option option--1">
+                <div onClick={() => select('/')} className="option option--1">
                     <MonitorOutlined />
                     <h4 className="option-name">YD Monitoring</h4>
                 </div>
-                <div onClick={() => select('/sata-dashboard')} className="option option--2">
+                <div onClick={() => select('/saatm-dashboard')} className="option option--2">
                     <DashboardFilled />
-                    <h4 className="option-name">SATA Dashboard</h4>
+                    <h4 className="option-name">SAATM KPIs/Dashboard</h4>
                 </div>
+            </div>
+
+            <div className="icons">
+                <img src={img1} alt=""/>
+                <img src={img2} alt=""/>
+                <img src={img3} alt=""/>
+                <img src={img4} alt=""/>
+                <img src={img5} alt=""/>
             </div>
         </div>
     )

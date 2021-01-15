@@ -40,3 +40,11 @@ export const selectState = (payload) => ({
     type: types.SET_STATE_REQUEST,
     payload
 });
+
+/**
+ * @description Select organisation
+ */
+export const selectOrg = (payload) => ({
+    type: types.SET_ORG_REQUEST,
+    payload
+});
