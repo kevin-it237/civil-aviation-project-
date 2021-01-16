@@ -17,16 +17,6 @@ const Organisations = ({states}) => {
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('states')
 
-    useEffect(() => {
-        dispatch(getStates())
-    }, [])
-
-    useEffect(() => {
-        if(states.length) {
-            dispatch(getKPIs('state'))
-        }
-    }, [states])
-
     const handleClick = e => {
         setCurrent(e.key);
     };

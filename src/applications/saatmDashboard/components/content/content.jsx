@@ -5,6 +5,7 @@ import {getKPIsData, selectKPI, selectOrg} from '../../redux/reducer/actions'
 import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
+import AfricaMap from '../africaMap/africaMap'
 import PieChart, {PIE_DATA} from '../../components/pieChart/pieChart'
 import BarChart from '../../components/barChart/barChart'
 import {types} from '../../redux/reducer/types'
@@ -18,12 +19,14 @@ const map = require('@highcharts/map-collection/custom/africa.geo.json');
  * @description content
  */
 
-const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates}) => {
+const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates}) => {
     
     const dispatch = useDispatch()
     const [MAPDATA, setMAPDATA] = useState([])
     const [RAWDATA, setRAWDATA] = useState(["", "", "0"])
     const [PIECHART_DATA, setPIECHARTDATA] = useState(PIE_DATA)
+
+    const [DATACLASSES, setDATACLASSES] = useState([]) // Map coloration
 
     useEffect(() => {
         // Get the first kpi
@@ -40,141 +43,124 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         }
     }, [kpisData])
 
-    useEffect(() => {
-        if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
-           
-            Highcharts.mapChart('africa-map', {
-                chart: {
-                    map: map
-                },
-            
-                title: {
-                    text: ''
-                },
-            
-                subtitle: {
-                    text: 'Source map: <a href="http://code.highcharts.com/mapdata/custom/africa.js">Africa</a>'
-                },
-            
-                mapNavigation: {
-                    enabled: true,
-                    buttonOptions: {
-                        verticalAlign: 'bottom'
-                    }
-                },
-            
-                colorAxis: {
-                    min: 0,
-                    minColor: '#eee',
-                    maxColor: '#388e3c',
-                    dataClasses: [{
-                        from: 0,
-                        to: 0.5,
-                        color: '#eee',
-                        name: 'No'
-                    }, {
-                        from: 0.5,
-                        to: 1,
-                        color: '#2e7d32',
-                        name: 'Yes'
-                    }]
-                },
-                series: [{
-                    data: MAPDATA,
-                    name: '',
-                    states: {
-                        hover: {
-                            color: '#388e3c'
-                        }
-                    },
-                    dataLabels: {
-                        enabled: true,
-                        style: {
-                            fontWeight: 'normal',
-                            fontSize: '9px',
-                            fontFamily: 'sans-serif'
-                        },
-                        formatter: function () {
-                            if (this.point.value) {
-                                return this.point.name;
-                            }
-                        }
-                    },
-                    tooltip: {
-                        headerFormat: '',
-                        pointFormat: '{point.name}'
-                    },
-                    point: {
-                        events: {
-                          click(e) {
-                            console.log("Code : ", this.key)
-                          }
-                        }
-                    }
-                }]
-            });
-        }
-    }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
-
     // useEffect(() => {
-    //     if(kpi?.YDMS_KPIs_id === 'kpi_2') {
-    //         if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
-    //             Highcharts.chart('div-for-chart', {
-    //                 chart: {
-    //                     type: 'bar'
-    //                 },
-    //                 title: {
-    //                     text: ''
-    //                 },
-    //                 xAxis: {
-    //                     categories: states.map(state => state.short_name),
-    //                     title: {
-    //                         text: ""
+    //     if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
+           
+    //         Highcharts.mapChart('africa-map', {
+    //             chart: {
+    //                 map: map
+    //             },
+            
+    //             title: {
+    //                 text: ''
+    //             },
+            
+    //             subtitle: {
+    //                 text: 'Source map: <a href="http://code.highcharts.com/mapdata/custom/africa.js">Africa</a>'
+    //             },
+            
+    //             mapNavigation: {
+    //                 enabled: true,
+    //                 buttonOptions: {
+    //                     verticalAlign: 'bottom'
+    //                 }
+    //             },
+            
+    //             colorAxis: {
+    //                 min: 0,
+    //                 minColor: '#eee',
+    //                 maxColor: '#388e3c',
+    //                 dataClasses: [{
+    //                     from: 0,
+    //                     to: 0.5,
+    //                     color: '#eee',
+    //                     name: 'No'
+    //                 }, {
+    //                     from: 0.5,
+    //                     to: 1,
+    //                     color: '#2e7d32',
+    //                     name: 'Yes'
+    //                 }]
+    //             },
+    //             series: [{
+    //                 data: MAPDATA,
+    //                 name: '',
+    //                 states: {
+    //                     hover: {
+    //                         color: '#388e3c'
     //                     }
     //                 },
-    //                 yAxis: {
-    //                     title: {
-    //                         text: 'weight'
-    //                     }
-    //                 },
-    //                 plotOptions: {
-    //                     bar: {
-    //                         dataLabels: {
-    //                             enabled: true
+    //                 dataLabels: {
+    //                     enabled: true,
+    //                     style: {
+    //                         fontWeight: 'normal',
+    //                         fontSize: '9px',
+    //                         fontFamily: 'sans-serif'
+    //                     },
+    //                     formatter: function () {
+    //                         if (this.point.value) {
+    //                             return this.point.name;
     //                         }
     //                     }
     //                 },
-    //                 series: [{
-    //                     name: 'Yes',
-    //                     data: kpisData[0].organisations.map(state => state.sp_response.questionnaire_response?100:0)
-    //                 }]
-    //             });
-    //         }
+    //                 tooltip: {
+    //                     headerFormat: '',
+    //                     pointFormat: '{point.name}'
+    //                 },
+    //                 point: {
+    //                     events: {
+    //                       click(e) {
+    //                         console.log("Code : ", this.key)
+    //                       }
+    //                     }
+    //                 }
+    //             }]
+    //         });
     //     }
     // }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
 
+
     const generateMapData = () => {
-        const orgs = kpisData[0].organisations
-
-        const ORGS = orgs.map(org => {
-            const state = states.find(st => st.YDMS_AU_id === org.YDMS_Org_id)
-            if(state) {
-                org.country_code = state.country_code.toLowerCase()
-            }
-            return org
+        const data = kpisData.map(kpi => {
+            return [kpi.country_code.toLowerCase(), parseInt(kpi.weight)/parseInt(kpi.totalweight)*100]
         })
-
-        const FINAL =  ORGS.map(org => {
-            return [org.country_code, org.sp_response.questionnaire_response?1:0]
-        })
-        setMAPDATA(FINAL)
+        setMAPDATA(data)
+        if(kpi?.YDMS_KPIs_id === 'kpi_2') {
+            setDATACLASSES([{
+                from: 0,
+                to: 50,
+                color: '#ffa000',
+                name: '0 to 50%'
+            }, {
+                from: 50,
+                to: 75,
+                color: '#fdd835',
+                name: '50 to 75%'
+            }, {
+                from: 75,
+                to: 100,
+                color: '#2e7d32',
+                name: '75 to 100%'
+            }])
+        } else {
+            setDATACLASSES([{
+                from: 0,
+                to: 50,
+                color: '#eee',
+                name: 'No'
+            }, {
+                from: 50,
+                to: 100,
+                color: '#2e7d32',
+                name: 'Yes'
+            }])
+        }
     }
 
     const generateRawData = () => {
-        const orgs = kpisData[0].organisations
         let yes = 0;let no = 0;
-        orgs.forEach(org => {
-            if(!!org.sp_response.questionnaire_response) {
+        kpisData.forEach(kpi => {
+            if(!!parseInt(kpi.weight)) {
                 yes +=1
             } else {
                 no +=1
@@ -201,11 +187,13 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
 
     let BARDATA = []
     if(kpi?.YDMS_KPIs_id === 'kpi_2') {
-        BARDATA =  kpisData[0].organisations.map(state => {
+        BARDATA =  kpisData.map(kpi => {
             return {
-                "country": state.short_name,
-                "weight": state.sp_response.questionnaire_response?100:0,
+                "country": kpi.short_name,
+                "weight": parseInt(kpi.weight)/parseInt(kpi.totalweight)*100,
                 "weightColor": "hsl(254, 70%, 50%)",
+                // "totalWeight": parseInt(kpi.response)/parseInt(kpi.totalResponses)*100,
+                "totalWeightColor": "hsl(24, 70%, 50%)",
             }
         })
     }
@@ -217,21 +205,21 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             </div>
             <div className="yd-content">
                 <div className="section africa-chart">
-                    <div id="africa-map" className="africa-map"></div>
+                    <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
                 </div>
                 <div className="section charts">
                     <div id="div-for-piechart" className="div-for-piechart">
-                    {kpi.YDMS_KPIs_id!=='kpi_2' ? <PieChart data={PIECHART_DATA} />: <BarChart data={BARDATA} keys={states.map(state => state.short_name)} />}
+                    {kpi.YDMS_KPIs_id!=='kpi_2' ? <PieChart data={PIECHART_DATA} />: <BarChart data={BARDATA} keys={kpisData.map(state => state.short_name)} />}
                     </div>
                 </div>
                 <div className="section raw-datas">
                     <div className="raw raw--1">
                         <h2>Total Compliant</h2>
-                        <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/states.length*100).toFixed(2)}%`}</span></h3>
+                        <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/kpisData.length*100).toFixed(2)}%`}</span></h3>
                     </div>
                     <div className="raw raw--2">
                         <h2>Not Compliant</h2>
-                        <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/states.length*100).toFixed(2)}%`}</span></h3>
+                        <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/kpisData.length*100).toFixed(2)}%`}</span></h3>
                     </div>
                 </div>
             </div>
@@ -242,7 +230,6 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
 
 
 const mapStateToProps = ({ YDMonitoringReducer}) => ({
-    states: YDMonitoringReducer.states,
     kpis: YDMonitoringReducer.kpis,
     kpi: YDMonitoringReducer.kpi,
     kpisData: YDMonitoringReducer.kpisData,
