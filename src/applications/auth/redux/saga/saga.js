@@ -16,7 +16,7 @@ function* authSignIn ({payload})
     } 
     catch (error)
     {
-        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error });
+        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error.response.data });
     }
 }
 
@@ -32,7 +32,7 @@ function* authRegister ({payload})
     } 
     catch (error)
     {
-        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error });
+        yield put({ type: types.SIGN_IN_USER_FAILURE, payload: error.response.data });
     }
 }
 

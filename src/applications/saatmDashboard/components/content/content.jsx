@@ -5,6 +5,8 @@ import {getKPIsData, selectKPI, selectOrg} from '../../redux/reducer/actions'
 import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
+import PieChart, {PIE_DATA} from '../../components/pieChart/pieChart'
+import BarChart from '../../components/barChart/barChart'
 import {types} from '../../redux/reducer/types'
 import './content.scss'
 
@@ -21,6 +23,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
     const dispatch = useDispatch()
     const [MAPDATA, setMAPDATA] = useState([])
     const [RAWDATA, setRAWDATA] = useState(["", "", "0"])
+    const [PIECHART_DATA, setPIECHARTDATA] = useState(PIE_DATA)
 
     useEffect(() => {
         // Get the first kpi
@@ -63,7 +66,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                 colorAxis: {
                     min: 0,
                     minColor: '#eee',
-                    maxColor: '#005645',
+                    maxColor: '#388e3c',
                     dataClasses: [{
                         from: 0,
                         to: 0.5,
@@ -72,7 +75,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                     }, {
                         from: 0.5,
                         to: 1,
-                        color: '#005645',
+                        color: '#2e7d32',
                         name: 'Yes'
                     }]
                 },
@@ -81,7 +84,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                     name: '',
                     states: {
                         hover: {
-                            color: '#a4edba'
+                            color: '#388e3c'
                         }
                     },
                     dataLabels: {
@@ -113,40 +116,42 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         }
     }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
 
-    useEffect(() => {
-        if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
-            Highcharts.chart('div-for-chart', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: states.map(state => state.short_name),
-                    title: {
-                        text: ""
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'weight'
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        dataLabels: {
-                            enabled: true
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Yes',
-                    data: kpisData[0].organisations.map(state => state.sp_response.questionnaire_response?100:0)
-                }]
-            });
-        }
-    }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
+    // useEffect(() => {
+    //     if(kpi?.YDMS_KPIs_id === 'kpi_2') {
+    //         if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
+    //             Highcharts.chart('div-for-chart', {
+    //                 chart: {
+    //                     type: 'bar'
+    //                 },
+    //                 title: {
+    //                     text: ''
+    //                 },
+    //                 xAxis: {
+    //                     categories: states.map(state => state.short_name),
+    //                     title: {
+    //                         text: ""
+    //                     }
+    //                 },
+    //                 yAxis: {
+    //                     title: {
+    //                         text: 'weight'
+    //                     }
+    //                 },
+    //                 plotOptions: {
+    //                     bar: {
+    //                         dataLabels: {
+    //                             enabled: true
+    //                         }
+    //                     }
+    //                 },
+    //                 series: [{
+    //                     name: 'Yes',
+    //                     data: kpisData[0].organisations.map(state => state.sp_response.questionnaire_response?100:0)
+    //                 }]
+    //             });
+    //         }
+    //     }
+    // }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
 
     const generateMapData = () => {
         const orgs = kpisData[0].organisations
@@ -175,7 +180,10 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                 no +=1
             }
         });
-        setRAWDATA([yes, no, 0])
+        setRAWDATA([yes, no])
+        PIE_DATA[0].value = yes
+        PIE_DATA[1].value = no
+        setPIECHARTDATA(PIE_DATA)
     }
 
     if(loading || loadingKPIs || loadingStates) {
@@ -190,6 +198,17 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             </div>
         )
     }
+
+    let BARDATA = []
+    if(kpi?.YDMS_KPIs_id === 'kpi_2') {
+        BARDATA =  kpisData[0].organisations.map(state => {
+            return {
+                "country": state.short_name,
+                "weight": state.sp_response.questionnaire_response?100:0,
+                "weightColor": "hsl(254, 70%, 50%)",
+            }
+        })
+    }
     
     return (
         <> 
@@ -201,7 +220,9 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                     <div id="africa-map" className="africa-map"></div>
                 </div>
                 <div className="section charts">
-                    <div id="div-for-chart" className="div-for-chart"></div>
+                    <div id="div-for-piechart" className="div-for-piechart">
+                    {kpi.YDMS_KPIs_id!=='kpi_2' ? <PieChart data={PIECHART_DATA} />: <BarChart data={BARDATA} keys={states.map(state => state.short_name)} />}
+                    </div>
                 </div>
                 <div className="section raw-datas">
                     <div className="raw raw--1">

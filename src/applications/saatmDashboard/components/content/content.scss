@@ -28,6 +28,12 @@
         grid-area: a2;
         padding-top: 10px;
         padding-bottom: 10px;
+        display: grid;
+        height: 100%;
+        align-content: center;
+        >#div-for-piechart {
+            height: 20rem;
+        }
     }
     >.raw-datas {
         grid-area: a3;
