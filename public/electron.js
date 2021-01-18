@@ -42,6 +42,7 @@ function createWindow () {
     minHeight: 768,
     resizable: true,
     maximizable: true,
+    simpleFullscreen: true,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false

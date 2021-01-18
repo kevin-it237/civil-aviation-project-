@@ -32,7 +32,10 @@
         height: 100%;
         align-content: center;
         >#div-for-piechart {
-            height: 20rem;
+            height: 330px;
+        }
+        >#div-for-barchart {
+            height: 600px;
         }
     }
     >.raw-datas {

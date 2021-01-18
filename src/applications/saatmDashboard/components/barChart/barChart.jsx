@@ -4,15 +4,15 @@ import { ResponsiveBar } from '@nivo/bar'
 const BarChart = ({ data, keys }) => (
     <ResponsiveBar
         data={data}
-        keys={['weight']}
+        keys={keys}
         indexBy="country"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-        padding={0.3}
+        margin={{ top: 20, right: 120, bottom: 20, left: 150 }}
+        padding={0.4}
         groupMode="grouped"
         layout="horizontal"
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'nivo' }}
+        colors={{ scheme: 'dark2' }}
         borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
         axisTop={null}
         axisRight={null}
@@ -39,13 +39,13 @@ const BarChart = ({ data, keys }) => (
         legends={[
             {
                 dataFrom: 'keys',
-                anchor: 'bottom-right',
-                direction: 'column',
+                anchor: 'top-right',
+                direction: 'row',
                 justify: false,
-                translateX: 120,
-                translateY: 0,
+                translateX: 0,
+                translateY: -20,
                 itemsSpacing: 2,
-                itemWidth: 100,
+                itemWidth: 220,
                 itemHeight: 20,
                 itemDirection: 'left-to-right',
                 itemOpacity: 0.85,

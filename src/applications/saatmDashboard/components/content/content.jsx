@@ -43,83 +43,6 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         }
     }, [kpisData])
 
-    // useEffect(() => {
-    //     if(kpisData.length && !loading && kpi && !loadingKPIs && !loadingStates) {
-           
-    //         Highcharts.mapChart('africa-map', {
-    //             chart: {
-    //                 map: map
-    //             },
-            
-    //             title: {
-    //                 text: ''
-    //             },
-            
-    //             subtitle: {
-    //                 text: 'Source map: <a href="http://code.highcharts.com/mapdata/custom/africa.js">Africa</a>'
-    //             },
-            
-    //             mapNavigation: {
-    //                 enabled: true,
-    //                 buttonOptions: {
-    //                     verticalAlign: 'bottom'
-    //                 }
-    //             },
-            
-    //             colorAxis: {
-    //                 min: 0,
-    //                 minColor: '#eee',
-    //                 maxColor: '#388e3c',
-    //                 dataClasses: [{
-    //                     from: 0,
-    //                     to: 0.5,
-    //                     color: '#eee',
-    //                     name: 'No'
-    //                 }, {
-    //                     from: 0.5,
-    //                     to: 1,
-    //                     color: '#2e7d32',
-    //                     name: 'Yes'
-    //                 }]
-    //             },
-    //             series: [{
-    //                 data: MAPDATA,
-    //                 name: '',
-    //                 states: {
-    //                     hover: {
-    //                         color: '#388e3c'
-    //                     }
-    //                 },
-    //                 dataLabels: {
-    //                     enabled: true,
-    //                     style: {
-    //                         fontWeight: 'normal',
-    //                         fontSize: '9px',
-    //                         fontFamily: 'sans-serif'
-    //                     },
-    //                     formatter: function () {
-    //                         if (this.point.value) {
-    //                             return this.point.name;
-    //                         }
-    //                     }
-    //                 },
-    //                 tooltip: {
-    //                     headerFormat: '',
-    //                     pointFormat: '{point.name}'
-    //                 },
-    //                 point: {
-    //                     events: {
-    //                       click(e) {
-    //                         console.log("Code : ", this.key)
-    //                       }
-    //                     }
-    //                 }
-    //             }]
-    //         });
-    //     }
-    // }, [kpisData, loading, kpi, loadingKPIs, loadingStates])
-
-
     const generateMapData = () => {
         const data = kpisData.map(kpi => {
             return [kpi.country_code.toLowerCase(), parseInt(kpi.weight)/parseInt(kpi.totalweight)*100]
@@ -186,16 +109,18 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     }
 
     let BARDATA = []
+    let keys = []
     if(kpi?.YDMS_KPIs_id === 'kpi_2') {
         BARDATA =  kpisData.map(kpi => {
             return {
                 "country": kpi.short_name,
-                "weight": parseInt(kpi.weight)/parseInt(kpi.totalweight)*100,
+                "Total weighted percentage score": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(1)),
                 "weightColor": "hsl(254, 70%, 50%)",
-                // "totalWeight": parseInt(kpi.response)/parseInt(kpi.totalResponses)*100,
+                "Percentage of indicators reported": parseFloat((parseInt(kpi.response)/11*100).toFixed(1)),
                 "totalWeightColor": "hsl(24, 70%, 50%)",
             }
         })
+        keys = ["Total weighted percentage score", "Percentage of indicators reported"]
     }
     
     return (
@@ -208,20 +133,27 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                     <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
                 </div>
                 <div className="section charts">
+                    {kpi.YDMS_KPIs_id!=='kpi_2' ? 
                     <div id="div-for-piechart" className="div-for-piechart">
-                    {kpi.YDMS_KPIs_id!=='kpi_2' ? <PieChart data={PIECHART_DATA} />: <BarChart data={BARDATA} keys={kpisData.map(state => state.short_name)} />}
-                    </div>
+                        <PieChart data={PIECHART_DATA} />
+                    </div>:
+                    <div id="div-for-barchart" className="div-for-barchart">
+                        <BarChart data={BARDATA} keys={keys} />
+                    </div>}
                 </div>
-                <div className="section raw-datas">
-                    <div className="raw raw--1">
-                        <h2>Total Compliant</h2>
-                        <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/kpisData.length*100).toFixed(2)}%`}</span></h3>
+                {
+                    kpi?.YDMS_KPIs_id!=='kpi_2'&&
+                    <div className="section raw-datas">
+                        <div className="raw raw--1">
+                            <h2>Total Compliant</h2>
+                            <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/kpisData.length*100).toFixed(2)}%`}</span></h3>
+                        </div>
+                        <div className="raw raw--2">
+                            <h2>Not Compliant</h2>
+                            <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/kpisData.length*100).toFixed(2)}%`}</span></h3>
+                        </div>
                     </div>
-                    <div className="raw raw--2">
-                        <h2>Not Compliant</h2>
-                        <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/kpisData.length*100).toFixed(2)}%`}</span></h3>
-                    </div>
-                </div>
+                }
             </div>
         </>
     )
