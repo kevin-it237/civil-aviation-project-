@@ -12,10 +12,11 @@ const BarChart = ({ data, keys }) => (
         layout="horizontal"
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'dark2' }}
+        colors={({ id, data }) => data[`${id}Color`]}
         borderColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
         axisTop={null}
         axisRight={null}
+        colorBy="id"
         axisBottom={{
             tickSize: 5,
             tickPadding: 5,
@@ -45,7 +46,7 @@ const BarChart = ({ data, keys }) => (
                 translateX: 0,
                 translateY: -20,
                 itemsSpacing: 2,
-                itemWidth: 220,
+                itemWidth: 200,
                 itemHeight: 20,
                 itemDirection: 'left-to-right',
                 itemOpacity: 0.85,

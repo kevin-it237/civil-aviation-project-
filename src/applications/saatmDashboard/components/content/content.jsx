@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import {getKPIsData, selectKPI, selectOrg} from '../../redux/reducer/actions'
+import {getKPIsData, selectKPI, getKPIs} from '../../redux/reducer/actions'
 import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
@@ -10,10 +10,6 @@ import PieChart, {PIE_DATA} from '../../components/pieChart/pieChart'
 import BarChart from '../../components/barChart/barChart'
 import {types} from '../../redux/reducer/types'
 import './content.scss'
-
-const Highcharts = require('highcharts/highmaps');  
-require('highcharts/modules/exporting')(Highcharts);  
-const map = require('@highcharts/map-collection/custom/africa.geo.json');
 
 /**
  * @description content
@@ -95,7 +91,15 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         setPIECHARTDATA(PIE_DATA)
     }
 
-    if(loading || loadingKPIs || loadingStates) {
+    const refresh= () => {
+        if(kpi) {
+            dispatch(getKPIsData(kpi.YDMS_KPIs_id))
+        } else {
+            dispatch(getKPIs('state'))
+        }
+    }
+
+    if(loading || loadingKPIs) {
         return <Loader />
     }
 
@@ -103,7 +107,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         return (
             <div style={{height: '80%', margin: '0 20px'}}>
                 <Alert message={`KPI text: ${kpi?.KPIs_text}`} type="success" />
-                <Empty />
+                <Empty fetch={refresh} />
             </div>
         )
     }
@@ -115,9 +119,9 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             return {
                 "country": kpi.short_name,
                 "Total weighted percentage score": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(1)),
-                "weightColor": "hsl(254, 70%, 50%)",
+                "Total weighted percentage scoreColor": "#000000",
                 "Percentage of indicators reported": parseFloat((parseInt(kpi.response)/11*100).toFixed(1)),
-                "totalWeightColor": "hsl(24, 70%, 50%)",
+                "Percentage of indicators reportedColor": "hsl(210, 96%, 40%)",
             }
         })
         keys = ["Total weighted percentage score", "Percentage of indicators reported"]
