@@ -31,7 +31,7 @@ const HomeScreen = ({user}) => {
             <Title className="title">Welcome to the YD Monitoring <br/>and SAATM Dashboard</Title>
             <p className="select">Please select</p>
             <div className="options">
-                <div onClick={() => select('/')} className="option option--1">
+                <div onClick={() => select('/yd-monitoring')} className="option option--1">
                     <MonitorOutlined />
                     <h4 className="option-name">YD Monitoring</h4>
                 </div>

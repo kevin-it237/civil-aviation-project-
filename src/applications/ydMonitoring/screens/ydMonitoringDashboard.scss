@@ -1,0 +1,42 @@
+@import '../../../assets/styles/global.scss';
+
+#yd-monitoring-container {
+    display: grid;
+    height: 96%;
+    grid-template-columns: 25% 73%;
+    justify-content: space-between;
+    margin: 20px;
+
+    >.left-panel {
+        overflow: scroll;
+        border: solid 2px $stroke-color;
+        border-radius: 5px;
+        >.org-kpis-content {
+            display: grid;
+            grid-template-columns: 49% 1px 49%;
+            grid-auto-columns: 1fr;
+            justify-content: space-between;
+            column-gap: 0px;
+            height: 100%;
+
+            >.org-listing {
+
+            }
+            >.kpis-listing {
+
+            }
+            .line {
+                height: 100%;
+                width: 1px;
+                background-color: $stroke-color;
+            }
+        }
+    }
+
+    >.data-content {
+        overflow: scroll;
+        border: solid 2px $stroke-color;
+        border-radius: 5px;
+        padding: 10px
+    }
+}

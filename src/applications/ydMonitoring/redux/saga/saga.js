@@ -49,7 +49,7 @@ function* getKpis ({payload}) {
 }
 
 
-export default function* SAATMDashboardSaga() {
+export default function* YDMonitoringSaga() {
     yield takeEvery(types.GET_STATES_REQUEST, getStates);
     yield takeEvery(types.GET_KPI_DATA_REQUEST, getKpisData);
     yield takeEvery(types.GET_KPIS_REQUEST, getKpis);

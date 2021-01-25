@@ -7,6 +7,7 @@ import NormalRoute from './normal.route';
 import HomeScreen from '../screens/home/home.screen'
 import AuthScreen from '../../applications/auth/screens/auth.screen/auth.screen'
 import SaatmDashboard from '../../applications/saatmDashboard/screens/saatmDashboard'
+import YDSystemDashboard from '../../applications/ydMonitoring/screens/ydMonitoringDashboard'
 
 /**
  * @description this is the main routes for the main application src/app. 
@@ -15,6 +16,13 @@ const Routes = () => {
 
     return (
         <Switch>
+            <PrivateRoute path={"/yd-monitoring"}>
+                <Route 
+                    exact 
+                    component={YDSystemDashboard}
+                    path={"/yd-monitoring"} />
+            </PrivateRoute>
+            
             <PrivateRoute path={"/saatm-dashboard"}>
                 <Route 
                     exact 

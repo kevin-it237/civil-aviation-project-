@@ -165,14 +165,14 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
 
 
 
-const mapStateToProps = ({ YDMonitoringReducer}) => ({
-    kpis: YDMonitoringReducer.kpis,
-    kpi: YDMonitoringReducer.kpi,
-    kpisData: YDMonitoringReducer.kpisData,
-    selectedOrg: YDMonitoringReducer.selectedOrg,
-    loading: checkIfLoader(YDMonitoringReducer, types.GET_KPI_DATA_REQUEST),
-    loadingKPIs: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
-    loadingStates: checkIfLoader(YDMonitoringReducer, types.GET_STATES_REQUEST),
+const mapStateToProps = ({ SAATMDashboardReducer}) => ({
+    kpis: SAATMDashboardReducer.kpis,
+    kpi: SAATMDashboardReducer.kpi,
+    kpisData: SAATMDashboardReducer.kpisData,
+    selectedOrg: SAATMDashboardReducer.selectedOrg,
+    loading: checkIfLoader(SAATMDashboardReducer, types.GET_KPI_DATA_REQUEST),
+    loadingKPIs: checkIfLoader(SAATMDashboardReducer, types.GET_KPIS_REQUEST),
+    loadingStates: checkIfLoader(SAATMDashboardReducer, types.GET_STATES_REQUEST),
 })
 
 export default connect(mapStateToProps)(Content);

@@ -21,7 +21,7 @@ const INITIAL_STATE = {
     },
 }
 
-const SAATMDashboardReducer = (state = INITIAL_STATE, action) => {
+const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
     const { loader } = state;
     const { payload } = action;
     
@@ -92,4 +92,4 @@ const SAATMDashboardReducer = (state = INITIAL_STATE, action) => {
     }
 }
 
-export default SAATMDashboardReducer;
+export default YDMonitoringReducer;

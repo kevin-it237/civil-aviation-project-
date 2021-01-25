@@ -4,15 +4,15 @@ import {connect, useDispatch} from 'react-redux'
 import Organisations from '../components/organisations/organisations'
 import KPIsList from '../components/kpis.list/kpis.list'
 import Header from '../../../app/components/header/header'
-import Content from '../components/content/content'
-import './saatmDashboard.scss'
+import Questionnaire from '../components/questionnaire/questionnaire'
+import './ydMonitoringDashboard.scss'
 
 
 /**
- * @description SAATM Dashboard screen
+ * @description YD monitoring screen
  */
 
-const SaatmDashboard = ({}) => {
+const YDMonitoringDashboard = ({}) => {
     
     const dispatch = useDispatch()
 
@@ -35,13 +35,13 @@ const SaatmDashboard = ({}) => {
             </div>
             <div className="data-content">
                 <Header />
-                <Content />
+                <Questionnaire />
             </div>
         </div>
     )
 }
 
-SaatmDashboard.propTypes = {
+YDMonitoringDashboard.propTypes = {
     user: PropTypes.object,
 }
 
@@ -49,5 +49,5 @@ const mapStateToProps = ({ AuthReducer }) => ({
     user: AuthReducer.user,
 })
 
-export default connect(mapStateToProps)(SaatmDashboard);
+export default connect(mapStateToProps)(YDMonitoringDashboard);
 

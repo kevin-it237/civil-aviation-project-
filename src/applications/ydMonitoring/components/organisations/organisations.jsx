@@ -51,8 +51,8 @@ const Organisations = ({states}) => {
 
 
 
-const mapStateToProps = ({ SAATMDashboardReducer }) => ({
-    states: SAATMDashboardReducer.states,
+const mapStateToProps = ({ YDMonitoringReducer }) => ({
+    states: YDMonitoringReducer.states,
 })
 
 export default connect(mapStateToProps)(Organisations);

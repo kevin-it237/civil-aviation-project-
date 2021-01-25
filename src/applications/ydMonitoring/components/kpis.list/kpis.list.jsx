@@ -70,10 +70,10 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
 
 
 
-const mapStateToProps = ({ SAATMDashboardReducer }) => ({
-    kpis: SAATMDashboardReducer.kpis,
-    loading: checkIfLoader(SAATMDashboardReducer, types.GET_KPIS_REQUEST),
-    selectedOrg: SAATMDashboardReducer.selectedOrg,
+const mapStateToProps = ({ YDMonitoringReducer }) => ({
+    kpis: YDMonitoringReducer.kpis,
+    loading: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
+    selectedOrg: YDMonitoringReducer.selectedOrg,
 })
 
 export default connect(mapStateToProps)(KPIsList);
