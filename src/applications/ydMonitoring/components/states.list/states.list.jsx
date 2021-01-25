@@ -4,10 +4,10 @@ import {connect, useDispatch} from 'react-redux'
 import { BulbFilled } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
-import {getKPIs, selectKPI, getKPIsData} from '../../redux/reducer/actions'
+import {getStates, selectState} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import Empty from '../../../../app/components/empty/empty';
-import './kpis.list.scss'
+import './states.list.scss'
 
 const { SubMenu } = Menu;
 
@@ -16,7 +16,7 @@ const { SubMenu } = Menu;
  * @description YD monitoring screen
  */
 
-const KPIsList = ({kpis, loading, selectedOrg}) => {
+const KPIsList = ({loading, selectedOrg, states}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('state')
@@ -26,42 +26,41 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
     };
 
     useEffect(() => {
-        dispatch(getKPIs('state'))
+        dispatch(getStates())
     }, [])
 
-    const handleSelectKPI = (kpi) => {
-        dispatch(getKPIsData(kpi.YDMS_KPIs_id))
-        dispatch(selectKPI(kpi))
+    const selectCountry = (state) => {
+        dispatch(selectState(state))
     }
 
-    const fetchKPIs = () => {
-        dispatch(getKPIs(selectedOrg))
+    const fetchStates = () => {
+        dispatch(fetchStates())
     }
 
     if(loading) {
         return <Loader />
     }
 
-    let KPIS = [kpis.map((kpi, i) => (
-        <Menu.Item key={(i+1)} onClick={() => handleSelectKPI(kpi)}>{`${kpi.YDMS_KPIs_id}: ${kpi.KPIs_label}`}</Menu.Item>
+    let STATES = [states.map((state, i) => (
+        <Menu.Item key={(i+1)} onClick={() => selectCountry(state)}>{`${state.short_name}`}</Menu.Item>
     ))]
   
-    if(KPIS.length === 0 && !loading) {
-        KPIS = <Empty fetch={fetchKPIs} />
+    if(STATES.length === 0 && !loading) {
+        STATES = <Empty fetch={fetchStates} />
     }
 
 
     return (
-        <div className="kpis">
+        <div className="states-list">
              <Menu
                 onClick={handleClick}
                 style={{ width: '100%' }}
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={['']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                <SubMenu key="sub1" icon={<BulbFilled />} title="All KPIs">
-                    {KPIS}
+                <SubMenu key="sub1" icon={<BulbFilled />} title="States">
+                    {STATES}
                 </SubMenu>
             </Menu>
         </div>
@@ -71,7 +70,7 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
 
 
 const mapStateToProps = ({ YDMonitoringReducer }) => ({
-    kpis: YDMonitoringReducer.kpis,
+    states: YDMonitoringReducer.states,
     loading: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
     selectedOrg: YDMonitoringReducer.selectedOrg,
 })

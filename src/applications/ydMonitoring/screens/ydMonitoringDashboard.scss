@@ -7,11 +7,10 @@
     justify-content: space-between;
     margin: 20px;
 
-    >.left-panel {
-        overflow: scroll;
+    >.yd-left-panel {
         border: solid 2px $stroke-color;
         border-radius: 5px;
-        >.org-kpis-content {
+        >.org-states-content {
             display: grid;
             grid-template-columns: 49% 1px 49%;
             grid-auto-columns: 1fr;
@@ -22,8 +21,10 @@
             >.org-listing {
 
             }
-            >.kpis-listing {
-
+            >.states-listing {
+                overflow-y: scroll;
+                height: 95vh;
+                overflow-x: hidden;
             }
             .line {
                 height: 100%;

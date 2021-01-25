@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect, useDispatch} from 'react-redux'
 import Organisations from '../components/organisations/organisations'
-import KPIsList from '../components/kpis.list/kpis.list'
+import KPIsList from '../components/states.list/states.list'
 import Header from '../../../app/components/header/header'
 import Questionnaire from '../components/questionnaire/questionnaire'
 import './ydMonitoringDashboard.scss'
@@ -22,19 +22,19 @@ const YDMonitoringDashboard = ({}) => {
 
     return (
         <div id="yd-monitoring-container">
-            <div className="left-panel">
-              <div className="org-kpis-content">
+            <div className="yd-left-panel">
+              <div className="org-states-content">
                 <div className="org-listing">
                     <Organisations />
                 </div>
                 <div className="line"></div>
-                <div className="kpis-listing">
+                <div className="states-listing">
                     <KPIsList />
                 </div>
               </div>
             </div>
             <div className="data-content">
-                <Header />
+                <Header page="yd" />
                 <Questionnaire />
             </div>
         </div>

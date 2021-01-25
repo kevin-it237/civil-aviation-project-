@@ -7,16 +7,6 @@ export const getStates = () => ({
     type: types.GET_STATES_REQUEST
 });
 
-
-/**
- * @description Get states
- * @param {{kpiId: string}} payload
- */
-export const getKPIsData = (payload) => ({
-    type: types.GET_KPI_DATA_REQUEST,
-    payload
-});
-
 /**
  * @description Get kpis
  */
@@ -34,7 +24,7 @@ export const selectKPI = (payload) => ({
 });
 
 /**
- * @description Select kpi
+ * @description Select state
  */
 export const selectState = (payload) => ({
     type: types.SET_STATE_REQUEST,
@@ -44,7 +34,7 @@ export const selectState = (payload) => ({
 /**
  * @description Select organisation
  */
-export const selectOrg = (payload) => ({
+export const selectOrgType = (payload) => ({
     type: types.SET_ORG_REQUEST,
     payload
 });
