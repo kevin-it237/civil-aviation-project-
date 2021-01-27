@@ -35,7 +35,7 @@ function createTray() {
 function createWindow () {
 
   win = new BrowserWindow({
-    title: 'Civil Aviation',
+    title: 'Monitoring System',
     width: 1024,
     height: 768,
     minWidth: 1024,
@@ -58,16 +58,8 @@ function createWindow () {
   // win.removeMenu()
 }
 
-app.on('open-url', (event, data) => {
-  console.log('Response from frontend', data)
-  // Send data to render process
-  win.webContents.send('login-sucess', {
-    data
-  })
-})
-
 app.setAsDefaultProtocolClient('mistermind')
-app.setName('Civil Aviation')
+app.setName('YD Monitoring System')
 
 app.whenReady()
 .then(createWindow)

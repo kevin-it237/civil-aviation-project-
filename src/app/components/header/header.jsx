@@ -27,7 +27,7 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
 
     return (
         <div className="header">
-            {/* <Link className="back" to='/'>Back to Home</Link> */}
+            <Link className="back" to='/'>Back to Home</Link>
             {
                 page === 'yd' ?
                 <>

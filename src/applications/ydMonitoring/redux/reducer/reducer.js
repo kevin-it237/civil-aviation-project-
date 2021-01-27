@@ -3,6 +3,7 @@ import { types } from "./types";
 /**
  * @param {array} states
  * @param {array} questions
+ * @param {array} orgResponses
  * @param {array} kpis
  * @param {object} loader
  * @param {object} kpi
@@ -12,6 +13,7 @@ import { types } from "./types";
 const INITIAL_STATE = {
     states: [], 
     questions: [], 
+    orgResponses: [], 
     kpis: [], 
     kpi: null, 
     selectedState: null, 
@@ -51,22 +53,16 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
                 states: action.payload,
             };
 
-        case types.GET_KPIS_SUCCESS:
-            let allKPIs = action.payload.map(kpi => {
-                const id = kpi.YDMS_KPIs_id.split('_')[1]
-                kpi.id = parseInt(id)
-                return kpi
-            })
-            allKPIs.sort((a, b) => (a.id - b.id))
+        case types.GET_QUESTIONNAIRE_SUCCESS:
             return {
                 ...state,
-                kpis: allKPIs,
+                questions: action.payload,
             };
 
-        case types.SET_KPI_REQUEST:
+        case types.GET_ORG_RESPONSES_SUCCESS:
             return {
                 ...state,
-                kpi: action.payload,
+                orgResponses: action.payload,
             };
 
         case types.SET_STATE_REQUEST:

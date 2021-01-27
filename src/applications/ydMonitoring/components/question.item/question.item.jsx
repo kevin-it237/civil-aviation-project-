@@ -7,6 +7,7 @@ import './question.item.scss'
  */
 
 const QuestionItem = ({question}) => {
+    const {questionnaire_text} = question
 
     const [isChecked, setIsChecked] = useState(false)
 
@@ -23,9 +24,7 @@ const QuestionItem = ({question}) => {
     
     return (
         <div className="question-item">
-            <p className="question-label">
-                Has the State ensured that all national Laws, Regulations, Rules, Policies are in conformity with the express provisions of the Yamoussoukro Decision?
-            </p>
+            <p className="question-label">{questionnaire_text}</p>
             <div className="checkboxes">
                 <Radio.Group onChange={onChange} value={isChecked}>
                     <Radio style={radioStyle} value={1}>

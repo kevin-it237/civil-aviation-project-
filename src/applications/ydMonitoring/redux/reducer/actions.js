@@ -8,20 +8,21 @@ export const getStates = () => ({
 });
 
 /**
- * @description Get kpis
+ * @description Get questionnaire
  */
-export const getKPIs = (payload) => ({
-    type: types.GET_KPIS_REQUEST,
-    payload
+export const getQuestionnaire = () => ({
+    type: types.GET_QUESTIONNAIRE_REQUEST
 });
 
 /**
- * @description Select kpi
+ * @description Get questionnaire
+ * @param {orgId: String} payload
  */
-export const selectKPI = (payload) => ({
-    type: types.SET_KPI_REQUEST,
+export const getOrgResponses = (payload) => ({
+    type: types.GET_ORG_RESPONSES_REQUEST,
     payload
 });
+
 
 /**
  * @description Select state

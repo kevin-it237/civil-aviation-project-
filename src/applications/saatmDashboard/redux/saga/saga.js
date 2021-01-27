@@ -1,10 +1,10 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {getRequest, postRequest, putRequestFormData} from '../../../../helpers/api'
+import {getRequest} from '../../../../helpers/api'
 import { types } from "../reducer/types";
 import {API_URL} from './saga.helper'
 
 /**
- * @description get tasks
+ * @description get states
  */
 function* getStates () {
     yield put({type: types.START_LOADING, payload: types.GET_STATES_REQUEST})
