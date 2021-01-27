@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Menu  } from "antd";
 import {connect, useDispatch} from 'react-redux'
-import { BulbFilled } from '@ant-design/icons';
+import { FlagFilled } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
 import {getStates, selectState} from '../../redux/reducer/actions'
@@ -54,12 +54,11 @@ const KPIsList = ({loading, selectedOrg, states}) => {
         <div className="states-list">
              <Menu
                 onClick={handleClick}
-                style={{ width: '100%' }}
                 defaultSelectedKeys={['']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                <SubMenu key="sub1" icon={<BulbFilled />} title="States">
+                <SubMenu key="sub1" icon={<FlagFilled />} title="States">
                     {STATES}
                 </SubMenu>
             </Menu>

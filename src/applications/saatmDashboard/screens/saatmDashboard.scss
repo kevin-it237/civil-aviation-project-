@@ -9,7 +9,7 @@
 
     >.left-panel {
         overflow: scroll;
-        border: solid 2px $stroke-color;
+        border: solid 1px $stroke-color;
         border-radius: 5px;
         >.org-kpis-content {
             display: grid;
@@ -35,8 +35,7 @@
 
     >.data-content {
         overflow: scroll;
-        border: solid 2px $stroke-color;
+        border: solid 1px $stroke-color;
         border-radius: 5px;
-        padding: 10px
     }
 }

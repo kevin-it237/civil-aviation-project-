@@ -81,7 +81,13 @@
 .kpi-infos-box {
     padding: 23px;
     padding-top: 0;
+    margin-top: 20px;
     >div {
         margin-bottom: 8px;
+        background-color: #00b96d !important;
+        border-color: #00b96d;
+        .ant-alert-message {
+            color: white;
+        }
     }
 }

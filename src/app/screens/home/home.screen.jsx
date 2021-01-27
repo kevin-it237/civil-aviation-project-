@@ -32,11 +32,11 @@ const HomeScreen = ({user}) => {
             <p className="select">Please select</p>
             <div className="options">
                 <div onClick={() => select('/yd-monitoring')} className="option option--1">
-                    <MonitorOutlined />
+                    <DashboardFilled />
                     <h4 className="option-name">YD Monitoring</h4>
                 </div>
                 <div onClick={() => select('/saatm-dashboard')} className="option option--2">
-                    <DashboardFilled />
+                    <MonitorOutlined />
                     <h4 className="option-name">SAATM KPIs/Dashboard</h4>
                 </div>
             </div>

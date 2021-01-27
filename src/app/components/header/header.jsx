@@ -27,19 +27,23 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
 
     return (
         <div className="header">
-            <Link className="back" to='/'>Back to Home</Link>
+            {/* <Link className="back" to='/'>Back to Home</Link> */}
             {
                 page === 'yd' ?
+                <>
+                    {/* <p className="state-label">State:</p> */}
+                    <PageHeader
+                        title={`State: ${selectedState?selectedState.full_name.toUpperCase():'No selected state'}`}
+                        extra={[
+                            <Button key="2">My Account</Button>,
+                            <Button onClick={logout} key="1" type="primary">Logout</Button>,
+                        ]}
+                        >
+                    </PageHeader>
+                </>
+                :
                 <PageHeader
-                    title={`${selectedState?selectedState.full_name.toUpperCase():'Select a state'}`}
-                    extra={[
-                        <Button key="2">My Account</Button>,
-                        <Button onClick={logout} key="1" type="primary">Logout</Button>,
-                    ]}
-                    >
-                </PageHeader>:
-                <PageHeader
-                    title={`${selectedOrg.toUpperCase()} - ${kpi?.KPIs_label}`}
+                    title={`${selectedOrg.toUpperCase()} / ${kpi?.KPIs_label}`}
                     extra={[
                         <Button key="2">My Account</Button>,
                         <Button onClick={logout} key="1" type="primary">Logout</Button>,

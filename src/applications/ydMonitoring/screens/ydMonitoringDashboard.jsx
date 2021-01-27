@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect, useDispatch} from 'react-redux'
 import Organisations from '../components/organisations/organisations'
-import KPIsList from '../components/states.list/states.list'
+import StateList from '../components/states.list/states.list'
 import Header from '../../../app/components/header/header'
 import Questionnaire from '../components/questionnaire/questionnaire'
 import './ydMonitoringDashboard.scss'
@@ -29,7 +29,7 @@ const YDMonitoringDashboard = ({}) => {
                 </div>
                 <div className="line"></div>
                 <div className="states-listing">
-                    <KPIsList />
+                    <StateList />
                 </div>
               </div>
             </div>

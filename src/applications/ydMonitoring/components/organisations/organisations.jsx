@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Menu  } from "antd";
 import {connect, useDispatch} from 'react-redux'
-import { FlagFilled } from '@ant-design/icons';
+import { BulbFilled} from '@ant-design/icons';
 import {getStates, getKPIs, selectOrgType} from '../../redux/reducer/actions'
 import './organisations.scss'
 
@@ -34,7 +34,7 @@ const Organisations = ({states}) => {
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                <SubMenu key="sub1" icon={<FlagFilled />} title="Organisations">
+                <SubMenu key="sub1" icon={<BulbFilled />} title="Organisations">
                     <Menu.Item onClick={() => handleSelectOrg('state')} key={0}>States/CAA</Menu.Item>
                     {/* <Menu.Item onClick={() => handleSelectOrg('afcac')} key={1}>EA</Menu.Item>
                     <Menu.Item onClick={() => handleSelectOrg('airline')} key={2}>Airline</Menu.Item> */}

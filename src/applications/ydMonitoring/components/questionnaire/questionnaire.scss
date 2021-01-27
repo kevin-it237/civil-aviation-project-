@@ -1,8 +1,25 @@
 @import '../../../../assets/styles/global.scss';
 
 .yd-monitoring-content {
+    overflow-y: scroll;
+    height: calc(100vh - 160px);
     padding-left: 23px;
     padding-right: 23px;
     display: grid;
     grid-auto-columns: 1fr;
+    padding: 20px 50px;
+    background-color: $white;
+    >.questions-list {
+        margin-top: 25px;
+    }
+    >.buttons {
+        margin-top: 15px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 25px;
+        >.ant-btn {
+            width: 130px;
+        }
+    }
 }

@@ -8,7 +8,7 @@
     margin: 20px;
 
     >.yd-left-panel {
-        border: solid 2px $stroke-color;
+        border: solid 1px $stroke-color;
         border-radius: 5px;
         >.org-states-content {
             display: grid;
@@ -35,9 +35,9 @@
     }
 
     >.data-content {
-        overflow: scroll;
-        border: solid 2px $stroke-color;
+        border: solid 1px $stroke-color;
         border-radius: 5px;
-        padding: 10px
+        padding: 0 !important;
+
     }
 }
