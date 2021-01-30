@@ -21,6 +21,8 @@ const INITIAL_STATE = {
     loader: {
         actions: []
     },
+    error: null,
+    success: false,
 }
 
 const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
@@ -51,18 +53,41 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 states: action.payload,
+                error: null
             };
 
         case types.GET_QUESTIONNAIRE_SUCCESS:
             return {
                 ...state,
                 questions: action.payload,
+                error: null
             };
 
         case types.GET_ORG_RESPONSES_SUCCESS:
             return {
                 ...state,
                 orgResponses: action.payload,
+                error: null
+            };
+
+        case types.SAVE_RESPONSE_SUCCESS:
+            return {
+                ...state,
+                success: true,
+                error: null
+            };
+
+        case types.SAVE_RESPONSE_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                success: false,
+            };
+
+        case types.RESTORE_RESPONSE_STATUS:
+            return {
+                ...state,
+                success: false,
             };
 
         case types.SET_STATE_REQUEST:

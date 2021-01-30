@@ -48,10 +48,35 @@ function* getOrgResponses ({payload}) {
     }
 }
 
+/**
+ * @description save response
+ */
+function* saveResponse ({payload}) {
+    yield put({type: types.START_LOADING, payload: types.SAVE_RESPONSE_REQUEST})
+    try { 
+
+        const promises = []
+        payload.forEach(reponse => {
+            promises.push(postRequest(`${API_URL}/response`, reponse))
+        });
+        if(promises.length) {
+            const responses = yield Promise.all(promises);
+            yield put({type: types.SAVE_RESPONSE_SUCCESS, payload: responses})
+        } else {
+            yield put({type: types.SAVE_RESPONSE_SUCCESS, payload: {}})
+        }
+    } catch (error) {
+        yield put({type: types.SAVE_RESPONSE_FAILURE, payload: error.response.data.message});
+    } finally {
+        yield put({type: types.STOP_LOADING, payload: types.SAVE_RESPONSE_REQUEST})
+    }
+}
+
 
 
 export default function* YDMonitoringSaga() {
     yield takeEvery(types.GET_STATES_REQUEST, getStates);
     yield takeEvery(types.GET_QUESTIONNAIRE_REQUEST, getQuestionnaire);
     yield takeEvery(types.GET_ORG_RESPONSES_REQUEST, getOrgResponses);
+    yield takeEvery(types.SAVE_RESPONSE_REQUEST, saveResponse);
 }

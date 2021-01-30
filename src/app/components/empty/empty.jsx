@@ -7,11 +7,13 @@ import './empty.scss'
  * @description empty data
  */
 
-const EmptyBox = ({fetch}) => {
+const EmptyBox = ({fetch, text}) => {
     
     return (
         <div className="empty-box">
-            <Empty />
+            <Empty 
+                description={text ?<span style={{marginBottom: '10px'}}>{text}</span>:<span>{"No Data"}</span>}
+           />
             <Button onClick={fetch}>Refresh</Button>
         </div>
     )

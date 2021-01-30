@@ -23,6 +23,22 @@ export const getOrgResponses = (payload) => ({
     payload
 });
 
+/**
+ * @description Save a response
+ * @param {array[Object]} payload Object{YDMS_SP_id: String, YDMS_Org_id, response: Boolean, weight?: Float}
+ */
+export const saveResponse = (payload) => ({
+    type: types.SAVE_RESPONSE_REQUEST,
+    payload
+});
+
+/**
+ * @description set success to false
+ */
+export const resetResponseStatus = () => ({
+    type: types.RESTORE_RESPONSE_STATUS
+});
+
 
 /**
  * @description Select state

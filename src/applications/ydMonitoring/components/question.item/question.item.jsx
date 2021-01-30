@@ -6,14 +6,20 @@ import './question.item.scss'
  * @description content
  */
 
-const QuestionItem = ({question}) => {
+const QuestionItem = ({question, onSelect}) => {
     const {questionnaire_text} = question
 
     const [isChecked, setIsChecked] = useState(false)
+    const [weightRes, setWeightRes] = useState(0)
 
     const onChange = e => {
-        console.log('radio checked', e.target.value);
+        const response = {
+            YDMS_SP_id: question.YDMS_SP_id,
+            response: e.target.value,
+            weight: weightRes
+        }
         setIsChecked(e.target.value)
+        onSelect(response)
     };
 
     const radioStyle = {

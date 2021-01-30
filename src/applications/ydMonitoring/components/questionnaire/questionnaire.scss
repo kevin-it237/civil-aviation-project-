@@ -9,11 +9,13 @@
     grid-auto-columns: 1fr;
     padding: 20px 50px;
     background-color: $white;
+    align-content: flex-start;
     >.questions-list {
-        margin-top: 25px;
+        margin-top: 10px;
     }
     >.buttons {
         margin-top: 15px;
+        padding-bottom: 25px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -21,5 +23,16 @@
         >.ant-btn {
             width: 130px;
         }
+    }
+}
+
+.completed--res {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+        margin-top: 20px;
     }
 }
