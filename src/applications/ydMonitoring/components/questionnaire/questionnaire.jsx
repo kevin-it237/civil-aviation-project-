@@ -98,6 +98,9 @@ const Questionnaire = ({
             data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_2')
         }
 
+        // Remove KPI_12 SP
+        data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_12')
+
         // Remove questions related to the given state
         const finalData = data.filter(q => {
             return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
