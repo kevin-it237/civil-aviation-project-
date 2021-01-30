@@ -83,16 +83,27 @@ const Questionnaire = ({
 
     const cookNotAnsweredQuestions = () => {
         // Remove questions that user has already anwsered
-        const data = questions.filter(question => {
+        let data = questions.filter(question => {
             const response = orgResponses.find(res => res.surveyProtocolYDMSSPId === question.YDMS_SP_id)
             return !!!response
         })
 
-        // Remove questions related to the give state
-        const finalData = data.filter(q => {
-            return !q.questionnaire_text.includes(selectedState.short_name)
-        })
+        // Non SAATM members cannot answer to KPI_4 SP
+        if(!selectedState.SAATM_membership) {
+            data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_4')
+        }
 
+        // Non SAATM members cannot answer to KPI_2 SP
+        if(!selectedState.SAATM_membership) {
+            data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_2')
+        }
+
+        // Remove questions related to the given state
+        const finalData = data.filter(q => {
+            return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
+            !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
+        })
+        console.log(finalData.length)
         setQuestionsToDisplay(finalData)
     }
 
@@ -129,17 +140,16 @@ const Questionnaire = ({
         }
     }
 
-    const clearResponse = () => {
-        // reload questions
-        setUserResponses([])
-        
-    }
+    // const clearResponse = () => {
+    //     // reload questions
+    //     setUserResponses([])
+    // }
 
     useError(error, [() => message.error('An error occured.')]); 
 
     useResponseSuccess(success, 
         [() => {
-        message.success('Responses saved.');
+        message.success('Saved succesfully.');
         
         // Remove answered questions
         const remainingQuestions = questionsToDisplay.filter(q => {
@@ -200,9 +210,9 @@ const Questionnaire = ({
             </div>
             
             <div className="buttons">
-                <Button type="secondary" size="large" onClick={clearResponse}>
+                {/* <Button type="secondary" size="large" onClick={clearResponse}>
                     Clear
-                </Button>
+                </Button> */}
                 <Button 
                     type="primary" 
                     size="large" 
