@@ -2,12 +2,12 @@
   "homepage": "./",
   "name": "civil-aviation",
   "version": "0.1.0",
-  "author": "Civil Aviation KPIs",
+  "author": "mistermind",
   "description": "Visualize KPIs for African countries about civil aviation",
   "private": true,
   "build": {
     "appId": "com.civilaviation",
-    "productName": "Civil Aviation KPIs",
+    "productName": "YD Monitoring System",
     "win": {
       "target": [
         {

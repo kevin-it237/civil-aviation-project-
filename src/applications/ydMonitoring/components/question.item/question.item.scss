@@ -1,16 +1,26 @@
 @import '../../../../assets/styles/base/variables';
 
 .question-item {
-    padding: 20px 30px;
+    padding: 15px 30px;
     display: grid;
     grid-template-columns: 1fr 15%;
     column-gap: 30px;
     border: solid 1px $grey-300;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     align-items: center;
     border-radius: 5px;
     background-color: rgba($stroke-color, .25);
     border-left: solid 3px $primary;
+    animation: appear .2s ease-in;
+
+    @keyframes appear {
+        from {
+            transform: translateY(-15px);
+        }
+        to {
+            transform: translate(0);
+        }
+    }
     >.question-label {
         font-size: 15px;
         line-height: 22px;
