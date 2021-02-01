@@ -29,7 +29,7 @@ const Questionnaire = ({questions, loading, selectedOrg, loadingStates, selected
     }, [])
 
     useEffect(() => {
-        if(questions.length) {
+        if(questions.length && selectedState) {
             cookNotAnsweredQuestions()
         }
     }, [questions, orgResponses])
@@ -70,7 +70,7 @@ const Questionnaire = ({questions, loading, selectedOrg, loadingStates, selected
         return (
             <div style={{height: '80%', margin: '0 20px'}}>
                 <Empty fetch={refresh} />
-                <p style={{textAlign: 'center'}}>You answered all the questions.</p>
+                {/* <p style={{textAlign: 'center'}}>You answered all the questions.</p> */}
             </div>
         )
     }

@@ -54,8 +54,11 @@ function createWindow () {
     ? "http://localhost:3000"
     : `file://${path.join(__dirname, "../build/index.html")}`, {userAgent: 'Chrome'})
   
-  win.webContents.openDevTools()
-  // win.removeMenu()
+  if(isDev) {
+    win.webContents.openDevTools()
+  } else {
+    win.removeMenu()
+  }
 }
 
 app.setAsDefaultProtocolClient('mistermind')
