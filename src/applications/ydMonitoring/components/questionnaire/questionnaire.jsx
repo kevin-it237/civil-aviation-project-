@@ -6,11 +6,13 @@ import Loader from '../../../../app/components/loader/loader'
 import QuestionItem from '../question.item/question.item'
 import Empty from '../../../../app/components/empty/empty'
 import {useHistory} from 'react-router-dom'
-import { Button, Divider, Progress, message } from 'antd';
+import { Button, Divider, Progress, message, Typography } from 'antd';
 import useError from '../../hooks/useError'
 import useResponseSuccess from '../../hooks//useResponseSuccess'
 import {types} from '../../redux/reducer/types'
+import { FlagOutlined } from '@ant-design/icons';
 import './questionnaire.scss'
+const { Title } = Typography;
 
 /**
  * @description content
@@ -34,6 +36,7 @@ const Questionnaire = ({
     const [questionsToDisplay, setQuestionsToDisplay] = useState([]) // filtered questions
     const [startIndex, setStartIndex] = useState(0) // Starting index
     const [onScreenQuestions, setOnScreenQuestions] = useState([])
+    const [continueQues, setContinueQues] = useState(false)
 
     const [totalQUestionsAnwserd, setTotalQUestionsAnwserd] = useState(0)
 
@@ -106,7 +109,7 @@ const Questionnaire = ({
             return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
             !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
         })
-        console.log(finalData.length)
+
         setQuestionsToDisplay(finalData)
     }
 
@@ -173,6 +176,42 @@ const Questionnaire = ({
         return <Loader />
     }
 
+    // When user start anwsering to questions for the first time
+    if(!selectedState && !loading && !loadingOrgResponses) {
+        return (
+            <div className="select-wrapper">
+                <FlagOutlined size={5} />
+                <Title level={4}>Please select a state at<br/> the left to start.</Title>
+            </div>
+        )
+    }
+
+    // When user come again on the system, display a menu
+    if(selectedState && questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses && !continueQues) {
+        return (
+            <div className="yd-menu-wrapper">
+                <Divider>Select an option</Divider>
+                <div className="yd-menu">
+                    <div 
+                        onClick={() => setContinueQues(true)}
+                        className="yd-menu-1 yd-menu">
+                        <h2>Continue</h2>
+                        <p>Continue to answser questionnaire.</p>
+                    </div>
+                    <div className="yd-menu-2 yd-menu">
+                        <h2>Review</h2>
+                        <p>Review your responses/Stats.</p>
+                    </div>
+                    <div className="yd-menu-3 yd-menu">
+                        <h2>Update</h2>
+                        <p>Update your answers here.</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    // When user anwser to all the questions
     if(selectedState && questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
         return (
             <div className="completed--res">
@@ -184,19 +223,29 @@ const Questionnaire = ({
                     }}
                     percent={100} />
                 <p style={{textAlign: 'center'}}>You answered all the questions.</p>
+                <div className="yd-menu">
+                    <div className="yd-menu-2 yd-menu">
+                        <h2>Review</h2>
+                        <p>Review your responses/Stats.</p>
+                    </div>
+                    <div className="yd-menu-3 yd-menu">
+                        <h2>Update</h2>
+                        <p>Update your answers here.</p>
+                    </div>
+                </div>
             </div>
         )
     }
 
-    if(questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
+    // When there is an error
+    if(questionsToDisplay.length === 0 && !loading && !loadingOrgResponses && error) {
         return (
             <div style={{height: '80%', margin: '0 20px'}}>
-                <Empty text={"Please select an organisation or"} fetch={refresh} />
-                {/* <p style={{textAlign: 'center'}}>You answered all the questions.</p> */}
+                <Empty text={"Connexion error, please refresh."} fetch={refresh} />
             </div>
         )
     }
-    
+
     return (
         <div className="yd-monitoring-content">
             <div className="divider-item">

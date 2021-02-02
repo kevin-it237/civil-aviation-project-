@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import { Menu  } from "antd";
+import { Menu, Typography  } from "antd";
 import {connect, useDispatch} from 'react-redux'
-import { FlagFilled } from '@ant-design/icons';
+import {Link} from 'react-router-dom'
+import { FlagFilled, ArrowLeftOutlined } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
 import {getStates, selectState} from '../../redux/reducer/actions'
@@ -10,13 +11,13 @@ import Empty from '../../../../app/components/empty/empty';
 import './states.list.scss'
 
 const { SubMenu } = Menu;
-
+const { Title } = Typography;
 
 /**
- * @description YD monitoring screen
+ * @description State listing
  */
 
-const KPIsList = ({loading, selectedOrg, states}) => {
+const StateList = ({loading, selectedOrg, states, selectedState}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('state')
@@ -37,6 +38,10 @@ const KPIsList = ({loading, selectedOrg, states}) => {
         dispatch(fetchStates())
     }
 
+    const unSelectedState = () => {
+        dispatch(selectState(null))
+    }
+
     if(loading) {
         return <Loader />
     }
@@ -49,19 +54,28 @@ const KPIsList = ({loading, selectedOrg, states}) => {
         STATES = <Empty fetch={fetchStates} />
     }
 
-
     return (
         <div className="states-list">
-             <Menu
-                onClick={handleClick}
-                defaultSelectedKeys={['']}
-                defaultOpenKeys={['sub1']}
-                mode="inline"
-            >
-                <SubMenu key="sub1" icon={<FlagFilled />} title="States">
-                    {STATES}
-                </SubMenu>
-            </Menu>
+            {
+                selectedState ?
+                <div className="state-infos-wrapper">
+                    <div className="state-info">
+                        <h5>{selectedState.short_name}</h5>
+                        <p>Additional infomations about the state</p>
+                    </div>
+                    <Link to='#' onClick={() => unSelectedState()}><ArrowLeftOutlined />States List</Link>
+                </div>:
+                <Menu
+                    onClick={handleClick}
+                    defaultSelectedKeys={['']}
+                    defaultOpenKeys={['sub1']}
+                    mode="inline"
+                >
+                    <SubMenu key="sub1" icon={<FlagFilled />} title="States">
+                        {STATES}
+                    </SubMenu>
+                </Menu>
+            }
         </div>
     )
 }
@@ -72,7 +86,8 @@ const mapStateToProps = ({ YDMonitoringReducer }) => ({
     states: YDMonitoringReducer.states,
     loading: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
     selectedOrg: YDMonitoringReducer.selectedOrg,
+    selectedState: YDMonitoringReducer.selectedState,
 })
 
-export default connect(mapStateToProps)(KPIsList);
+export default connect(mapStateToProps)(StateList);
 
