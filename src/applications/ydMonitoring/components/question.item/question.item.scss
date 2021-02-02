@@ -1,7 +1,7 @@
 @import '../../../../assets/styles/base/variables';
 
 .question-item {
-    padding: 15px 30px;
+    padding: 12px 25px;
     display: grid;
     grid-template-columns: 1fr 15%;
     column-gap: 30px;
@@ -22,7 +22,7 @@
         }
     }
     >.question-label {
-        font-size: 15px;
+        font-size: 14px;
         line-height: 22px;
     }
     >.checkboxes {
