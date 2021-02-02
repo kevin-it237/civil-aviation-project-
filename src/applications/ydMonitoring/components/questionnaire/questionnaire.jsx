@@ -79,6 +79,13 @@ const Questionnaire = ({
         }
     }, [onScreenQuestions])
 
+    useEffect(() => {
+        setContinueQues(false)
+        return () => {
+            setContinueQues(false)
+        }
+    }, [selectedState])
+
     const displayFiveNextQuestions = () => {
         const questions = questionsToDisplay.slice(startIndex, startIndex+5)
         setOnScreenQuestions(questions)
@@ -181,7 +188,7 @@ const Questionnaire = ({
         return (
             <div className="select-wrapper">
                 <FlagOutlined size={5} />
-                <Title level={4}>Please select a state at<br/> the left to start.</Title>
+                <Title level={4}>Please select a state</Title>
             </div>
         )
     }
