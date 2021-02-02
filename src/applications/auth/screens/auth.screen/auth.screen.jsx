@@ -110,7 +110,6 @@ const Login = ({ error, redirect, user }) => {
                                         <Option value="State/CAA">State/CAA</Option>
                                         <Option value="AFCAC">AFCAC</Option>
                                         <Option value="User">User</Option>
-                                        <Option value="Admin">Admin</Option>
                                     </Select>
                                 </div>
                             }

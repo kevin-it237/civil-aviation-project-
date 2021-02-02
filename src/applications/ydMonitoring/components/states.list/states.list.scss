@@ -15,4 +15,29 @@
             font-size: 12px !important;
         }
     }
+
+    .state-infos-wrapper {
+        padding: 25px 15px;
+        .state-info {
+            margin-bottom: 20px;
+            >h5 {
+                font-weight: 600;
+                font-size: 15px;
+                margin-bottom: 10px;
+                color: $primary;
+                line-height: 19px;
+            }
+            >p {
+                font-size: 13px;
+                line-height: 19px;
+            }
+        }
+        >a {
+            font-size: 13px;
+            margin-top: 20px;
+            text-decoration: underline;
+            font-weight: 600;
+            svg {margin-right: 5px;}
+        }
+    }
 }

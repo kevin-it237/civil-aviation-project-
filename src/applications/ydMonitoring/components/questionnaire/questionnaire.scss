@@ -35,4 +35,98 @@
     p {
         margin-top: 20px;
     }
+    .yd-menu {
+        display: flex;
+        justify-content: center;
+        column-gap: 30px;
+        margin-top: 25px;
+        >.yd-menu {
+            // align-self: center;
+            display: flex;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 250px;
+            height: 250px;
+            background-color: $primary;
+            padding: 30px;
+            transition: all .1s ease-in;
+            &:hover {
+                transform: translateY(-7px);
+            }
+            h2 {
+                font-size: 15px;
+                font-weight: bold;
+                color: $white;
+            }
+            p {
+                font-size: 13px;
+                text-align: center;
+                color: $white;
+            }
+        }
+    }
+}
+
+.select-wrapper {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    span {
+        margin-bottom: 20px;
+        border-radius: 50%;
+        padding: 10px;
+        display: block;
+        background-color: $primary;
+    }
+    svg {
+        width: 40px;
+        height: 40px;
+        path {fill: $white;}
+    }
+    h4 {
+        text-align: center;
+    }
+}
+
+.yd-menu-wrapper {
+    height: 90%;
+    margin-top: 70px;
+    .yd-menu {
+        display: flex;
+        justify-content: center;
+        column-gap: 30px;
+        margin-top: 25px;
+        >.yd-menu {
+            // align-self: center;
+            display: flex;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 250px;
+            height: 250px;
+            background-color: $primary;
+            padding: 30px;
+            transition: all .1s ease-in;
+            &:hover {
+                transform: translateY(-7px);
+            }
+            h2 {
+                font-size: 15px;
+                font-weight: bold;
+                color: $white;
+            }
+            p {
+                font-size: 13px;
+                text-align: center;
+                color: $white;
+            }
+        }
+    }
 }
