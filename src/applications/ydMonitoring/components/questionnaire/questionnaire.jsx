@@ -111,6 +111,22 @@ const Questionnaire = ({
         // Remove KPI_12 SP
         // data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_12')
 
+        // Non YD_Membership members cannot answer to other questions
+        // if(!selectedState.YD_membership) {
+        //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
+        // }
+
+        // Non SAATM members members cannot answer to other questions 
+        // if(!selectedState.SAATM_membership) {
+        //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
+        // }
+
+        data = data.map((q, i) => {
+            q.number = `Q-${i}`
+            return q
+        });
+
+
         // Remove questions related to the given state
         const finalData = data.filter(q => {
             return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
@@ -218,8 +234,8 @@ const Questionnaire = ({
         )
     }
 
-    // When user anwser to all the questions
-    if(selectedState && questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
+    // When user anwser to all the questions 1 because of kpi_0
+    if(selectedState && questionsToDisplay.length === 1 && !loading && !loadingOrgResponses) {
         return (
             <div className="completed--res">
                 <Progress
@@ -264,7 +280,11 @@ const Questionnaire = ({
             <div className="questions-list">
                 {
                     onScreenQuestions.map(question => 
-                    <QuestionItem onSelect={onCheck} key={question.YDMS_SP_id} question={question} />)
+                    <QuestionItem 
+                        onSelect={onCheck} 
+                        selectedState={selectedState}
+                        key={question.YDMS_SP_id} 
+                        question={question} />)
                 }
             </div>
             

@@ -2,19 +2,19 @@
 
 .yd-monitoring-content {
     overflow-y: scroll;
-    height: calc(100vh - 160px);
+    height: calc(100vh - 140px);
     padding-left: 23px;
     padding-right: 23px;
     display: grid;
     grid-auto-columns: 1fr;
-    padding: 20px 50px;
+    padding: 20px 50px 0 50px;
     background-color: $white;
     align-content: flex-start;
     >.questions-list {
         margin-top: 10px;
     }
     >.buttons {
-        margin-top: 15px;
+        margin-top: 5px;
         padding-bottom: 25px;
         display: flex;
         justify-content: flex-end;

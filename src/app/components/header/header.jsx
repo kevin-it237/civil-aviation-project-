@@ -23,6 +23,7 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
         
     }, [])
 
+console.log(kpi);
 
 
     return (
@@ -57,9 +58,9 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
 
 
 
-const mapStateToProps = ({ AuthReducer, YDMonitoringReducer }) => ({
+const mapStateToProps = ({ AuthReducer, YDMonitoringReducer, SAATMDashboardReducer }) => ({
     user: AuthReducer.user,
-    kpi: YDMonitoringReducer.kpi,
+    kpi: SAATMDashboardReducer.kpi,
     selectedOrg: YDMonitoringReducer.selectedOrg,
     selectedState: YDMonitoringReducer.selectedState,
 })
