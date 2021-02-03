@@ -8,9 +8,17 @@
         border: none !important;
         .ant-menu-item {
             padding-left: 15px !important;
+            border-bottom: solid 1px $stroke-color;
         }
         .ant-menu-item-only-child {
             font-size: 12px !important;
+        }
+        &:not(.ant-menu-horizontal) .ant-menu-item-selected {
+            background-color: $primary !important;
+            color: $white;
+        }
+        .ant-menu-inline .ant-menu-item:not(:last-child) {
+            margin-bottom: 0 !important;
         }
     }
 }

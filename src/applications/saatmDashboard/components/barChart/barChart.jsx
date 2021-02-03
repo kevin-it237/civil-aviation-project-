@@ -6,7 +6,7 @@ const BarChart = ({ data, keys }) => (
         data={data}
         keys={keys}
         indexBy="country"
-        margin={{ top: 20, right: 120, bottom: 20, left: 150 }}
+        margin={{ top: 20, right: 50, bottom: 20, left: 150 }}
         padding={0.4}
         groupMode="grouped"
         layout="horizontal"
@@ -43,7 +43,7 @@ const BarChart = ({ data, keys }) => (
                 anchor: 'top-right',
                 direction: 'row',
                 justify: false,
-                translateX: 0,
+                translateX: -20,
                 translateY: -20,
                 itemsSpacing: 2,
                 itemWidth: 200,

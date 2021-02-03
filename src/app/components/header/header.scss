@@ -24,6 +24,12 @@
         padding: 0 !important;
         .ant-page-header-heading-title {
             color: white;
+            @media only screen and (max-width: 1366px) {
+                font-size: 16px;
+            }
+        }
+        .ant-btn > span {
+            font-size: 13px;
         }
     }
 }

@@ -209,31 +209,6 @@ const Questionnaire = ({
         )
     }
 
-    // When user come again on the system, display a menu
-    if(selectedState && questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses && !continueQues) {
-        return (
-            <div className="yd-menu-wrapper">
-                <Divider>Select an option</Divider>
-                <div className="yd-menu">
-                    <div 
-                        onClick={() => setContinueQues(true)}
-                        className="yd-menu-1 yd-menu">
-                        <h2>Continue</h2>
-                        <p>Continue to answser questionnaire.</p>
-                    </div>
-                    <div className="yd-menu-2 yd-menu">
-                        <h2>Review</h2>
-                        <p>Review your responses/Stats.</p>
-                    </div>
-                    <div className="yd-menu-3 yd-menu">
-                        <h2>Update</h2>
-                        <p>Update your answers here.</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
     // When user anwser to all the questions 1 because of kpi_0
     if(selectedState && questionsToDisplay.length === 1 && !loading && !loadingOrgResponses) {
         return (
@@ -247,6 +222,31 @@ const Questionnaire = ({
                     percent={100} />
                 <p style={{textAlign: 'center'}}>You answered all the questions.</p>
                 <div className="yd-menu">
+                    <div className="yd-menu-2 yd-menu">
+                        <h2>Review</h2>
+                        <p>Review your responses/Stats.</p>
+                    </div>
+                    <div className="yd-menu-3 yd-menu">
+                        <h2>Update</h2>
+                        <p>Update your answers here.</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    // When user come again on the system, display a menu
+    if(selectedState && questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses && !continueQues) {
+        return (
+            <div className="yd-menu-wrapper">
+                <Divider>Select an option</Divider>
+                <div className="yd-menu">
+                    <div 
+                        onClick={() => setContinueQues(true)}
+                        className="yd-menu-1 yd-menu">
+                        <h2>Continue</h2>
+                        <p>Continue to answser questionnaire.</p>
+                    </div>
                     <div className="yd-menu-2 yd-menu">
                         <h2>Review</h2>
                         <p>Review your responses/Stats.</p>

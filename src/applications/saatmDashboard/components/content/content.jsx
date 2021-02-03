@@ -40,21 +40,30 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     }, [kpisData])
 
     const generateMapData = () => {
-        const data = kpisData.map(kpi => {
-            return [kpi.country_code.toLowerCase(), parseInt(kpi.weight)/parseInt(kpi.totalweight)*100]
-        })
+        let data = []
+
+        if(kpi?.YDMS_KPIs_id === 'kpi_12') { // The kpi_12 use the custom_weight attribute
+            data = kpisData.map(kpi => {
+                return [kpi.country_code.toLowerCase(), parseInt(kpi.custom_weight)]
+            })      
+        } else {
+            data = kpisData.map(kpi => {
+                return [kpi.country_code.toLowerCase(), parseInt(kpi.weight)/parseInt(kpi.totalweight)*100]
+            })
+        }
         setMAPDATA(data)
-        if(kpi?.YDMS_KPIs_id === 'kpi_2') {
+        
+        if(kpi?.YDMS_KPIs_id === 'kpi_2' || kpi?.YDMS_KPIs_id === 'kpi_12') {
             setDATACLASSES([{
                 from: 0,
-                to: 50,
-                color: '#ffa000',
-                name: '0 to 50%'
+                to: 59,
+                color: 'red',
+                name: '0 to 60%'
             }, {
-                from: 50,
-                to: 75,
+                from: 60,
+                to: 74,
                 color: '#fdd835',
-                name: '50 to 75%'
+                name: '60 to 75%'
             }, {
                 from: 75,
                 to: 100,
@@ -116,17 +125,28 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
 
     let BARDATA = []
     let keys = []
-    if(kpi?.YDMS_KPIs_id === 'kpi_2') {
-        BARDATA =  kpisData.map(kpi => {
-            return {
-                "country": kpi.short_name,
-                "Total weighted percentage score": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(1)),
-                "Total weighted percentage scoreColor": "#000000",
-                "Percentage of indicators reported": parseFloat((parseInt(kpi.response)/11*100).toFixed(1)),
-                "Percentage of indicators reportedColor": "hsl(210, 96%, 40%)",
-            }
-        })
-        keys = ["Total weighted percentage score", "Percentage of indicators reported"]
+    if(kpi) {
+        if(kpi.YDMS_KPIs_id === 'kpi_2') {
+            BARDATA =  kpisData.map(kpi => {
+                return {
+                    "country": kpi.short_name,
+                    "Total weighted percentage score": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(1)),
+                    "Total weighted percentage scoreColor": "#000000",
+                    "Percentage of indicators reported": parseFloat((parseInt(kpi.response)/kpi.totalSP*100).toFixed(1)),
+                    "Percentage of indicators reportedColor": "hsl(210, 96%, 40%)",
+                }
+            })
+            keys = ["Total weighted percentage score", "Percentage of indicators reported"]
+        } else if(kpi.YDMS_KPIs_id === 'kpi_12') {
+            BARDATA = kpisData.filter(kpi => kpi.response == 1).map(kpi => {
+                return {
+                    "country": kpi.short_name,
+                    "Total weighted percentage score": parseFloat((parseFloat(kpi.custom_weight)).toFixed(1)),
+                    "Total weighted percentage scoreColor": "hsl(210, 96%, 40%)",
+                }
+            })
+            keys = ["Total weighted percentage score"]
+        }
     }
     
     return (
@@ -139,7 +159,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                     <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
                 </div>
                 <div className="section charts">
-                    {kpi.YDMS_KPIs_id!=='kpi_2' ? 
+                    {(kpi.YDMS_KPIs_id!=='kpi_2'&&kpi.YDMS_KPIs_id!=='kpi_12') ? 
                     <div id="div-for-piechart" className="div-for-piechart">
                         <PieChart data={PIECHART_DATA} />
                     </div>:
@@ -148,7 +168,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                     </div>}
                 </div>
                 {
-                    kpi?.YDMS_KPIs_id!=='kpi_2'&&
+                    (kpi?.YDMS_KPIs_id!=='kpi_2' && kpi?.YDMS_KPIs_id!=='kpi_12')&&
                     <div className="section raw-datas">
                         <div className="raw raw--1">
                             <h2>Total Compliant</h2>
