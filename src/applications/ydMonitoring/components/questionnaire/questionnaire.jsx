@@ -145,7 +145,7 @@ const Questionnaire = ({
             let n = q['YDMS_SP_id'].split("_")[2]
             if(n) {n = parseInt(n)
             } else { n = "#"}
-            q.number = `Q-${n}`
+            q.number = n
             return q
         });
 
@@ -158,6 +158,10 @@ const Questionnaire = ({
         // Group questions by KPIs
         // finalData = groupQuestionsByKPI(finalData)
 
+        finalData.sort((a, b) => {
+            return parseInt(a.number) - parseInt(b.number);
+        });
+console.log(finalData)
         setQuestionsToDisplay(finalData)
     }
 

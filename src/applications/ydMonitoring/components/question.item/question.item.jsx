@@ -50,7 +50,7 @@ const QuestionItem = ({question, onSelect, selectedState}) => {
     
     return (
         <div className="question-item">
-            <p className="question-label"><b>{question.YDMS_SP_id!=='YDMS_SP_01'&&`${question.number}:`}</b> {questionText}</p>
+            <p className="question-label"><b>{question.YDMS_SP_id!=='YDMS_SP_01'&&`Q-${question.number}:`}</b> {questionText}</p>
             {
                 question.YDMS_SP_id !== 'YDMS_SP_01'&&
                 <div className="checkboxes">
