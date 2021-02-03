@@ -45,9 +45,11 @@ const StateList = ({loading, selectedOrg, states, selectedState, currentSection}
             if(!selectedState.YD_membership || !selectedState.SAATM_membership) {
                 const data = sections.filter(section => !["kpi_2", "kpi_4"].includes(section.id))
                 setSections(data)
+            } else {
+                setSections(SECTIONS)
             }
         }
-    }, [selectedState])
+    }, [selectedState, currentSection])
 
     useEffect(() => {
         dispatch(setCurrentSection({

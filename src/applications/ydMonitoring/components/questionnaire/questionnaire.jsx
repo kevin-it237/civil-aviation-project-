@@ -161,7 +161,7 @@ const Questionnaire = ({
         finalData.sort((a, b) => {
             return parseInt(a.number) - parseInt(b.number);
         });
-console.log(finalData)
+
         setQuestionsToDisplay(finalData)
     }
 
