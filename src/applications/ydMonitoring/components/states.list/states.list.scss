@@ -51,6 +51,9 @@
             padding-top: 15px;
             margin-top: 15px;
             border-top: solid 1px $stroke-color;
+            .ant-steps-item-container {
+                cursor: pointer;
+            }
             .ant-steps-item-title {
                 font-size: 12px !important;
                 font-weight: 600;

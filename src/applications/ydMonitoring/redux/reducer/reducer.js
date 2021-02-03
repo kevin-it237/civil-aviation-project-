@@ -17,6 +17,7 @@ const INITIAL_STATE = {
     kpis: [], 
     kpi: null, 
     selectedState: null, 
+    currentSection: null,  // questionnaire sections
     selectedOrg: "state", 
     loader: {
         actions: []
@@ -100,6 +101,12 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 selectedOrg: action.payload,
+            };
+
+        case types.SET_CURRENT_SECTION:
+            return {
+                ...state,
+                currentSection: action.payload,
             };
 
         default:

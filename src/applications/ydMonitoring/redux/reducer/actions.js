@@ -55,3 +55,11 @@ export const selectOrgType = (payload) => ({
     type: types.SET_ORG_REQUEST,
     payload
 });
+
+/**
+ * @description Select organisation
+ */
+export const setCurrentSection = (payload) => ({
+    type: types.SET_CURRENT_SECTION,
+    payload
+});

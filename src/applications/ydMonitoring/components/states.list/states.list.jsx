@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import { Menu, Typography, Steps } from "antd";
+import { Menu, Steps } from "antd";
 import {connect, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import { FlagFilled, ArrowLeftOutlined } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
-import {getStates, selectState} from '../../redux/reducer/actions'
+import {getStates, selectState, setCurrentSection} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import Empty from '../../../../app/components/empty/empty';
 import './states.list.scss'
@@ -14,22 +14,23 @@ const { SubMenu } = Menu;
 const { Step } = Steps;
 
 const SECTIONS = [
-    {name: "Section A", description: "Solemn Commitment to join the SAATM"},
-    {name: "Section B", description: "Implementation of the SAATM Concrete Measures"},
-    {name: "Section C", description: "Promulgation of YD essential national laws/regulations"},
-    {name: "Section D", description: "Market Access and availability of YD compliant BASA/MASA with each SAATM State"},
-    {name: "Section E", description: "Effective Implementation of the ICAO 8 critical elements and EI average score"},
-    {name: "Section F", description: "Collection of relevant data for YD and SAATM monitoring"}
+    {id: "kpi_1", name: "Section A", description: "Solemn Commitment to join the SAATM"},
+    {id: "kpi_2", name: "Section B", description: "Implementation of the SAATM Concrete Measures"},
+    {id: "kpi_3", name: "Section C", description: "Promulgation of YD essential national laws/regulations"},
+    {id: "kpi_4", name: "Section D", description: "Market Access and availability of YD compliant BASA/MASA with each SAATM State"},
+    {id: "kpi_12", name: "Section E", description: "Effective Implementation of the ICAO 8 critical elements and EI average score"},
+    {id: "kpi_20", name: "Section F", description: "Collection of relevant data for YD and SAATM monitoring"}
 ]
 
 /**
  * @description State listing
  */
 
-const StateList = ({loading, selectedOrg, states, selectedState}) => {
+const StateList = ({loading, selectedOrg, states, selectedState, currentSection}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('state')
+    const [sections, setSections] = useState(SECTIONS)
 
     const handleClick = e => {
         setCurrent(e.key);
@@ -38,6 +39,21 @@ const StateList = ({loading, selectedOrg, states, selectedState}) => {
     useEffect(() => {
         dispatch(getStates())
     }, [])
+
+    useEffect(() => {
+        if(selectedState) {
+            if(!selectedState.YD_membership || !selectedState.SAATM_membership) {
+                const data = sections.filter(section => !["kpi_2", "kpi_4"].includes(section.id))
+                setSections(data)
+            }
+        }
+    }, [selectedState])
+
+    useEffect(() => {
+        dispatch(setCurrentSection({
+            ...sections[0], i: 0
+        }))
+    }, [selectedState])
 
     const selectCountry = (state) => {
         dispatch(selectState(state))
@@ -74,15 +90,17 @@ const StateList = ({loading, selectedOrg, states, selectedState}) => {
                     </div>
                     <Link to='#' onClick={() => unSelectedState()}><ArrowLeftOutlined />States List</Link>
                     <div className="questions-sections">
-                        <Steps direction="vertical" current={1}>
+                        <Steps direction="vertical" current={currentSection?.i}>
                             {
-                                SECTIONS.map((section, i) => {
-                                        return (
-                                            <Step 
-                                                key={i}
-                                                title={section.name} 
-                                                description={section.description} />
-                                        )
+                                sections.map((section, i) => {
+                                    section.i = i
+                                    return (
+                                        <Step 
+                                            key={i}
+                                            title={section.name} 
+                                            description={section.description}
+                                            onClick={() => dispatch(setCurrentSection(section))} />
+                                    )
                                 })
                             }
                         </Steps>
@@ -109,6 +127,7 @@ const mapStateToProps = ({ YDMonitoringReducer }) => ({
     loading: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
     selectedOrg: YDMonitoringReducer.selectedOrg,
     selectedState: YDMonitoringReducer.selectedState,
+    currentSection: YDMonitoringReducer.currentSection,
 })
 
 export default connect(mapStateToProps)(StateList);

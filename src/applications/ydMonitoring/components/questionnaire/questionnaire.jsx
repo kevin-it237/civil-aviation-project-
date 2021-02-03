@@ -25,6 +25,7 @@ const Questionnaire = ({
     loadingStates, 
     selectedState, 
     orgResponses, 
+    currentSection, 
     loadingOrgResponses, 
     saving,
     error,
@@ -49,13 +50,13 @@ const Questionnaire = ({
     }, [])
 
     useEffect(() => {
-        if(questions.length && selectedState) {
+        if(questions.length && selectedState && currentSection) {
             cookNotAnsweredQuestions()
         }
         if(orgResponses) {
             setTotalQUestionsAnwserd(orgResponses.length)
         }
-    }, [questions, orgResponses])
+    }, [questions, orgResponses, currentSection])
     
     useEffect(() => {
         if(selectedState) {
@@ -64,9 +65,7 @@ const Questionnaire = ({
     }, [selectedState])
 
     useEffect(() => {
-        if(questionsToDisplay.length) {
-            displayFiveNextQuestions()
-        }
+        displayFiveNextQuestions()
     }, [questionsToDisplay])
 
     useEffect(() => {
@@ -80,6 +79,10 @@ const Questionnaire = ({
     }, [onScreenQuestions])
 
     useEffect(() => {
+        setStartIndex(0)
+    }, [currentSection])
+
+    useEffect(() => {
         setContinueQues(false)
         return () => {
             setContinueQues(false)
@@ -91,9 +94,22 @@ const Questionnaire = ({
         setOnScreenQuestions(questions)
     }
 
+    // const groupQuestionsByKPI = (questions) => {
+    //     const result = questions.reduce(function (r, a) {
+    //         r[a.YDMSKPIYDMSKPIsId] = r[a.YDMSKPIYDMSKPIsId] || [];
+    //         r[a.YDMSKPIYDMSKPIsId].push(a);
+    //         return r;
+    //     }, Object.create(null));
+    //     return result
+    // }
+
     const cookNotAnsweredQuestions = () => {
+        
+        // Just keep questions related to the current section
+        let data = questions.filter(q => q.YDMSKPIYDMSKPIsId === currentSection.id)
+        
         // Remove questions that user has already anwsered
-        let data = questions.filter(question => {
+        data = data.filter(question => {
             const response = orgResponses.find(res => res.surveyProtocolYDMSSPId === question.YDMS_SP_id)
             return !!!response
         })
@@ -108,6 +124,9 @@ const Questionnaire = ({
             data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_2')
         }
 
+        // Remove SP for KPI_0
+        data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_0')
+
         // Remove KPI_12 SP
         // data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_12')
 
@@ -121,17 +140,23 @@ const Questionnaire = ({
         //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
         // }
 
-        data = data.map((q, i) => {
-            q.number = `Q-${i}`
+        // Numbered datas
+        data = data.map(q => {
+            let n = q['YDMS_SP_id'].split("_")[2]
+            if(n) {n = parseInt(n)
+            } else { n = "#"}
+            q.number = `Q-${n}`
             return q
         });
 
 
         // Remove questions related to the given state
-        const finalData = data.filter(q => {
+        let finalData = data.filter(q => {
             return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
             !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
         })
+        // Group questions by KPIs
+        // finalData = groupQuestionsByKPI(finalData)
 
         setQuestionsToDisplay(finalData)
     }
@@ -210,7 +235,7 @@ const Questionnaire = ({
     }
 
     // When user anwser to all the questions 1 because of kpi_0
-    if(selectedState && questionsToDisplay.length === 1 && !loading && !loadingOrgResponses) {
+    if(selectedState && questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
         return (
             <div className="completed--res">
                 <Progress
@@ -220,7 +245,7 @@ const Questionnaire = ({
                         '100%': '#87d068',
                     }}
                     percent={100} />
-                <p style={{textAlign: 'center'}}>You answered all the questions.</p>
+                <p style={{textAlign: 'center'}}>You answered all the questions of this section.</p>
                 <div className="yd-menu">
                     <div className="yd-menu-2 yd-menu">
                         <h2>Review</h2>
@@ -272,7 +297,7 @@ const Questionnaire = ({
     return (
         <div className="yd-monitoring-content">
             <div className="divider-item">
-                {totalQUestionsAnwserd} Questions answered.
+                {/* {totalQUestionsAnwserd} Questions answered. */}
                 <Progress percent={parseInt(100*totalQUestionsAnwserd/(totalQUestionsAnwserd+questionsToDisplay.length))} 
                     size="small" status="active" />
                 <Divider>Respond to questions and save to continue</Divider>
@@ -314,6 +339,7 @@ const mapStateToProps = ({ YDMonitoringReducer}) => ({
     error: YDMonitoringReducer.error,
     success: YDMonitoringReducer.success,
     selectedState: YDMonitoringReducer.selectedState,
+    currentSection: YDMonitoringReducer.currentSection,
     orgResponses: YDMonitoringReducer.orgResponses,
     loadingStates: checkIfLoader(YDMonitoringReducer, types.GET_STATES_REQUEST),
     loading: checkIfLoader(YDMonitoringReducer, types.GET_QUESTIONNAIRE_REQUEST),

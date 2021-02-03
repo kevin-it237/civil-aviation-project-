@@ -22,5 +22,7 @@ export const types = {
 
     SET_STATE_REQUEST: 'SET_STATE_REQUEST',
 
+    SET_CURRENT_SECTION: 'SET_CURRENT_SECTION', // questionnaire section
+
     SET_ORG_REQUEST: 'SET_ORG_REQUEST',
 }
