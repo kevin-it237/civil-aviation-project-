@@ -41,11 +41,23 @@
             }
         }
         >a {
-            font-size: 13px;
+            font-size: 12px;
             margin-top: 20px;
             text-decoration: underline;
             font-weight: 600;
             svg {margin-right: 5px;}
+        }
+        .questions-sections {
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: solid 1px $stroke-color;
+            .ant-steps-item-title {
+                font-size: 12px !important;
+                font-weight: 600;
+            }
+            .ant-steps-item-description {
+                font-size: 11px !important;
+            }
         }
     }
 }

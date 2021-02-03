@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Menu, Typography  } from "antd";
+import { Menu, Typography, Steps } from "antd";
 import {connect, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
 import { FlagFilled, ArrowLeftOutlined } from '@ant-design/icons';
@@ -11,7 +11,16 @@ import Empty from '../../../../app/components/empty/empty';
 import './states.list.scss'
 
 const { SubMenu } = Menu;
-const { Title } = Typography;
+const { Step } = Steps;
+
+const SECTIONS = [
+    {name: "Section A", description: "Solemn Commitment to join the SAATM"},
+    {name: "Section B", description: "Implementation of the SAATM Concrete Measures"},
+    {name: "Section C", description: "Promulgation of YD essential national laws/regulations"},
+    {name: "Section D", description: "Market Access and availability of YD compliant BASA/MASA with each SAATM State"},
+    {name: "Section E", description: "Effective Implementation of the ICAO 8 critical elements and EI average score"},
+    {name: "Section F", description: "Collection of relevant data for YD and SAATM monitoring"}
+]
 
 /**
  * @description State listing
@@ -64,13 +73,26 @@ const StateList = ({loading, selectedOrg, states, selectedState}) => {
                         <p>Additional infomations about the state</p>
                     </div>
                     <Link to='#' onClick={() => unSelectedState()}><ArrowLeftOutlined />States List</Link>
+                    <div className="questions-sections">
+                        <Steps direction="vertical" current={1}>
+                            {
+                                SECTIONS.map((section, i) => {
+                                        return (
+                                            <Step 
+                                                key={i}
+                                                title={section.name} 
+                                                description={section.description} />
+                                        )
+                                })
+                            }
+                        </Steps>
+                    </div>
                 </div>:
                 <Menu
                     onClick={handleClick}
                     defaultSelectedKeys={['']}
                     defaultOpenKeys={['sub1']}
-                    mode="inline"
-                >
+                    mode="inline">
                     <SubMenu key="sub1" icon={<FlagFilled />} title="States">
                         {STATES}
                     </SubMenu>

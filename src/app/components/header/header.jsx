@@ -23,9 +23,6 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
         
     }, [])
 
-console.log(kpi);
-
-
     return (
         <div className="header">
             <Link className="back" to='/'>Back to Home</Link>
