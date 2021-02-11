@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import {getQuestionnaire, getOrgResponses, saveResponse} from '../../redux/reducer/actions'
+import {getQuestionnaire, getOrgResponses, saveResponse, getOrganisations} from '../../redux/reducer/actions'
 import Loader from '../../../../app/components/loader/loader'
 import QuestionItem from '../question.item/question.item'
 import Empty from '../../../../app/components/empty/empty'
@@ -23,13 +23,15 @@ const Questionnaire = ({
     loading, 
     selectedOrg, 
     loadingStates, 
+    loadingOrgs,
     selectedState, 
     orgResponses, 
     currentSection, 
     loadingOrgResponses, 
     saving,
     error,
-    success}) => {
+    success,
+    organisations}) => {
     
     const dispatch = useDispatch()
     const history = useHistory()
@@ -50,19 +52,36 @@ const Questionnaire = ({
     }, [])
 
     useEffect(() => {
+        dispatch(getOrganisations())
+    }, [])
+
+    useEffect(() => {
+        // For state
         if(questions.length && selectedState && currentSection) {
+            cookNotAnsweredQuestions()
+        }
+        // For afcac
+        if(questions.length && selectedOrg==="afcac" && currentSection) {
             cookNotAnsweredQuestions()
         }
         if(orgResponses) {
             setTotalQUestionsAnwserd(orgResponses.length)
         }
-    }, [questions, orgResponses, currentSection])
+    }, [questions, orgResponses, currentSection, selectedOrg])
     
+    // Fetch org responses
     useEffect(() => {
-        if(selectedState) {
-            dispatch(getOrgResponses(selectedState.YDMS_AU_id))
+        if(selectedOrg === "state") {
+            if(selectedState) {
+                dispatch(getOrgResponses(selectedState.YDMS_AU_id))
+            }
+        } else if(selectedOrg === "afcac") {
+            if(organisations.length) {
+                const afcac = organisations.find(org => org.short_name.toLowerCase() === 'ea')
+                dispatch(getOrgResponses(afcac.YDMS_Org_id))
+            }
         }
-    }, [selectedState])
+    }, [selectedState, organisations, selectedOrg, currentSection])
 
     useEffect(() => {
         displayFiveNextQuestions()
@@ -87,7 +106,7 @@ const Questionnaire = ({
         return () => {
             setContinueQues(false)
         }
-    }, [selectedState])
+    }, [selectedState, selectedOrg])
 
     const displayFiveNextQuestions = () => {
         const questions = questionsToDisplay.slice(startIndex, startIndex+5)
@@ -107,41 +126,50 @@ const Questionnaire = ({
         
         // Just keep questions related to the current section
         let data = questions.filter(q => q.YDMSKPIYDMSKPIsId === currentSection.id)
-        
+
         // Remove questions that user has already anwsered
         data = data.filter(question => {
             const response = orgResponses.find(res => res.surveyProtocolYDMSSPId === question.YDMS_SP_id)
             return !!!response
         })
 
-        // Non SAATM members cannot answer to KPI_4 SP
-        if(!selectedState.SAATM_membership) {
-            data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_4')
+        if(selectedOrg === 'state') {
+            // Non SAATM members cannot answer to KPI_4 SP
+            if(!selectedState.SAATM_membership) {
+                data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_4')
+            }
+    
+            // Non SAATM members cannot answer to KPI_2 SP
+            if(!selectedState.SAATM_membership) {
+                data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_2')
+            }
+    
+            // Remove SP for KPI_0
+            data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_0')
+    
+            // Remove KPI_12 SP
+            // data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_12')
+    
+            // Non YD_Membership members cannot answer to other questions
+            // if(!selectedState.YD_membership) {
+            //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
+            // }
+    
+            // Non SAATM members members cannot answer to other questions 
+            // if(!selectedState.SAATM_membership) {
+            //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
+            // }
+    
+            // Remove questions related to the given state
+            data = data.filter(q => {
+                return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
+                !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
+            })
         }
 
-        // Non SAATM members cannot answer to KPI_2 SP
-        if(!selectedState.SAATM_membership) {
-            data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_2')
-        }
-
-        // Remove SP for KPI_0
-        data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_0')
-
-        // Remove KPI_12 SP
-        // data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_12')
-
-        // Non YD_Membership members cannot answer to other questions
-        // if(!selectedState.YD_membership) {
-        //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
-        // }
-
-        // Non SAATM members members cannot answer to other questions 
-        // if(!selectedState.SAATM_membership) {
-        //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
-        // }
 
         // Numbered datas
-        data = data.map(q => {
+        let finalData = data.map(q => {
             let n = q['YDMS_SP_id'].split("_")[2]
             if(n) {n = parseInt(n)
             } else { n = "#"}
@@ -150,11 +178,6 @@ const Questionnaire = ({
         });
 
 
-        // Remove questions related to the given state
-        let finalData = data.filter(q => {
-            return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
-            !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
-        })
         // Group questions by KPIs
         // finalData = groupQuestionsByKPI(finalData)
 
@@ -171,9 +194,14 @@ const Questionnaire = ({
     }
 
     const onCheck = (response) => {
-        const userRes = {
+        let userRes = {
             ...response,
-            YDMS_Org_id: selectedState.YDMS_AU_id
+        }
+        if(selectedOrg === 'afcac') {
+            const afcac = organisations.find(org => org.short_name.toLowerCase() === 'ea')
+            userRes['YDMS_Org_id'] = afcac.YDMS_Org_id
+        } else if(selectedOrg === 'state') {
+            userRes['YDMS_Org_id'] = selectedState.YDMS_AU_id
         }
         const exist = userResponses.find(res => res.YDMS_SP_id === userRes.YDMS_SP_id)
 
@@ -194,7 +222,11 @@ const Questionnaire = ({
     const refresh= () => {
         if(selectedState) {
             if(!questions.length) dispatch(getQuestionnaire()) // Fetch questions
-            dispatch(getOrgResponses(selectedState.YDMS_AU_id)) // Fetch questions
+            dispatch(getOrgResponses(selectedState.YDMS_AU_id)) // Fetch anwsered responses
+        } else if(selectedOrg === 'afcac') {
+            if(!questions.length) dispatch(getQuestionnaire()) // Fetch questions
+            const afcac = organisations.find(org => org.short_name.toLowerCase() === 'ea')
+            dispatch(getOrgResponses(afcac.YDMS_Org_id)) // Fetch anwsered responses
         }
     }
 
@@ -224,69 +256,75 @@ const Questionnaire = ({
         setUserResponses([])
     }]);
 
-    if(loading || loadingOrgResponses) {
+    if(loading || loadingOrgResponses || loadingOrgs) {
         return <Loader />
     }
 
     // When user start anwsering to questions for the first time
-    if(!selectedState && !loading && !loadingOrgResponses) {
-        return (
-            <div className="select-wrapper">
-                <FlagOutlined size={5} />
-                <Title level={4}>Please select a state</Title>
-            </div>
-        )
+    if(selectedOrg === 'state') {
+        if(!selectedState && !loading && !loadingOrgResponses) {
+            return (
+                <div className="select-wrapper">
+                    <FlagOutlined size={5} />
+                    <Title level={4}>Please select a state</Title>
+                </div>
+            )
+        }
     }
 
     // When user anwser to all the questions 1 because of kpi_0
-    if(selectedState && questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
-        return (
-            <div className="completed--res">
-                <Progress
-                    type="circle"
-                    strokeColor={{
-                        '0%': '#108ee9',
-                        '100%': '#87d068',
-                    }}
-                    percent={100} />
-                <p style={{textAlign: 'center'}}>You answered all the questions of this section.</p>
-                <div className="yd-menu">
-                    <div className="yd-menu-2 yd-menu">
-                        <h2>Review</h2>
-                        <p>Review your responses/Stats.</p>
-                    </div>
-                    <div className="yd-menu-3 yd-menu">
-                        <h2>Update</h2>
-                        <p>Update your answers here.</p>
+    if(selectedOrg==='afcac' || selectedState) {
+        if(questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
+            return (
+                <div className="completed--res">
+                    <Progress
+                        type="circle"
+                        strokeColor={{
+                            '0%': '#108ee9',
+                            '100%': '#87d068',
+                        }}
+                        percent={100} />
+                    <p style={{textAlign: 'center'}}>You answered all the questions of this section.</p>
+                    <div className="yd-menu">
+                        <div className="yd-menu-2 yd-menu">
+                            <h2>Review</h2>
+                            <p>Review your responses/Stats.</p>
+                        </div>
+                        <div className="yd-menu-3 yd-menu">
+                            <h2>Update</h2>
+                            <p>Update your answers here.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 
     // When user come again on the system, display a menu
-    if(selectedState && questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses && !continueQues) {
-        return (
-            <div className="yd-menu-wrapper">
-                <Divider>Select an option</Divider>
-                <div className="yd-menu">
-                    <div 
-                        onClick={() => setContinueQues(true)}
-                        className="yd-menu-1 yd-menu">
-                        <h2>Continue</h2>
-                        <p>Continue to answser questionnaire.</p>
-                    </div>
-                    <div className="yd-menu-2 yd-menu">
-                        <h2>Review</h2>
-                        <p>Review your responses/Stats.</p>
-                    </div>
-                    <div className="yd-menu-3 yd-menu">
-                        <h2>Update</h2>
-                        <p>Update your answers here.</p>
+    if(selectedOrg==='afcac' || selectedState) {
+        if(questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses && !continueQues) {
+            return (
+                <div className="yd-menu-wrapper">
+                    <Divider>Select an option</Divider>
+                    <div className="yd-menu">
+                        <div 
+                            onClick={() => setContinueQues(true)}
+                            className="yd-menu-1 yd-menu">
+                            <h2>Continue</h2>
+                            <p>Continue to answser questionnaire.</p>
+                        </div>
+                        <div className="yd-menu-2 yd-menu">
+                            <h2>Review</h2>
+                            <p>Review your responses/Stats.</p>
+                        </div>
+                        <div className="yd-menu-3 yd-menu">
+                            <h2>Update</h2>
+                            <p>Update your answers here.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 
     // When there is an error
@@ -343,11 +381,13 @@ const mapStateToProps = ({ YDMonitoringReducer}) => ({
     error: YDMonitoringReducer.error,
     success: YDMonitoringReducer.success,
     selectedState: YDMonitoringReducer.selectedState,
+    organisations: YDMonitoringReducer.organisations,
     currentSection: YDMonitoringReducer.currentSection,
     orgResponses: YDMonitoringReducer.orgResponses,
     loadingStates: checkIfLoader(YDMonitoringReducer, types.GET_STATES_REQUEST),
     loading: checkIfLoader(YDMonitoringReducer, types.GET_QUESTIONNAIRE_REQUEST),
     loadingOrgResponses: checkIfLoader(YDMonitoringReducer, types.GET_ORG_RESPONSES_REQUEST),
+    loadingOrgs: checkIfLoader(YDMonitoringReducer, types.GET_ORGANISATIONS_REQUEST),
     saving: checkIfLoader(YDMonitoringReducer, types.SAVE_RESPONSE_REQUEST),
 })
 

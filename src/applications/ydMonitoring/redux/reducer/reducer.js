@@ -19,6 +19,7 @@ const INITIAL_STATE = {
     selectedState: null, 
     currentSection: null,  // questionnaire sections
     selectedOrg: "state", 
+    organisations: [],
     loader: {
         actions: []
     },
@@ -85,6 +86,19 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
                 success: false,
             };
 
+        case types.GET_ORGANISATIONS_SUCCESS:
+            return {
+                ...state,
+                organisations: action.payload,
+                error: null
+            };
+
+        case types.GET_ORG_RESPONSES_FAILURE:
+            return {
+                ...state,
+                error: action.payload
+            };
+
         case types.RESTORE_RESPONSE_STATUS:
             return {
                 ...state,
@@ -101,6 +115,7 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 selectedOrg: action.payload,
+                selectedState: null
             };
 
         case types.SET_CURRENT_SECTION:

@@ -24,6 +24,13 @@ export const getOrgResponses = (payload) => ({
 });
 
 /**
+ * @description Get organisations
+ */
+export const getOrganisations = () => ({
+    type: types.GET_ORGANISATIONS_REQUEST
+});
+
+/**
  * @description Save a response
  * @param {array[Object]} payload Object{YDMS_SP_id: String, YDMS_Org_id, response: Boolean, weight?: Float}
  */

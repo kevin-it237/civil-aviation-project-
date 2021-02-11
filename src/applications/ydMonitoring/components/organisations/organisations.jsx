@@ -36,8 +36,8 @@ const Organisations = ({states}) => {
             >
                 <SubMenu key="sub1" icon={<BulbFilled />} title="Organisations">
                     <Menu.Item onClick={() => handleSelectOrg('state')} key={0}>States/CAA</Menu.Item>
-                    {/* <Menu.Item onClick={() => handleSelectOrg('afcac')} key={1}>EA</Menu.Item>
-                    <Menu.Item onClick={() => handleSelectOrg('airline')} key={2}>Airline</Menu.Item> */}
+                    <Menu.Item onClick={() => handleSelectOrg('afcac')} key={1}>EA</Menu.Item>
+                    {/* <Menu.Item onClick={() => handleSelectOrg('airline')} key={2}>Airline</Menu.Item> */}
                 </SubMenu>
             </Menu>
         </div>

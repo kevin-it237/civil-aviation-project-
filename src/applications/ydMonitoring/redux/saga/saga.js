@@ -49,6 +49,21 @@ function* getOrgResponses ({payload}) {
 }
 
 /**
+ * @description get organisations
+ */
+function* getOrganisations () {
+    yield put({type: types.START_LOADING, payload: types.GET_ORGANISATIONS_REQUEST})
+    try { 
+        const {data} = yield getRequest(`${API_URL}/organisations`);
+        yield put({type: types.GET_ORGANISATIONS_SUCCESS, payload: data})
+    } catch (error) {
+        yield put({type: types.GET_ORGANISATIONS_FAILURE, payload: error.response.data.message});
+    } finally {
+        yield put({type: types.STOP_LOADING, payload: types.GET_ORGANISATIONS_REQUEST})
+    }
+}
+
+/**
  * @description save response
  */
 function* saveResponse ({payload}) {
@@ -65,7 +80,7 @@ function* saveResponse ({payload}) {
         } else {
             yield put({type: types.SAVE_RESPONSE_SUCCESS, payload: {}})
         }
-    } catch (error) {
+    } catch (error) {console.log({error})
         yield put({type: types.SAVE_RESPONSE_FAILURE, payload: error.response.data.message});
     } finally {
         yield put({type: types.STOP_LOADING, payload: types.SAVE_RESPONSE_REQUEST})
@@ -79,4 +94,5 @@ export default function* YDMonitoringSaga() {
     yield takeEvery(types.GET_QUESTIONNAIRE_REQUEST, getQuestionnaire);
     yield takeEvery(types.GET_ORG_RESPONSES_REQUEST, getOrgResponses);
     yield takeEvery(types.SAVE_RESPONSE_REQUEST, saveResponse);
+    yield takeEvery(types.GET_ORGANISATIONS_REQUEST, getOrganisations);
 }
