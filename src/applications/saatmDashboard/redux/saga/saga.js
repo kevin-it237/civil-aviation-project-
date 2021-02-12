@@ -19,12 +19,17 @@ function* getStates () {
 }
 
 /**
- * @description kpis data
+ * @description kpis data for states
+ * @param {{kpiId: String, orgType: String}} payload
  */
 function* getKpisData ({payload}) {
+    let url = `${API_URL}/kpis/${payload.kpiId}`
+    if(payload.orgType === 'afcac') {
+        url = `${API_URL}/kpis/afcac/${payload.kpiId}`
+    }
     yield put({type: types.START_LOADING, payload: types.GET_KPI_DATA_REQUEST})
     try { 
-        const {data} = yield getRequest(`${API_URL}/kpis/${payload}`);
+        const {data} = yield getRequest(url);
         yield put({type: types.GET_KPI_DATA_SUCCESS, payload: data})
     } catch (error) {
         yield put({type: types.GET_KPI_DATA_FAILURE, payload: error.response.data.message});

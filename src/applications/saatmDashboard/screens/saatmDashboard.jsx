@@ -4,7 +4,8 @@ import {connect, useDispatch} from 'react-redux'
 import Organisations from '../components/organisations/organisations'
 import KPIsList from '../components/kpis.list/kpis.list'
 import Header from '../../../app/components/header/header'
-import Content from '../components/content/content'
+import StateContent from '../components/content/state.content'
+import AfcacContent from '../components/content/afcac.content'
 import './saatmDashboard.scss'
 
 
@@ -12,13 +13,20 @@ import './saatmDashboard.scss'
  * @description SAATM Dashboard screen
  */
 
-const SaatmDashboard = ({}) => {
+const SaatmDashboard = ({selectedOrg}) => {
     
     const dispatch = useDispatch()
 
     useEffect(() => {
         
     }, [])
+
+    let content = null
+    if(selectedOrg === 'state') {
+        content = <StateContent />
+    } else if(selectedOrg === "afcac") {
+        content = <AfcacContent />
+    }
 
     return (
         <div id="saatm-monitoring-container">
@@ -35,7 +43,7 @@ const SaatmDashboard = ({}) => {
             </div>
             <div className="data-content">
                 <Header />
-                <Content />
+                {content}
             </div>
         </div>
     )
@@ -45,8 +53,9 @@ SaatmDashboard.propTypes = {
     user: PropTypes.object,
 }
 
-const mapStateToProps = ({ AuthReducer }) => ({
+const mapStateToProps = ({ AuthReducer, SAATMDashboardReducer }) => ({
     user: AuthReducer.user,
+    selectedOrg: SAATMDashboardReducer.selectedOrg,
 })
 
 export default connect(mapStateToProps)(SaatmDashboard);

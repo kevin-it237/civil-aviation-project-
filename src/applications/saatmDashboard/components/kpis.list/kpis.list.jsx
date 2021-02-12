@@ -26,11 +26,11 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
     };
 
     useEffect(() => {
-        dispatch(getKPIs('state'))
-    }, [])
+        dispatch(getKPIs(selectedOrg))
+    }, [selectedOrg])
 
     const handleSelectKPI = (kpi) => {
-        dispatch(getKPIsData(kpi.YDMS_KPIs_id))
+        dispatch(getKPIsData({kpiId: kpi.YDMS_KPIs_id, orgType: selectedOrg}))
         dispatch(selectKPI(kpi))
     }
 

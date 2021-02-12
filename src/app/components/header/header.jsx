@@ -31,7 +31,7 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
                 <>
                     {/* <p className="state-label">State:</p> */}
                     <PageHeader
-                        title={`State: ${selectedState?selectedState.full_name.toUpperCase():'No selected state'}`}
+                        title={selectedOrg==='state'?`State: ${selectedState?selectedState.full_name.toUpperCase():'No selected state'}`:'EA'}
                         extra={[
                             <Button key="2">My Account</Button>,
                             <Button onClick={logout} key="1" type="primary">Logout</Button>,

@@ -85,6 +85,7 @@ const SAATMDashboardReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 selectedOrg: action.payload,
+                kpisData: []
             };
 
         default:

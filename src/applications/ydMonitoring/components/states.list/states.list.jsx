@@ -23,13 +23,13 @@ const STATE_SECTIONS = [
 ]
 
 const AFCAC_SECTIONS = [
-    {id: "kpi_22", name: "Section A", description: "Description..."},
-    {id: "kpi_23", name: "Section B", description: "Description..."},
-    {id: "kpi_24", name: "Section C", description: "Description..."},
-    {id: "kpi_30", name: "Section D", description: "Description..."},
-    {id: "kpi_33", name: "Section E", description: "Description..."},
-    {id: "kpi_34", name: "Section F", description: "Description..."},
-    {id: "kpi_35", name: "Section G", description: "Description..."}
+    {id: "kpi_22", name: "Section A", description: "The Executing Agency has a procedure to verify that each SAATM State’s YD relevant regulations"},
+    {id: "kpi_23", name: "Section B", description: "The Executing Agency has a procedure to verify that each SAATM State has YD compliant BASA/MASA with other SAATM States"},
+    {id: "kpi_24", name: "Section C", description: "The Executing Agency has a procedure to verify that each SAATM State  has granted other  SAATM States 5 Freedom rights  with no restriction "},
+    {id: "kpi_30", name: "Section D", description: "Ensure the Executing Agency has promulgated or adopted relevant regulations for the supervision of SAATM "},
+    {id: "kpi_33", name: "Section E", description: "Ensure the Executing Agency has an appropriate organisation and adequate oversight"},
+    {id: "kpi_34", name: "Section F", description: "Ensure the Executing Agency has an  appropriate reporting system"},
+    {id: "kpi_35", name: "Section G", description: "Ensure the Executing Agency has the appropriate ICT system"}
 ]
 
 /**

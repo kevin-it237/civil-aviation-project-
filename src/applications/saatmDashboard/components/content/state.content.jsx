@@ -6,8 +6,8 @@ import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
 import AfricaMap from '../africaMap/africaMap'
-import PieChart, {PIE_DATA} from '../../components/pieChart/pieChart'
-import BarChart from '../../components/barChart/barChart'
+import PieChart, {PIE_DATA} from '../pieChart/pieChart'
+import BarChart from '../barChart/barChart'
 import {types} from '../../redux/reducer/types'
 import './content.scss'
 
@@ -27,7 +27,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     useEffect(() => {
         // Get the first kpi
         if(kpis.length) {
-            dispatch(getKPIsData(kpis[0].YDMS_KPIs_id)) // get the initial kpi
+            dispatch(getKPIsData({kpiId: kpis[0].YDMS_KPIs_id, orgType: selectedOrg})) // get the initial kpi
             dispatch(selectKPI(kpis[0])) // init the first kpi
         }
     }, [kpis])
@@ -74,7 +74,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             setDATACLASSES([{
                 from: 0,
                 to: 50,
-                color: '#eee',
+                color: '#aaa',
                 name: 'No'
             }, {
                 from: 50,
@@ -102,7 +102,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
 
     const refresh= () => {
         if(kpi) {
-            dispatch(getKPIsData(kpi.YDMS_KPIs_id))
+            dispatch(getKPIsData({kpiId: kpis[0].YDMS_KPIs_id, orgType: selectedOrg}))
         } else {
             dispatch(getKPIs('state'))
         }
