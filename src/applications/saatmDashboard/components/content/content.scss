@@ -23,8 +23,15 @@
         grid-area: a1;
         height: 600px;
         padding: 10px;
-        >div {
+        .bar-wrapper >div {
             height: 550px !important;
+            width: 600px !important;
+            @media only screen and (max-width: 1800px) {
+                width: 500px !important;
+            }
+            @media only screen and (max-width: 1366px) {
+                width: 430px !important;
+            }
         }
     }
     >.charts {
@@ -36,6 +43,9 @@
         align-content: center;
         >#div-for-piechart {
             height: 330px;
+            >div {
+                width: 90% !important;
+            }
         }
         >#div-for-barchart {
             height: 600px;

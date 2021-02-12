@@ -153,7 +153,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             <div className="yd-content">
                 <div className="section africa-chart">
                     {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
-                    {BARDATA.length>0&&<BarChart data={BARDATA} keys={keys} />}
+                    {BARDATA.length>0&&<div className="bar-wrapper"><BarChart data={BARDATA} keys={keys} /></div>}
                     {/* {BARDATA.length>0&&
                     <Tooltip title="Percentage of implementation">
                         <Progress type="circle" percent={PROGRESS} />
