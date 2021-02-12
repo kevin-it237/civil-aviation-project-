@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import {getKPIsData, selectKPI, getKPIs, getStates} from '../../redux/reducer/actions'
-import { Alert } from 'antd';
+import { Alert, Progress, Tooltip } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
 import AfricaMap from '../africaMap/africaMap'
@@ -90,7 +90,9 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         });
         setRAWDATA([yes, no])
         PIE_DATA[0].value = yes
+        PIE_DATA[0].label = "Implemented measures"
         PIE_DATA[1].value = no
+        PIE_DATA[1].label = "Not Implemented"
         setPIECHARTDATA(PIE_DATA)
     }
 
@@ -117,6 +119,32 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         )
     }
 
+    let BARDATA = []
+    let keys = []
+    let PROGRESS = 0
+    if(kpi) {
+        if(['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)) {
+
+            let weight = 0; let total = 0;
+            kpisData.forEach(data => {
+                if(!!parseInt(data.questionnaire_response)) {
+                    weight +=1
+                }
+                total++
+            });
+            PROGRESS = (weight/total)*100
+
+            BARDATA =  kpisData.map((data, i) => {
+                return {
+                    "country": `Indicator ${i+1}`,
+                    "Percentage of implementation": data.questionnaire_response*100,
+                    "Percentage of implementationColor": "hsl(210, 96%, 40%)",
+                }
+            })
+            keys = ["Percentage of implementation"]
+        }
+    }
+
     return (
         <> 
             <div className="kpi-infos-box">
@@ -125,6 +153,11 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             <div className="yd-content">
                 <div className="section africa-chart">
                     {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
+                    {BARDATA.length>0&&<BarChart data={BARDATA} keys={keys} />}
+                    {/* {BARDATA.length>0&&
+                    <Tooltip title="Percentage of implementation">
+                        <Progress type="circle" percent={PROGRESS} />
+                    </Tooltip>} */}
                 </div>
                 <div className="section charts">
                     <div id="div-for-piechart" className="div-for-piechart">
@@ -132,16 +165,19 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                     </div>
                 </div>
                 
-                <div className="section raw-datas">
-                    <div className="raw raw--1">
-                        <h2>Total Compliant</h2>
-                        <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/kpisData.length*100).toFixed(2)}%`}</span></h3>
+                {
+                    !['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
+                    <div className="section raw-datas">
+                        <div className="raw raw--1">
+                            <h2>Total Compliant</h2>
+                            <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/kpisData.length*100).toFixed(2)}%`}</span></h3>
+                        </div>
+                        <div className="raw raw--2">
+                            <h2>Not Compliant</h2>
+                            <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/kpisData.length*100).toFixed(2)}%`}</span></h3>
+                        </div>
                     </div>
-                    <div className="raw raw--2">
-                        <h2>Not Compliant</h2>
-                        <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/kpisData.length*100).toFixed(2)}%`}</span></h3>
-                    </div>
-                </div>
+                }
             </div>
         </>
     )

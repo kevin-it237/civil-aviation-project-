@@ -33,7 +33,7 @@ const BarChart = ({ data, keys }) => (
             legendPosition: 'middle',
             legendOffset: -40
         }}
-        enableGridY={false}
+        enableGridY={true}
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}

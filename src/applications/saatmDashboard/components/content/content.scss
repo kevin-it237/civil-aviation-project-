@@ -23,6 +23,9 @@
         grid-area: a1;
         height: 600px;
         padding: 10px;
+        >div {
+            height: 550px !important;
+        }
     }
     >.charts {
         grid-area: a2;
