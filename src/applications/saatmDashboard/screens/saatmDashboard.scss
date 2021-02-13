@@ -1,41 +1,53 @@
 @import '../../../assets/styles/global.scss';
 
 #saatm-monitoring-container {
-    display: grid;
-    height: 100%;
-    grid-template-columns: 25% 73%;
-    justify-content: space-between;
-    margin: 10px;
-
-    >.left-panel {
-        overflow: scroll;
-        border: solid 1px $stroke-color;
-        border-radius: 5px;
-        >.org-kpis-content {
-            display: grid;
-            grid-template-columns: 49% 1px 49%;
-            grid-auto-columns: 1fr;
-            justify-content: space-between;
-            column-gap: 0px;
-            height: 100%;
-
-            >.org-listing {
-
-            }
-            >.kpis-listing {
-
-            }
-            .line {
+    height: 100vh;
+    .saatm-monitoring-content-wrapper {
+        display: grid;
+        grid-template-columns: 25% 73%;
+        grid-template-rows: calc(100vh - 120px);
+        justify-content: space-between;
+        margin: 10px;
+        margin-top: 20px;
+        >.left-panel {
+            overflow: scroll;
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            >.org-kpis-content {
+                display: grid;
+                grid-template-columns: 49% 1px 49%;
+                grid-auto-columns: 1fr;
+                justify-content: space-between;
+                column-gap: 0px;
                 height: 100%;
-                width: 1px;
-                background-color: $stroke-color;
+    
+                >.org-listing {
+                    overflow-y: scroll;
+                    height: 100%;
+                    overflow-x: hidden;
+                }
+                >.kpis-listing {
+                    overflow-y: scroll;
+                    height: 100%;
+                    overflow-x: hidden;
+                }
+                .line {
+                    height: 100%;
+                    width: 1px;
+                    background-color: $stroke-color;
+                }
             }
         }
+    
+        >.data-content {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            .content-container {
+                overflow: scroll !important;
+                height: calc(100vh - 190px);
+            }
+        }
+
     }
 
-    >.data-content {
-        overflow: scroll;
-        border: solid 1px $stroke-color;
-        border-radius: 5px;
-    }
 }

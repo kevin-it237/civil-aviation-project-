@@ -1,43 +1,53 @@
 @import '../../../assets/styles/global.scss';
 
 #yd-monitoring-container {
-    display: grid;
-    height: 100%;
-    grid-template-columns: 28% 70%;
-    justify-content: space-between;
-    margin: 10px;
-
-    >.yd-left-panel {
-        border: solid 1px $stroke-color;
-        border-radius: 5px;
-        >.org-states-content {
-            display: grid;
-            grid-template-columns: 49% 1px 49%;
-            grid-auto-columns: 1fr;
-            justify-content: space-between;
-            column-gap: 0px;
-            height: 100%;
-
-            >.org-listing {
-
-            }
-            >.states-listing {
-                overflow-y: scroll;
-                height: 95vh;
-                overflow-x: hidden;
-            }
-            .line {
+    height: 100vh;
+    >.yd-monitoring-content-wrapper {
+        display: grid;
+        grid-template-columns: 28% 70%;
+        grid-template-rows: calc(100vh - 120px);
+        justify-content: space-between;
+        margin: 10px;
+        margin-top: 20px;
+        >.yd-left-panel {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            >.org-states-content {
+                display: grid;
+                grid-template-columns: 49% 1px 49%;
+                grid-auto-columns: 1fr;
+                justify-content: space-between;
+                column-gap: 0px;
                 height: 100%;
-                width: 1px;
-                background-color: $stroke-color;
+    
+                >.org-listing {
+                    overflow-y: scroll;
+                    height: 100%;
+                    overflow-x: hidden;
+                }
+                >.states-listing {
+                    overflow-y: scroll;
+                    height: 100%;
+                    overflow-x: hidden;
+                }
+                .line {
+                    height: 100%;
+                    width: 1px;
+                    background-color: $stroke-color;
+                }
             }
         }
+    
+        >.data-content {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            padding: 0 !important;
+            .content-container {
+                // overflow: scroll !important;
+                height: 100%;
+            }
+        }
+
     }
 
-    >.data-content {
-        border: solid 1px $stroke-color;
-        border-radius: 5px;
-        padding: 0 !important;
-
-    }
 }

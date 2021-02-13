@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
-import {Link} from 'react-router-dom'
-import { PageHeader, Button } from "antd";
+import { PageHeader } from "antd";
 import {connect, useDispatch} from 'react-redux'
 
 import './header.scss'
@@ -25,27 +24,18 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
 
     return (
         <div className="header">
-            <Link className="back" to='/'>Back to Home</Link>
             {
                 page === 'yd' ?
                 <>
                     {/* <p className="state-label">State:</p> */}
                     <PageHeader
                         title={selectedOrg==='state'?`State: ${selectedState?selectedState.full_name.toUpperCase():'No selected state'}`:'EA'}
-                        extra={[
-                            <Button key="2">My Account</Button>,
-                            <Button onClick={logout} key="1" type="primary">Logout</Button>,
-                        ]}
                         >
                     </PageHeader>
                 </>
                 :
                 <PageHeader
                     title={`${selectedOrg.toUpperCase()} / ${kpi?.KPIs_label}`}
-                    extra={[
-                        <Button key="2">My Account</Button>,
-                        <Button onClick={logout} key="1" type="primary">Logout</Button>,
-                    ]}
                     >
                 </PageHeader>
             }

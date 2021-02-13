@@ -150,7 +150,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             <div className="kpi-infos-box">
                 <Alert message={`${kpi?.KPIs_text}`} type="success" />
             </div>
-            <div className="yd-content">
+            <div className="saatm-content">
                 <div className="section africa-chart">
                     {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
                     {BARDATA.length>0&&<div className="bar-wrapper"><BarChart data={BARDATA} keys={keys} /></div>}

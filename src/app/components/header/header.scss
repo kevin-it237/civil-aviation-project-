@@ -2,30 +2,26 @@
 
 .header {
     background-color: $primary;
-    padding: 16px 24px;
+    padding: 10px 24px !important;
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
-    .back {
-        font-size: 13px;
-        text-decoration: underline;
-        color: $white;
-        margin-top: -10px;
-    }
     .state-label {
         font-size: 15px;
         line-height: 21px;
         color: white;
     }
+
     .ant-page-header {
         padding: 0 !important;
         .ant-page-header-heading-title {
             color: white;
+            font-size: 16px;
             @media only screen and (max-width: 1366px) {
-                font-size: 16px;
+                font-size: 14px;
             }
         }
         .ant-btn > span {

@@ -154,7 +154,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             <div className="kpi-infos-box">
                 <Alert message={`${kpi?.KPIs_text}`} type="success" />
             </div>
-            <div className="yd-content">
+            <div className="saatm-content">
                 <div className="section africa-chart">
                     <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
                 </div>

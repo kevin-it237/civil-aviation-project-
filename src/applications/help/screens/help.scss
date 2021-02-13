@@ -1,0 +1,36 @@
+@import '../../../assets/styles/global.scss';
+
+#help-container {
+    height: 100vh;
+    >.help-content-wrapper {
+        display: grid;
+        grid-template-columns: 30% 67%;
+        grid-template-rows: calc(100vh - 120px);
+        justify-content: space-between;
+        margin: 10px;
+        margin-top: 20px;
+        >.help-left-panel {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            >.org-sections-content {
+    
+                >.sections-listing {
+                    overflow-y: scroll;
+                    height: 100%;
+                    overflow-x: hidden;
+                }
+            }
+        }
+    
+        >.data-content {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            padding: 0 !important;
+            .content-container {
+                height: 100%;
+            }
+        }
+
+    }
+
+}

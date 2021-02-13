@@ -6,6 +6,7 @@ import KPIsList from '../components/kpis.list/kpis.list'
 import Header from '../../../app/components/header/header'
 import StateContent from '../components/content/state.content'
 import AfcacContent from '../components/content/afcac.content'
+import MainHeader from '../../../app/components/mainHeader/mainHeader'
 import './saatmDashboard.scss'
 
 
@@ -30,20 +31,25 @@ const SaatmDashboard = ({selectedOrg}) => {
 
     return (
         <div id="saatm-monitoring-container">
-            <div className="left-panel">
-              <div className="org-kpis-content">
-                <div className="org-listing">
-                    <Organisations />
+            <MainHeader />
+            <div className="saatm-monitoring-content-wrapper">
+                <div className="left-panel">
+                    <div className="org-kpis-content">
+                        <div className="org-listing">
+                            <Organisations />
+                        </div>
+                        <div className="line"></div>
+                        <div className="kpis-listing">
+                            <KPIsList />
+                        </div>
+                    </div>
                 </div>
-                <div className="line"></div>
-                <div className="kpis-listing">
-                    <KPIsList />
+                <div className="data-content">
+                    <Header />
+                    <div className="content-container">
+                        {content}
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div className="data-content">
-                <Header />
-                {content}
             </div>
         </div>
     )
