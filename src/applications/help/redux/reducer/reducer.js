@@ -12,7 +12,7 @@ const HelpReducer = (state = INITIAL_STATE, action) => {
     
     switch (action.type) {
 
-        case types.START_LOADING:
+        case types.SELECT_PAGE:
             return {
                 ...state,
                 page: action.payload
