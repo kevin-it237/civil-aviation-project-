@@ -89,6 +89,16 @@
             >h3 {color: orange;}
         }
     }
+    >.stacked-bar {
+        grid-area: a3;
+        margin-top: 15px;
+        border: none !important;
+        display: grid;
+        .stacked-bar-wrapper {
+            height: 100px;
+            width: 90%;
+        }
+    }
 }
 
 .kpi-infos-box {
