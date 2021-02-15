@@ -13,7 +13,13 @@ const INITIAL_STATE = {
     states: [], 
     kpisData: [], 
     kpis: [], 
-    kpi: null, 
+    kpi: {
+        KPIs_label: "Summary",
+        KPIs_org_type: "state",
+        KPIs_text: "Summary",
+        YDMS_KPIs_id: "all",
+        id: 0   
+    }, 
     selectedState: null, 
     selectedOrg: "state", 
     loader: {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Menu  } from "antd";
+import { Menu, Divider  } from "antd";
 import {connect, useDispatch} from 'react-redux'
 import { BulbFilled } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
@@ -38,13 +38,35 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
         dispatch(getKPIs(selectedOrg))
     }
 
+    const displayKPIsSummary = () => {
+        const summaryKPI = {
+            KPIs_label: "Summary",
+            KPIs_org_type: selectedOrg,
+            KPIs_text: "Summary",
+            YDMS_KPIs_id: "all"
+        }
+        dispatch(selectKPI(summaryKPI))
+    }
+
     if(loading) {
         return <Loader />
     }
 
-    let KPIS = [kpis.map((kpi, i) => (
-        <Menu.Item key={(i+1)} onClick={() => handleSelectKPI(kpi)}>{`${kpi.YDMS_KPIs_id}: ${kpi.KPIs_label}`}</Menu.Item>
-    ))]
+    let KPIS = [kpis.map((kpi, i) => {
+        if(i === 0) {
+            return (
+                <>
+                <Menu.Item key={(i+1)} onClick={() => displayKPIsSummary()}>KPIs Summary</Menu.Item>
+                <Divider style={{fontSize: "12px"}}>Single KPIs</Divider>
+                </> 
+            )
+            
+        } else {
+            return (
+                <Menu.Item key={(i+1)} onClick={() => handleSelectKPI(kpi)}>{`${kpi.YDMS_KPIs_id}: ${kpi.KPIs_label}`}</Menu.Item>
+            )
+        }
+    })]
   
     if(KPIS.length === 0 && !loading) {
         KPIS = <Empty fetch={fetchKPIs} />

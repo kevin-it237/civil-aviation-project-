@@ -27,8 +27,14 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     useEffect(() => {
         // Get the first kpi
         if(kpis.length) {
-            dispatch(getKPIsData({kpiId: kpis[0].YDMS_KPIs_id, orgType: selectedOrg})) // get the initial kpi
-            dispatch(selectKPI(kpis[0])) // init the first kpi
+            dispatch(getKPIsData({kpiId: "all", orgType: selectedOrg})) // get the initial kpi
+            dispatch(selectKPI({
+                KPIs_label: "Summary",
+                KPIs_org_type: "state",
+                KPIs_text: "Summary",
+                YDMS_KPIs_id: "all",
+                id: 0   
+            })) // init the first kpi
         }
     }, [kpis])
 
@@ -102,7 +108,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
 
     const refresh= () => {
         if(kpi) {
-            dispatch(getKPIsData({kpiId: kpis[0].YDMS_KPIs_id, orgType: selectedOrg}))
+            dispatch(getKPIsData({kpiId: kpi?.YDMS_KPIs_id, orgType: selectedOrg}))
         } else {
             dispatch(getKPIs('state'))
         }

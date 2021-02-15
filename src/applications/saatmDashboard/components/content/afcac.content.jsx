@@ -8,6 +8,7 @@ import Empty from '../../../../app/components/empty/empty'
 import AfricaMap from '../africaMap/africaMap'
 import PieChart, {PIE_DATA} from '../pieChart/pieChart'
 import BarChart from '../barChart/barChart'
+import AFACSummary from '../summary/afcac.summary'
 import {types} from '../../redux/reducer/types'
 import './content.scss'
 
@@ -31,8 +32,16 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
     useEffect(() => {
         // Get the first kpi
         if(kpis.length) {
-            dispatch(getKPIsData({kpiId: kpis[0].YDMS_KPIs_id, orgType: selectedOrg})) // get the initial kpi
-            dispatch(selectKPI(kpis[0])) // init the first kpi
+            dispatch(getKPIsData({kpiId: "all", orgType: selectedOrg})) // get the initial kpi
+            dispatch(selectKPI(
+                {
+                    KPIs_label: "Summary",
+                    KPIs_org_type: "state",
+                    KPIs_text: "Summary",
+                    YDMS_KPIs_id: "all",
+                    id: 0   
+                }
+            )) // init the first kpi
         }
     }, [kpis])
 
@@ -108,12 +117,21 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         return <Loader />
     }
 
+    if(kpi?.YDMS_KPIs_id === "all") {
+        if(selectedOrg === "afcac") {
+            return <AFACSummary />
+        }
+    }
+
     if(kpisData.length === 0 && !loading) {
         return (
             <div style={{height: '80%'}}>
-                <div className="kpi-infos-box">
-                    <Alert message={`${kpi?.KPIs_text}`} type="success" />
-                </div>
+                {
+                    kpi?.YDMS_KPIs_id!=="all"&&
+                    <div className="kpi-infos-box">
+                        <Alert message={`${kpi?.KPIs_text}`} type="success" />
+                    </div>
+                }
                 <Empty fetch={refresh} />
             </div>
         )
@@ -136,7 +154,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         keys = ["Percentage of implementation", "Non Implemented"]
 
         BARDATA = [{
-            "country": ``,
+            "country": `Implementation`,
             "Percentage of implementation": PROGRESS,
             "Percentage of implementationColor": "hsl(210, 96%, 40%)",
             "Non Implemented": parseInt((TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100),
@@ -146,9 +164,12 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
 
     return (
         <> 
-            <div className="kpi-infos-box">
-                <Alert message={`${kpi?.KPIs_text}`} type="success" />
-            </div>
+            {
+                kpi?.YDMS_KPIs_id!=="all"&&
+                <div className="kpi-infos-box">
+                    <Alert message={`${kpi?.KPIs_text}`} type="success" />
+                </div>
+            }
             <div className="saatm-content">
                 <div className="section africa-chart">
                     {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
