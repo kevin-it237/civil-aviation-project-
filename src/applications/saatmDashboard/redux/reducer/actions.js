@@ -18,6 +18,15 @@ export const getKPIsData = (payload) => ({
 });
 
 /**
+ * @description Get kpi data summary
+ * @param {{orgType: string}} payload
+ */
+export const getKPIsDataSummary = (payload) => ({
+    type: types.GET_KPI_DATA_SUMMARY_REQUEST,
+    payload
+});
+
+/**
  * @description Get kpis
  */
 export const getKPIs = (payload) => ({

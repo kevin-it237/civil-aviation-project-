@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import {getKPIsData, selectKPI, getKPIs, getStates} from '../../redux/reducer/actions'
-import { Alert, Progress, Tooltip } from 'antd';
+import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
 import AfricaMap from '../africaMap/africaMap'
@@ -150,14 +150,21 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             TOTAL_INDICATORS++
         });
 
-        PROGRESS = parseInt((weight/TOTAL_INDICATORS)*100)
-        keys = ["Percentage of implementation", "Non Implemented"]
+        PROGRESS = (weight/TOTAL_INDICATORS)*100
+        keys = ["Percentage implementation", "Non Implemented"]
+
+        let color = '#43a047'
+        if(PROGRESS < 50) {
+            color = '#f44336'
+        } else if(PROGRESS < 75) {
+            color = '#fdd835'
+        }
 
         BARDATA = [{
-            "country": `Implementation`,
-            "Percentage of implementation": PROGRESS,
-            "Percentage of implementationColor": "hsl(210, 96%, 40%)",
-            "Non Implemented": parseInt((TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100),
+            "country": `Percentage`,
+            "Percentage implementation": PROGRESS,
+            "Percentage implementationColor": color,
+            "Non Implemented": (TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100,
             "Non ImplementedColor": "#eee",
         }]
     }
@@ -170,16 +177,19 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                     <Alert message={`${kpi?.KPIs_text}`} type="success" />
                 </div>
             }
-            <div className="saatm-content">
+            <div className="saatm-content saatm-content-ea">
+                {MAPDATA.length>0&&
                 <div className="section africa-chart">
-                    {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
-                    {
-                        ['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
-                        <div className="section">
-                            {BARDATA.length>0&&<div className="bar-wrapper"><BarChart groupMode={"stacked"} data={BARDATA} keys={keys} /></div>}
-                        </div>
-                    }
-                </div>
+                    <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
+                </div>}
+                {
+                    ['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
+                    <div className="section bar-lines">
+                        {BARDATA.length>0&&<div className="bar-wrapper">
+                            <BarChart groupMode={"stacked"} data={BARDATA} keys={keys} legend={true} />
+                        </div>}
+                    </div>
+                }
                 <div className="section charts">
                     <div id="div-for-piechart" className="div-for-piechart">
                         <PieChart data={PIECHART_DATA} />
@@ -189,7 +199,10 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                 {
                     !['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
                     <div className="section stacked-bar">
-                        {BARDATA.length>0&&<div className="stacked-bar-wrapper"><BarChart groupMode={"stacked"} data={BARDATA} keys={keys} /></div>}
+                        {BARDATA.length>0&&
+                        <div className="stacked-bar-wrapper">
+                            <BarChart groupMode={"stacked"} data={BARDATA} keys={keys} legend={true} />
+                        </div>}
                     </div>
                 }
             </div>

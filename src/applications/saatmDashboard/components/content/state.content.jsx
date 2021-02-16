@@ -170,7 +170,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                         <PieChart data={PIECHART_DATA} />
                     </div>:
                     <div id="div-for-barchart" className="div-for-barchart">
-                        <BarChart data={BARDATA} keys={keys} />
+                        <BarChart data={BARDATA} keys={keys} legend={true} />
                     </div>}
                 </div>
                 {

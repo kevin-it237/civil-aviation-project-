@@ -8,7 +8,7 @@
         >.single-kpi-row {
             display: grid;
             padding: 20px;
-            grid-template-rows: 450px;
+            grid-template-rows: 370px;
             gap: 15px;
             border: solid 1px #ddd;
             margin-bottom: 15px;
@@ -16,5 +16,25 @@
                 p {font-size: 13px;}
             }
         }
+    }
+    .bar-wrapper >div{
+        transform: translateX(-30px);
+    }
+    svg {
+        width: 100% !important;
+    }
+    .ant-statistic-content-value {
+        font-weight: bold;
+        font-size: 18px;
+        color: $primary;
+    }
+    .green .ant-statistic-content-value{
+        color: #43a047;
+    }
+    .yellow .ant-statistic-content-value{
+        color: #fdd835;
+    }
+    .red .ant-statistic-content-value{
+        color: #f44336;
     }
 }

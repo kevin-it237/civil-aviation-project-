@@ -17,6 +17,10 @@
                 width: 100% !important;
             }
         }
+        .bar-wrapper {
+            height: 150px;
+            width: 100%;
+        }
     }
 
     >.africa-chart {
@@ -32,6 +36,13 @@
             @media only screen and (max-width: 1366px) {
                 width: 430px !important;
             }
+        }
+    }
+    >.bar-lines {
+        grid-area: a1;
+        padding: 60px 10px 10px;
+        >div {
+            transform: translateX(-15px);
         }
     }
     >.charts {
