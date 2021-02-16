@@ -17,6 +17,10 @@
                 width: 100% !important;
             }
         }
+        .bar-wrapper {
+            height: 150px;
+            width: 100%;
+        }
     }
 
     >.africa-chart {
@@ -33,6 +37,10 @@
                 width: 430px !important;
             }
         }
+    }
+    >.bar-lines {
+        grid-area: a1;
+        padding: 60px 10px 10px;
     }
     >.charts {
         grid-area: a2;

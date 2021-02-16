@@ -150,14 +150,14 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             TOTAL_INDICATORS++
         });
 
-        PROGRESS = parseInt((weight/TOTAL_INDICATORS)*100)
+        PROGRESS = (weight/TOTAL_INDICATORS)*100
         keys = ["Percentage of implementation", "Non Implemented"]
 
         BARDATA = [{
             "country": `Implementation`,
             "Percentage of implementation": PROGRESS,
             "Percentage of implementationColor": "hsl(210, 96%, 40%)",
-            "Non Implemented": parseInt((TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100),
+            "Non Implemented": (TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100,
             "Non ImplementedColor": "#eee",
         }]
     }
@@ -170,16 +170,17 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                     <Alert message={`${kpi?.KPIs_text}`} type="success" />
                 </div>
             }
-            <div className="saatm-content">
+            <div className="saatm-content saatm-content-ea">
+                {MAPDATA.length>0&&
                 <div className="section africa-chart">
-                    {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
-                    {
-                        ['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
-                        <div className="section">
-                            {BARDATA.length>0&&<div className="bar-wrapper"><BarChart groupMode={"stacked"} data={BARDATA} keys={keys} /></div>}
-                        </div>
-                    }
-                </div>
+                    <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
+                </div>}
+                {
+                    ['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
+                    <div className="section bar-lines">
+                        {BARDATA.length>0&&<div className="bar-wrapper"><BarChart groupMode={"stacked"} data={BARDATA} keys={keys} /></div>}
+                    </div>
+                }
                 <div className="section charts">
                     <div id="div-for-piechart" className="div-for-piechart">
                         <PieChart data={PIECHART_DATA} />
