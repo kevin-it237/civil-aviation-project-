@@ -35,7 +35,7 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
                 </>
                 :
                 <PageHeader
-                    title={`${selectedOrg.toUpperCase()} / ${kpi?.KPIs_label}`}
+                    title={`${'Executing Agency'.toUpperCase()} / ${kpi?.KPIs_label}`}
                     >
                 </PageHeader>
             }

@@ -35,6 +35,7 @@ const PieChart = ({ data }) => (
         sliceLabelsSkipAngle={10}
         sliceLabelsTextColor="#fff"
         radialLabelsLinkStrokeWidth={5}
+        labelFormat={v => `${v}%`}
         defs={[
             {
                 id: 'dots',

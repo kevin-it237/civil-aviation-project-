@@ -1,14 +1,14 @@
 import { ResponsiveBar } from '@nivo/bar'
 
 
-const BarChart = ({ data, keys }) => (
+const BarChart = ({ data, keys, groupMode }) => (
     <ResponsiveBar
         data={data}
         keys={keys}
         indexBy="country"
         margin={{ top: 20, right: 50, bottom: 20, left: 150 }}
         padding={0.4}
-        groupMode="grouped"
+        groupMode={groupMode ? "stacked":"grouped"}
         layout="horizontal"
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
@@ -17,13 +17,15 @@ const BarChart = ({ data, keys }) => (
         axisTop={null}
         axisRight={null}
         colorBy="id"
+        labelFormat={v => `${v.toFixed(2)}%`}
         axisBottom={{
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
             legend: '',
             legendPosition: 'middle',
-            legendOffset: 32
+            legendOffset: 32,
+            format: v => `${v}%`
         }}
         axisLeft={{
             tickSize: 5,
@@ -31,12 +33,12 @@ const BarChart = ({ data, keys }) => (
             tickRotation: 0,
             legend: '',
             legendPosition: 'middle',
-            legendOffset: -40
+            legendOffset: -40,
         }}
         enableGridY={true}
         labelSkipWidth={12}
         labelSkipHeight={12}
-        labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
+        labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 2.2 ] ] }}
         legends={[
             {
                 dataFrom: 'keys',

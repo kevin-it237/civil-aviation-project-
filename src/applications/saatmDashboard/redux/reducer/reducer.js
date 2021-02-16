@@ -3,6 +3,7 @@ import { types } from "./types";
 /**
  * @param {array} states
  * @param {array} kpisData
+ * @param {array} kpisSummaryData
  * @param {array} kpis
  * @param {object} loader
  * @param {object} kpi
@@ -12,8 +13,15 @@ import { types } from "./types";
 const INITIAL_STATE = {
     states: [], 
     kpisData: [], 
+    kpisSummaryData: [], 
     kpis: [], 
-    kpi: null, 
+    kpi: {
+        KPIs_label: "Summary",
+        KPIs_org_type: "state",
+        KPIs_text: "Summary",
+        YDMS_KPIs_id: "all",
+        id: 0   
+    }, 
     selectedState: null, 
     selectedOrg: "state", 
     loader: {
@@ -55,6 +63,12 @@ const SAATMDashboardReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 kpisData: action.payload,
+            };
+
+        case types.GET_KPI_DATA_SUMMARY_SUCCESS:
+            return {
+                ...state,
+                kpisSummaryData: action.payload,
             };
 
         case types.GET_KPIS_SUCCESS:

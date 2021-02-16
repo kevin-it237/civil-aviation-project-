@@ -1,0 +1,27 @@
+@import '../../../../assets/styles/global.scss';
+
+.kpisSummary-content {
+    padding: 30px;
+
+    >.summary-table {
+        display: grid;
+        >.single-kpi-row {
+            display: grid;
+            padding: 20px;
+            grid-template-rows: 450px;
+            gap: 15px;
+            border: solid 1px #ddd;
+            margin-bottom: 15px;
+            >.kpi-label {
+                p {font-size: 13px;}
+            }
+        }
+    }
+    svg {
+        width: 100% !important;
+    }
+    .ant-statistic-content-value {
+        font-weight: bold;
+        font-size: 20px;
+    }
+}

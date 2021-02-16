@@ -8,6 +8,7 @@ import Empty from '../../../../app/components/empty/empty'
 import AfricaMap from '../africaMap/africaMap'
 import PieChart, {PIE_DATA} from '../pieChart/pieChart'
 import BarChart from '../barChart/barChart'
+import AFACSummary from '../summary/afcac.summary'
 import {types} from '../../redux/reducer/types'
 import './content.scss'
 
@@ -31,8 +32,16 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
     useEffect(() => {
         // Get the first kpi
         if(kpis.length) {
-            dispatch(getKPIsData({kpiId: kpis[0].YDMS_KPIs_id, orgType: selectedOrg})) // get the initial kpi
-            dispatch(selectKPI(kpis[0])) // init the first kpi
+            dispatch(getKPIsData({kpiId: "all", orgType: selectedOrg})) // get the initial kpi
+            dispatch(selectKPI(
+                {
+                    KPIs_label: "Summary",
+                    KPIs_org_type: "state",
+                    KPIs_text: "Summary",
+                    YDMS_KPIs_id: "all",
+                    id: 0   
+                }
+            )) // init the first kpi
         }
     }, [kpis])
 
@@ -108,12 +117,21 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         return <Loader />
     }
 
+    if(kpi?.YDMS_KPIs_id === "all") {
+        if(selectedOrg === "afcac") {
+            return <AFACSummary />
+        }
+    }
+
     if(kpisData.length === 0 && !loading) {
         return (
             <div style={{height: '80%'}}>
-                <div className="kpi-infos-box">
-                    <Alert message={`${kpi?.KPIs_text}`} type="success" />
-                </div>
+                {
+                    kpi?.YDMS_KPIs_id!=="all"&&
+                    <div className="kpi-infos-box">
+                        <Alert message={`${kpi?.KPIs_text}`} type="success" />
+                    </div>
+                }
                 <Empty fetch={refresh} />
             </div>
         )
@@ -122,42 +140,45 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
     let BARDATA = []
     let keys = []
     let PROGRESS = 0
+    let TOTAL_INDICATORS = 0
     if(kpi) {
-        if(['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)) {
+        let weight = 0;
+        kpisData.forEach(data => {
+            if(!!parseInt(data.questionnaire_response)) {
+                weight +=1
+            }
+            TOTAL_INDICATORS++
+        });
 
-            let weight = 0; let total = 0;
-            kpisData.forEach(data => {
-                if(!!parseInt(data.questionnaire_response)) {
-                    weight +=1
-                }
-                total++
-            });
-            PROGRESS = (weight/total)*100
+        PROGRESS = parseInt((weight/TOTAL_INDICATORS)*100)
+        keys = ["Percentage of implementation", "Non Implemented"]
 
-            BARDATA =  kpisData.map((data, i) => {
-                return {
-                    "country": `Indicator ${i+1}`,
-                    "Percentage of implementation": data.questionnaire_response*100,
-                    "Percentage of implementationColor": "hsl(210, 96%, 40%)",
-                }
-            })
-            keys = ["Percentage of implementation"]
-        }
+        BARDATA = [{
+            "country": `Implementation`,
+            "Percentage of implementation": PROGRESS,
+            "Percentage of implementationColor": "hsl(210, 96%, 40%)",
+            "Non Implemented": parseInt((TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100),
+            "Non ImplementedColor": "#eee",
+        }]
     }
 
     return (
         <> 
-            <div className="kpi-infos-box">
-                <Alert message={`${kpi?.KPIs_text}`} type="success" />
-            </div>
+            {
+                kpi?.YDMS_KPIs_id!=="all"&&
+                <div className="kpi-infos-box">
+                    <Alert message={`${kpi?.KPIs_text}`} type="success" />
+                </div>
+            }
             <div className="saatm-content">
                 <div className="section africa-chart">
                     {MAPDATA.length>0&&<AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />}
-                    {BARDATA.length>0&&<div className="bar-wrapper"><BarChart data={BARDATA} keys={keys} /></div>}
-                    {/* {BARDATA.length>0&&
-                    <Tooltip title="Percentage of implementation">
-                        <Progress type="circle" percent={PROGRESS} />
-                    </Tooltip>} */}
+                    {
+                        ['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
+                        <div className="section">
+                            {BARDATA.length>0&&<div className="bar-wrapper"><BarChart groupMode={"stacked"} data={BARDATA} keys={keys} /></div>}
+                        </div>
+                    }
                 </div>
                 <div className="section charts">
                     <div id="div-for-piechart" className="div-for-piechart">
@@ -167,15 +188,8 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                 
                 {
                     !['kpi_30', 'kpi_33', 'kpi_34', 'kpi_35'].includes(kpi.YDMS_KPIs_id)&&
-                    <div className="section raw-datas">
-                        <div className="raw raw--1">
-                            <h2>Total Compliant</h2>
-                            <h3>{RAWDATA[0]} <span> / {`${(RAWDATA[0]/kpisData.length*100).toFixed(2)}%`}</span></h3>
-                        </div>
-                        <div className="raw raw--2">
-                            <h2>Not Compliant</h2>
-                            <h3>{RAWDATA[1]} <span>/ {`${(RAWDATA[1]/kpisData.length*100).toFixed(2)}%`}</span></h3>
-                        </div>
+                    <div className="section stacked-bar">
+                        {BARDATA.length>0&&<div className="stacked-bar-wrapper"><BarChart groupMode={"stacked"} data={BARDATA} keys={keys} /></div>}
                     </div>
                 }
             </div>
