@@ -151,12 +151,12 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         });
 
         PROGRESS = (weight/TOTAL_INDICATORS)*100
-        keys = ["Percentage of implementation", "Non Implemented"]
+        keys = ["Percentage implementation", "Non Implemented"]
 
         BARDATA = [{
             "country": `Implementation`,
-            "Percentage of implementation": PROGRESS,
-            "Percentage of implementationColor": "hsl(210, 96%, 40%)",
+            "Percentage implementation": PROGRESS,
+            "Percentage implementationColor": "hsl(210, 96%, 40%)",
             "Non Implemented": (TOTAL_INDICATORS-weight)/TOTAL_INDICATORS*100,
             "Non ImplementedColor": "#eee",
         }]

@@ -58,12 +58,13 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
                 <>
                 <Menu.Item key={(i+1)} onClick={() => displayKPIsSummary()}>KPIs Summary</Menu.Item>
                 <Divider style={{fontSize: "12px"}}>Single KPIs</Divider>
+                <Menu.Item key={(i+2)} onClick={() => handleSelectKPI(kpi)}>{`${kpi.YDMS_KPIs_id}: ${kpi.KPIs_label}`}</Menu.Item>
                 </> 
             )
             
         } else {
             return (
-                <Menu.Item key={(i+1)} onClick={() => handleSelectKPI(kpi)}>{`${kpi.YDMS_KPIs_id}: ${kpi.KPIs_label}`}</Menu.Item>
+                <Menu.Item key={(i+2)} onClick={() => handleSelectKPI(kpi)}>{`${kpi.YDMS_KPIs_id}: ${kpi.KPIs_label}`}</Menu.Item>
             )
         }
     })]

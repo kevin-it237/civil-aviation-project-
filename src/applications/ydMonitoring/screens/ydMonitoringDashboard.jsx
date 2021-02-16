@@ -6,6 +6,7 @@ import StateList from '../components/states.list/states.list'
 import Header from '../../../app/components/header/header'
 import Questionnaire from '../components/questionnaire/questionnaire'
 import MainHeader from '../../../app/components/mainHeader/mainHeader'
+import {selectOrgType} from '../redux/reducer/actions'
 import './ydMonitoringDashboard.scss'
 
 
@@ -18,7 +19,7 @@ const YDMonitoringDashboard = ({}) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        
+        dispatch(selectOrgType('state'))
     }, [])
 
     return (
