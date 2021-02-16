@@ -59,6 +59,7 @@ const AfcacKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg}) => {
             "Not implementedColor": "#ddd"
         }
     })
+    BARDATA = BARDATA.reverse()
 
     return (
         <div className="kpisSummary-content">
