@@ -136,22 +136,22 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             BARDATA =  kpisData.map(kpi => {
                 return {
                     "country": kpi.short_name,
-                    "Total weighted percentage score": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(1)),
-                    "Total weighted percentage scoreColor": "#000000",
-                    "Percentage of indicators reported": parseFloat((parseInt(kpi.response)/kpi.totalSP*100).toFixed(1)),
-                    "Percentage of indicators reportedColor": "hsl(210, 96%, 40%)",
+                    "Total weighted score (%)": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(1)),
+                    "Total weighted score (%)Color": "#000000",
+                    "Indicators reported (%)": parseFloat((parseInt(kpi.response)/kpi.totalSP*100).toFixed(1)),
+                    "Indicators reported (%)Color": "hsl(210, 96%, 40%)",
                 }
             })
-            keys = ["Total weighted percentage score", "Percentage of indicators reported"]
+            keys = ["Total weighted score (%)", "Indicators reported (%)"]
         } else if(kpi.YDMS_KPIs_id === 'kpi_12') {
             BARDATA = kpisData.filter(kpi => kpi.response == 1).map(kpi => {
                 return {
                     "country": kpi.short_name,
-                    "Total weighted percentage score": parseFloat((parseFloat(kpi.custom_weight)).toFixed(1)),
-                    "Total weighted percentage scoreColor": "hsl(210, 96%, 40%)",
+                    "Total weighted score (%)": parseFloat((parseFloat(kpi.custom_weight)).toFixed(1)),
+                    "Total weighted score (%)Color": "hsl(210, 96%, 40%)",
                 }
             })
-            keys = ["Total weighted percentage score"]
+            keys = ["Total weighted score (%)"]
         }
     }
     
