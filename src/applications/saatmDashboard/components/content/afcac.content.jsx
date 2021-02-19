@@ -61,8 +61,21 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         // Match datas with states
         const statesList = states.filter(state => state.SAATM_membership)
         let data = kpisData.map(data => {
-            const condition = (state) => data.questionnaire_text.includes(state.short_name) || data.questionnaire_text.includes(state.full_name)
-            const state = statesList.find(state => condition(state))
+            const condition1 = (data, state) => new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+            const condition2 =  (data, state) =>  new RegExp("\\b" +state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) || 
+            new RegExp("\\b" + state.short_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+            
+            let state = statesList.find(state => {
+                const stateShortName = state.short_name
+                if(stateShortName === 'Congo') {
+                    return condition1(data, state)
+                } else if (stateShortName === 'Guinea') {
+                    
+                } else {
+                    return condition2(data, state)
+                }
+            })
+
             if(state) {
                 data = {...data, ...state}
                 return data
