@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
+import { Tag, Button } from 'antd';
 
 const Highcharts = require('highcharts/highmaps');  
 require('highcharts/modules/exporting')(Highcharts);  
@@ -8,7 +9,9 @@ const map = require('@highcharts/map-collection/custom/africa.geo.json');
  * @description Africa Chart
  */
 
-const AfricaMap = ({mapData, dataClasses}) => {
+const AfricaMap = ({mapData, dataClasses, generateDestinations, resetMap, kpiId}) => {
+
+    const [state, setState] = useState("")
 
     useEffect(() => {
         if(mapData.length) {
@@ -66,18 +69,34 @@ const AfricaMap = ({mapData, dataClasses}) => {
                     },
                     point: {
                         events: {
-                          click(e) {
-                            console.log("Code : ", this.key)
-                          }
+                            click: function(){
+                                if(generateDestinations) {
+                                    setState(this.name)
+                                    generateDestinations(this.options['hc-key'])
+                                }
+                            }
                         }
                     }
                 }]
             });
         }
     }, [mapData, dataClasses])
+
+    const handleResetMap = () => {
+        resetMap()
+        setState("")
+    }
     
     return (
-        <div id="africa-map" className="africa-map"></div>
+        <>
+            {state.length ? 
+            <div className="map-header">
+                <p>Selected state: <Tag color="#108ee9"><b>{state}</b></Tag></p>
+                <Button size="small" onClick={handleResetMap}>Reset map</Button>
+            </div>:
+            kpiId==='kpi_4'?<p style={{fontSize: '13px', textAlign: 'center'}}>Click on a country to display his relationships with others.</p>:null}
+            <div id="africa-map" className="africa-map"></div>
+        </>
     )
 }
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import {getKPIsData, selectKPI, getKPIs} from '../../redux/reducer/actions'
+import {getKPIsData, selectKPI, getKPIs, getStates} from '../../redux/reducer/actions'
 import { Alert } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
@@ -15,14 +15,22 @@ import './content.scss'
  * @description content
  */
 
-const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates}) => {
+const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates, states}) => {
     
     const dispatch = useDispatch()
     const [MAPDATA, setMAPDATA] = useState([])
     const [RAWDATA, setRAWDATA] = useState(["", "", "0"])
     const [PIECHART_DATA, setPIECHARTDATA] = useState(PIE_DATA)
 
+    const [KPI4DATA, setKPI4DATA] = useState([])
+
     const [DATACLASSES, setDATACLASSES] = useState([]) // Map coloration
+
+    useEffect(() => {
+        if(!states.length) {
+            dispatch(getStates())
+        }
+    }, [])
 
     useEffect(() => {
         // Get the first kpi
@@ -52,13 +60,16 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             data = kpisData.map(kpi => {
                 return [kpi.country_code.toLowerCase(), parseInt(kpi.custom_weight)]
             })      
-        } else {
+        } else if(kpi?.YDMS_KPIs_id === 'kpi_4') {
+            data = generateSAATMDatas()
+        }else {
             data = kpisData.map(kpi => {
                 return [kpi.country_code.toLowerCase(), parseInt(kpi.weight)/parseInt(kpi.totalweight)*100]
             })
         }
         setMAPDATA(data)
-        
+        setKPI4DATA([])
+
         if(kpi?.YDMS_KPIs_id === 'kpi_2' || kpi?.YDMS_KPIs_id === 'kpi_12') {
             setDATACLASSES([{
                 from: 0,
@@ -75,6 +86,13 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                 to: 100,
                 color: '#2e7d32',
                 name: '75 to 100%'
+            }])
+        } else if(kpi?.YDMS_KPIs_id === 'kpi_4') {
+            setDATACLASSES([{
+                from: 0,
+                to: 200,
+                color: '#1890ff',
+                name: 'SAATM members'
             }])
         } else {
             setDATACLASSES([{
@@ -106,6 +124,107 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         setPIECHARTDATA(PIE_DATA)
     }
 
+    /**
+     * Destinations for kpi_4 for a selected country
+     * @param {String} country_code
+     */
+    const generateDestinations = (country_code) => {
+        const stateDatas = kpisData.filter(data => data.country_code.toLowerCase() === country_code.toLowerCase())
+
+        const condition1 = (data, state) => new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+        
+        const condition2 =  (data, state) =>  new RegExp("\\b" +state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) || 
+        new RegExp("\\b" + state.short_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+
+        let RAW_ARR = []
+        stateDatas.forEach(data => {
+            let state = states.find(state => {
+                const stateShortName = state.short_name
+                if(stateShortName === 'Congo') {
+                    return condition1(data, state)
+                } else if (stateShortName === 'Guinea') {
+                    
+                } else {
+                    return condition2(data, state)
+                }
+            })
+
+            if(state) {
+                data.dest_country_code = state.country_code
+                data.dest_country_name = state.short_name
+                RAW_ARR.push(data)
+            }
+        });
+
+        const RAW_OBJ = groupDataByProperty(RAW_ARR)
+
+        const finalData = []
+
+        for (const key in RAW_OBJ) {
+            if (Object.hasOwnProperty.call(RAW_OBJ, key)) {
+                const questions = RAW_OBJ[key];
+                // If response for question 2 is 0, dont display that state on the map
+                const question2 = RAW_OBJ[key][1]
+                if(question2.questionnaire_response == 1) {
+                    let total = 0
+                    questions.forEach(q => {
+                        total = total + q.weight_response * q.questionnaire_response
+                    });
+                    finalData.push([key.toLowerCase(), total/35*100])
+                }
+            }
+        }
+
+        // Add the current selected state 
+        finalData.push([country_code, 200])
+
+        // console.log(RAW_OBJ);
+        // console.log(Object.keys(RAW_OBJ).length);
+
+        setMAPDATA(finalData)
+        setKPI4DATA(RAW_OBJ)
+
+        setDATACLASSES([{
+            from: 0,
+            to: 59,
+            color: 'red',
+            name: '0 to 60%'
+        }, {
+            from: 60,
+            to: 74,
+            color: '#fdd835',
+            name: '60 to 75%'
+        }, {
+            from: 75,
+            to: 100,
+            color: '#2e7d32',
+            name: '75 to 100%'
+        }])
+    }
+
+    /**
+     * Destinations for kpi_4 for a selected country
+     * @returns {Array}
+     */
+    const generateSAATMDatas = () => {
+        return states.filter(state => state.SAATM_membership == 1).map(state => {
+            return [state.country_code.toLowerCase(), 200]
+        })
+    }
+
+    /**
+     * Reshape array
+     * @param {array} array 
+     */
+    const groupDataByProperty = (array) => {
+        const result = array.reduce(function (r, a) {
+            r[a.dest_country_code] = r[a.dest_country_code] || [];
+            r[a.dest_country_code].push(a);
+            return r;
+        }, Object.create(null));
+        return result
+    }
+
     const refresh= () => {
         if(kpi) {
             dispatch(getKPIsData({kpiId: kpi?.YDMS_KPIs_id, orgType: selectedOrg}))
@@ -114,7 +233,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         }
     }
 
-    if(loading || loadingKPIs) {
+    if(loading || loadingKPIs || loadingStates) {
         return <Loader />
     }
 
@@ -145,16 +264,50 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             keys = ["Total weighted score (%)", "Indicators reported (%)"]
         } else if(kpi.YDMS_KPIs_id === 'kpi_12') {
             BARDATA = kpisData.filter(kpi => kpi.response == 1).map(kpi => {
+                const value = parseFloat((parseFloat(kpi.custom_weight)).toFixed(1))
+                let color = '#43a047'
+                if(parseFloat(value) < 50) {
+                    color = '#f44336'
+                } else if(parseFloat(value) < 75) {
+                    color = '#fdd835'
+                }
                 return {
                     "country": kpi.short_name,
-                    "Total weighted score (%)": parseFloat((parseFloat(kpi.custom_weight)).toFixed(1)),
-                    "Total weighted score (%)Color": "hsl(210, 96%, 40%)",
+                    "Total weighted score (%)": value,
+                    "Total weighted score (%)Color": color,
                 }
             })
             keys = ["Total weighted score (%)"]
+        } else if(kpi.YDMS_KPIs_id === 'kpi_4') {
+            for (const key in KPI4DATA) {
+                if (Object.hasOwnProperty.call(KPI4DATA, key)) {
+                    const questions = KPI4DATA[key];
+                    // If response for question 2 is 0, dont display that state on the map
+                    // const question2 = KPI4DATA[key][1]
+                    // if(question2.questionnaire_response == 1) {
+                        let total = 0
+                        questions.forEach(q => {
+                            total = total + q.weight_response * q.questionnaire_response
+                        });
+                        let color = '#43a047'
+                        if(parseFloat(total/35*100) < 50) {
+                            color = '#f44336'
+                        } else if(parseFloat(total/35*100) < 75) {
+                            color = '#fdd835'
+                        }
+                        const state = states.find(st => st.country_code === key)
+                        BARDATA.push({
+                            "country": state.short_name,
+                            "Implementation Level (%)": parseFloat(total/35*100),
+                            "Implementation Level (%)Color": color,
+                        })
+                    // }
+                }
+            }
+            keys = ["Implementation Level (%)"]
         }
     }
-    
+
     return (
         <> 
             <div className="kpi-infos-box">
@@ -162,19 +315,24 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             </div>
             <div className="saatm-content">
                 <div className="section africa-chart">
-                    <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
+                    <AfricaMap 
+                        kpiId={kpi?.YDMS_KPIs_id}
+                        mapData={MAPDATA} 
+                        dataClasses={DATACLASSES} 
+                        generateDestinations={generateDestinations}
+                        resetMap={generateMapData} />
                 </div>
                 <div className="section charts">
-                    {(kpi.YDMS_KPIs_id!=='kpi_2'&&kpi.YDMS_KPIs_id!=='kpi_12') ? 
+                    {!['kpi_2', 'kpi_12', 'kpi_4'].includes(kpi.YDMS_KPIs_id) ? 
                     <div id="div-for-piechart" className="div-for-piechart">
                         <PieChart data={PIECHART_DATA} />
                     </div>:
-                    <div id="div-for-barchart" className="div-for-barchart">
-                        <BarChart data={BARDATA} keys={keys} legend={true} />
+                    <div id={`${kpi.YDMS_KPIs_id==='kpi_12'?'big-chart':'div-for-barchart'}`} className={'div-for-barchart'}>
+                        <BarChart data={BARDATA} keys={keys} legend={['kpi_4'].includes(kpi.YDMS_KPIs_id) ? false:true} />
                     </div>}
                 </div>
                 {
-                    (kpi?.YDMS_KPIs_id!=='kpi_2' && kpi?.YDMS_KPIs_id!=='kpi_12')&&
+                    (!['kpi_2', 'kpi_12', 'kpi_4'].includes(kpi?.YDMS_KPIs_id))&&
                     <div className="section raw-datas">
                         <div className="raw raw--1">
                             <h2>Total Compliant</h2>
@@ -198,6 +356,7 @@ const mapStateToProps = ({ SAATMDashboardReducer}) => ({
     kpi: SAATMDashboardReducer.kpi,
     kpisData: SAATMDashboardReducer.kpisData,
     selectedOrg: SAATMDashboardReducer.selectedOrg,
+    states: SAATMDashboardReducer.states,
     loading: checkIfLoader(SAATMDashboardReducer, types.GET_KPI_DATA_REQUEST),
     loadingKPIs: checkIfLoader(SAATMDashboardReducer, types.GET_KPIS_REQUEST),
     loadingStates: checkIfLoader(SAATMDashboardReducer, types.GET_STATES_REQUEST),

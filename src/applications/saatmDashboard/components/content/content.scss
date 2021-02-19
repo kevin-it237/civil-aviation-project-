@@ -25,8 +25,17 @@
 
     >.africa-chart {
         grid-area: a1;
-        height: 450px;
         padding: 10px;
+        .africa-map {
+            height: 550px;
+        }
+        .map-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+        }
         .bar-wrapper >div {
             height: 550px !important;
             width: 600px !important;
@@ -59,7 +68,10 @@
             }
         }
         >#div-for-barchart {
-            height: 600px;
+            height: 550px;
+        }
+        >#big-chart {
+            height: 620px !important;
         }
     }
     >.raw-datas {
