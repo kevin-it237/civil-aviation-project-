@@ -240,9 +240,12 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     if(kpisData.length === 0 && !loading) {
         return (
             <div style={{height: '80%'}}>
-                <div className="kpi-infos-box">
-                    <Alert message={`${kpi?.KPIs_text}`} type="success" />
-                </div>
+                {
+                    kpi?.YDMS_KPIs_id!=="all"&&
+                    <div className="kpi-infos-box">
+                        <Alert message={`${kpi?.KPIs_text}`} type="success" />
+                    </div>
+                }
                 <Empty fetch={refresh} />
             </div>
         )
