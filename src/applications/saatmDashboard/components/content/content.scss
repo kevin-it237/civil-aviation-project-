@@ -27,7 +27,7 @@
         grid-area: a1;
         padding: 10px;
         .africa-map {
-            height: 550px;
+            height: 480px;
         }
         .map-header {
             display: flex;
@@ -46,6 +46,34 @@
                 width: 430px !important;
             }
         }
+
+        .kpi-5-block {
+            display: grid;
+            grid-template-columns: 25% 75%;
+            gap: 10px;
+            .saatm-states {
+                border: solid 1px $stroke-color;
+                border-radius: 6px;
+                padding: 6px;
+                padding-left: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                overflow: scroll;
+                height: 500px;
+                a {
+                    font-size: 11px;
+                    margin: 0 !important;
+                    padding: 4px 3px;
+                    background-color: rgba($grey-200, .4);
+                    color: $grey-500;
+                }
+                .actived {
+                    background-color: $primary;
+                    color: $white;
+                }
+            }
+        }
     }
     >.bar-lines {
         grid-area: a1;
@@ -58,13 +86,11 @@
         grid-area: a2;
         padding-top: 10px;
         padding-bottom: 10px;
-        display: grid;
-        height: 100%;
-        align-content: center;
         >#div-for-piechart {
-            height: 330px;
+            height: 340px;
+            padding: 0 15px;
             >div {
-                width: 90% !important;
+                width: 100% !important;
             }
         }
         >#div-for-barchart {

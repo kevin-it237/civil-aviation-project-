@@ -53,11 +53,12 @@ const BarChart = ({ data, keys, groupMode, legend }) => (
                 itemDirection: 'left-to-right',
                 itemOpacity: 0.85,
                 symbolSize: 20,
+                legendFormat: (d)=>{'hello'},
                 effects: [
                     {
                         on: 'hover',
                         style: {
-                            itemOpacity: 1
+                            itemOpacity: 1,
                         }
                     }
                 ]

@@ -61,7 +61,8 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
         // Match datas with states
         const statesList = states.filter(state => state.SAATM_membership)
         let data = kpisData.map(data => {
-            const condition1 = (data, state) => new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+            const condition1 = (data, state) => new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) && 
+            !new RegExp("\\b" + 'Bissau'.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
             const condition2 =  (data, state) =>  new RegExp("\\b" +state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) || 
             new RegExp("\\b" + state.short_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
             
@@ -70,7 +71,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
                 if(stateShortName === 'Congo') {
                     return condition1(data, state)
                 } else if (stateShortName === 'Guinea') {
-                    
+                    return condition1(data, state)
                 } else {
                     return condition2(data, state)
                 }
@@ -163,7 +164,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             TOTAL_INDICATORS++
         });
 
-        PROGRESS = (weight/TOTAL_INDICATORS)*100
+        PROGRESS = parseFloat(((weight/TOTAL_INDICATORS)*100).toFixed(2))
         keys = ["Percentage implementation", "Non Implemented"]
 
         let color = '#43a047'

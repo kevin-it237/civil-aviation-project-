@@ -7,14 +7,14 @@ import { ResponsivePie } from '@nivo/pie'
 export const PIE_DATA =[
     {
       "id": "Yes",
-      "label": "Compliant",
-      "value": 43,
+      "label": "Yes",
+      "value": 0,
       "color": "#2e7d32"
     },
     {
       "id": "No",
-      "label": "Not Compliant",
-      "value": 12,
+      "label": "No",
+      "value": 0,
       "color": "orange"
     },
   ]

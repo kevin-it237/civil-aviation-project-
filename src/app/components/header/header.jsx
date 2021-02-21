@@ -22,6 +22,11 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
         
     }, [])
 
+    let headerName = selectedOrg
+    if(selectedOrg==='afcac') {
+        headerName = 'EXECUTING AGENCY'
+    }
+
     return (
         <div className="header">
             {
@@ -35,7 +40,7 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
                 </>
                 :
                 <PageHeader
-                    title={`${'Executing Agency'.toUpperCase()} / ${kpi?.KPIs_label}`}
+                    title={`${headerName.toUpperCase()} / ${kpi?.KPIs_label}`}
                     >
                 </PageHeader>
             }
@@ -53,4 +58,3 @@ const mapStateToProps = ({ AuthReducer, YDMonitoringReducer, SAATMDashboardReduc
 })
 
 export default connect(mapStateToProps)(Header);
-

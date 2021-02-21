@@ -52,7 +52,7 @@ const AfcacKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg}) => {
     // Generate datas
     BARDATA = kpisSummaryData.map(kpi => {
         let color = '#43a047'
-        const weight = (parseInt(kpi.response))/kpi.totalSP*100
+        const weight = parseFloat(((parseInt(kpi.response))/kpi.totalSP*100).toFixed(2))
         if(weight < 50) {
             color = '#f44336'
         } else if(weight < 75) {
@@ -60,9 +60,9 @@ const AfcacKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg}) => {
         }
         return {
             "country": `${kpi.YDMS_KPIs_id}`,
-            "Percentage implementation": (parseInt(kpi.response))/kpi.totalSP*100,
+            "Percentage implementation": weight,
             "Percentage implementationColor": color,
-            "Not implemented": (kpi.totalSP-parseInt(kpi.response))/kpi.totalSP*100,
+            "Not implemented": 100-weight,
             "Not implementedColor": "#ddd"
         }
     })
