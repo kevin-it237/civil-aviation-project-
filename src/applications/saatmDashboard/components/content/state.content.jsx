@@ -153,8 +153,10 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         return finalData
     }
 
-    const generateDestinations = (country_code) => {
-        setActiveStateKpi5(country_code)
+    const generateDestinations = (state) => {
+        const country_code = state.country_code
+        setActiveStateKpi5(state.short_name)
+        
         const stateDatas = kpisData.filter(data => data.country_code.toLowerCase() === country_code.toLowerCase())
 
         const condition1 = (data, state) => new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) && 
@@ -346,16 +348,19 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                                     generateSAATMDatas().map(state => (
                                         <NavLink
                                             exact={true}
-                                            className={`${activeStateKpi5===state.country_code?'actived':''}`}
-                                            onClick={() => generateDestinations(state.country_code)} 
+                                            className={`${activeStateKpi5===state.short_name?'actived':''}`}
+                                            onClick={() => generateDestinations(state)} 
                                             key={state.YDMS_AU_id} 
                                             to={`#/${state.country_code}`}>{state.short_name}</NavLink>
                                     ))
                                 }
                             </div>
-                            <AfricaMap 
-                                mapData={MAPDATA} 
-                                dataClasses={DATACLASSES} />
+                            <div className="map-wrapper">
+                                {activeStateKpi5.length>0&&<p className="state-text">{activeStateKpi5}</p>}
+                                <AfricaMap 
+                                    mapData={MAPDATA} 
+                                    dataClasses={DATACLASSES} />
+                            </div>
                         </div>:
                         <AfricaMap 
                             mapData={MAPDATA} 

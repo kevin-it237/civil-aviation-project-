@@ -73,6 +73,17 @@
                     color: $white;
                 }
             }
+            .map-wrapper {
+                position: relative;
+                .state-text {
+                    text-align: center;
+                    background-color: $primary;
+                    color: $white;
+                    padding: 4px 3px;
+                    border-radius: 4px;
+                    font-size: 14px;
+                }
+            }
         }
     }
     >.bar-lines {
