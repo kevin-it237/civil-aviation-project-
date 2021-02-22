@@ -75,7 +75,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         setMAPDATA(data)
         setKPI4DATA([])
 
-        if(['kpi_2', 'kpi_4', 'kpi_12'].includes(kpi?.YDMS_KPIs_id)) {
+        if(['kpi_2', 'kpi_4', 'kpi_12', 'kpi_3', 'kpi_20'].includes(kpi?.YDMS_KPIs_id)) {
             setDATACLASSES([{
                 from: 0,
                 to: 50,
@@ -238,6 +238,16 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         return result
     }
 
+    const generateBarColor = (value) => {
+        let color = '#43a047'
+        if(parseFloat(value) < 50) {
+            color = '#f44336'
+        } else if(parseFloat(value) < 75) {
+            color = '#fdd835'
+        }
+        return color
+    }
+
     const refresh= () => {
         if(kpi) {
             dispatch(getKPIsData({kpiId: kpi?.YDMS_KPIs_id, orgType: selectedOrg}))
@@ -267,26 +277,36 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     let BARDATA = []
     let keys = []
     if(kpi) {
-        if(kpi.YDMS_KPIs_id === 'kpi_2') {
-            BARDATA =  kpisData.map(kpi => {
-                return {
-                    "country": kpi.short_name,
-                    "Total weighted score (%)": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(2)),
-                    "Total weighted score (%)Color": "#000000",
-                    "Indicators reported (%)": parseFloat((parseInt(kpi.response)/kpi.totalSP*100).toFixed(2)),
-                    "Indicators reported (%)Color": "hsl(210, 96%, 40%)",
-                }
-            })
-            keys = ["Total weighted score (%)", "Indicators reported (%)"]
+        if(['kpi_2', 'kpi_3', 'kpi_20'].includes(kpi.YDMS_KPIs_id)) {
+            if(kpi.YDMS_KPIs_id === 'kpi_2') {
+                BARDATA =  kpisData.map(kpi => {
+                    return {
+                        "country": kpi.short_name,
+                        "Total weighted score (%)": parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(2)),
+                        "Total weighted score (%)Color": "#000000",
+                        "Indicators reported (%)": parseFloat((parseInt(kpi.response)/kpi.totalSP*100).toFixed(2)),
+                        "Indicators reported (%)Color": "hsl(210, 96%, 40%)",
+                    }
+                })
+                keys = ["Total weighted score (%)", "Indicators reported (%)"]
+            } else {
+                BARDATA =  kpisData.map(kpi => {
+                    const value = parseFloat((parseInt(kpi.weight)/parseInt(kpi.totalweight)*100).toFixed(2))
+                    let color = generateBarColor(value)
+                    return {
+                        "country": kpi.short_name,
+                        "Total weighted score (%)": value,
+                        "Total weighted score (%)Color": color,
+                        "Not implemented (%)": 100-value,
+                        "Not implemented (%)Color": "#ddd",
+                    }
+                })
+                keys = ["Total weighted score (%)", "Not implemented (%)"]
+            }
         } else if(kpi.YDMS_KPIs_id === 'kpi_12') {
             BARDATA = kpisData.filter(kpi => kpi.response == 1).map(kpi => {
                 const value = parseFloat((parseFloat(kpi.custom_weight)).toFixed(2))
-                let color = '#43a047'
-                if(parseFloat(value) < 50) {
-                    color = '#f44336'
-                } else if(parseFloat(value) < 75) {
-                    color = '#fdd835'
-                }
+                let color = generateBarColor(value)
                 return {
                     "country": kpi.short_name,
                     "Total weighted score (%)": value,
@@ -299,13 +319,8 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
             MAPDATA.forEach(data => {
                 const state = states.find(st => st.country_code.toLowerCase() === data[0])
                 
-                let color = '#43a047'
                 const value = data[1]
-                if(parseFloat(value) < 50) {
-                    color = '#f44336'
-                } else if(parseFloat(value) < 75) {
-                    color = '#fdd835'
-                }
+                let color = generateBarColor(value)
                 BARDATA.push({
                     "country": state?.short_name,
                     "Implementation Level (%)": parseFloat(value.toFixed(2)),
@@ -348,7 +363,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                     }
                 </div>
                 <div className="section charts">
-                    {!['kpi_2', 'kpi_12', 'kpi_4'].includes(kpi.YDMS_KPIs_id) ? 
+                    {!['kpi_2', 'kpi_12', 'kpi_4', 'kpi_3', 'kpi_20'].includes(kpi.YDMS_KPIs_id) ? 
                     <div id="div-for-piechart" className="div-for-piechart">
                          {(kpi?.YDMS_KPIs_id==='kpi_5'&&activeStateKpi5.length>0)&&
                          <>
@@ -369,11 +384,15 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                         
                     </div>:
                     <div id={`${kpi.YDMS_KPIs_id==='kpi_12'?'big-chart':'div-for-barchart'}`} className={'div-for-barchart'}>
-                        <BarChart data={BARDATA} keys={keys} legend={['kpi_4'].includes(kpi.YDMS_KPIs_id) ? false:true} />
+                        <BarChart 
+                            data={BARDATA} 
+                            keys={keys} 
+                            groupMode={['kpi_3', 'kpi_20'].includes(kpi.YDMS_KPIs_id)?true:false}
+                            legend={['kpi_4', 'kpi_3', 'kpi_20', 'kpi_12'].includes(kpi.YDMS_KPIs_id) ? false:true} />
                     </div>}
                 </div>
                 {
-                    (!['kpi_2', 'kpi_12', 'kpi_4', 'kpi_5'].includes(kpi?.YDMS_KPIs_id))&&
+                    (!['kpi_2', 'kpi_12', 'kpi_4', 'kpi_5', 'kpi_3', 'kpi_20'].includes(kpi?.YDMS_KPIs_id))&&
                     <div className="section raw-datas">
                         <div className="raw raw--1">
                             <h2>Total Compliant</h2>
