@@ -4,6 +4,7 @@ import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import {getKPIsData, selectKPI, getKPIs, getStates} from '../../redux/reducer/actions'
 import {NavLink} from 'react-router-dom'
 import { Alert,  Statistic, Card} from 'antd';
+import StateSummary from '../summary/state.summary'
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
 import AfricaMap from '../africaMap/africaMap'
@@ -220,7 +221,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
     }
 
     /**
-     * Destinations for kpi_4 for a selected country
+     * @description saatm countries
      * @returns {Array}
      */
     const generateSAATMDatas = () => {
@@ -260,6 +261,12 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
 
     if(loading || loadingKPIs || loadingStates) {
         return <Loader />
+    }
+
+    if(kpi?.YDMS_KPIs_id === "all") {
+        if(selectedOrg === "state") {
+            return <StateSummary />
+        }
     }
 
     if(kpisData.length === 0 && !loading) {

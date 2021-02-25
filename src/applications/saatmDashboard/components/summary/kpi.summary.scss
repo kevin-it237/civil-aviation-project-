@@ -8,12 +8,21 @@
         >.single-kpi-row {
             display: grid;
             padding: 20px;
-            grid-template-rows: 370px;
-            gap: 15px;
+            gap: 10px;
             border: solid 1px #ddd;
             margin-bottom: 15px;
-            >.kpi-label {
+            .kpi-label {
                 p {font-size: 13px;}
+            }
+            .summary-item-column {
+                height: 300px;
+                padding-bottom: 15px;
+                transform: translate(-50px)
+            }
+            .stats-wrapper {
+                display: grid;
+                grid-template-columns: 25% 75%;
+                gap: 10px;
             }
         }
     }
