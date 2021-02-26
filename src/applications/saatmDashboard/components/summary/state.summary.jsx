@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
-import {getKPIsDataSummary, getStates} from '../../redux/reducer/actions'
+import {getKPIsDataSummary, getStates, selectState} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import StateSummaryItem from './state.summary.item'
@@ -18,7 +18,8 @@ const { TabPane } = Tabs;
 const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, loadingStates}) => {
 
     const dispatch = useDispatch()
-    
+    const [selectedState, setSelectedState] = useState(null)
+    const [SUMMARY_DATAS, setSUMMARY_DATAS] = useState([])
 
     useEffect(() => {
         if(!states.length) {
@@ -30,6 +31,18 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
         dispatch(getKPIsDataSummary(selectedOrg))
     }, [])
 
+    useEffect(() => {
+        if(Object.keys(kpisSummaryData).length) {
+            generateSAATMDatas()
+        }
+    }, [kpisSummaryData])
+
+    useEffect(() => {
+        if(SUMMARY_DATAS.length) {
+            setSelectedState(SUMMARY_DATAS[0])
+        }
+    }, [SUMMARY_DATAS])
+
     const refresh = () => {
         dispatch(getKPIsDataSummary(selectedOrg))
     }
@@ -40,7 +53,8 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
      */
     const generateSAATMDatas = () => {
         const saatmStates = states.filter(state => state.SAATM_membership == 1).map(state => state.YDMS_AU_id)
-        return kpisSummaryData.filter(data => saatmStates.includes(data.YDMS_Org_id))
+        const data = kpisSummaryData.filter(data => saatmStates.includes(data.YDMS_Org_id))
+        setSUMMARY_DATAS(data)
     }
 
     if(loading || loadingStates) {
@@ -54,8 +68,6 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
             </div>
         )
     }
-
-    const SUMMARY_DATAS = generateSAATMDatas()
     
     return (
         <div className="kpisSummary-content">
@@ -68,12 +80,27 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
                         totalStates={SUMMARY_DATAS.length} />
                 </TabPane>
                 <TabPane tab="SUMMARY BY STATES" key="2">
-                    <div className="summary-table">
-                        {
-                            SUMMARY_DATAS.map(data => {
-                                return <StateSummaryItem key={data.YDMS_Org_id} data={data} totalStates={SUMMARY_DATAS.length} />
-                            })
-                        }
+                    <div className="states-performances">
+                        <div className="states-listing">
+                            {SUMMARY_DATAS.length&&
+                                SUMMARY_DATAS.map(data => {
+                                    return <p 
+                                    onClick={() => setSelectedState(data)} 
+                                    className={`${selectedState?.YDMS_Org_id === data.YDMS_Org_id ? 'selected':''}`}
+                                    key={data.YDMS_Org_id}>{data.short_name}</p>
+                                })
+                            }
+                        </div>
+                        <div className="summary-table">
+                            {selectedState&&
+                            <StateSummaryItem data={selectedState} totalStates={SUMMARY_DATAS.length} />}
+                            
+                            {/* {
+                                SUMMARY_DATAS.map(data => {
+                                    return <StateSummaryItem key={data.YDMS_Org_id} data={data} totalStates={SUMMARY_DATAS.length} />
+                                })
+                            } */}
+                        </div>
                     </div>
                 </TabPane>
             </Tabs>

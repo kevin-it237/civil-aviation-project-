@@ -2,7 +2,7 @@
 
 .header {
     background-color: $primary;
-    padding: 10px 24px !important;
+    padding: 7px 24px !important;
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
@@ -20,6 +20,7 @@
         .ant-page-header-heading-title {
             color: white;
             font-size: 16px;
+            line-height: 19px !important;
             @media only screen and (max-width: 1366px) {
                 font-size: 14px;
             }

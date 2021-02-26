@@ -29,8 +29,15 @@
             }
             .stats-wrapper {
                 display: grid;
-                grid-template-columns: 25% 75%;
+                grid-template-columns: 1fr;
                 gap: 10px;
+                .ant-card-body {
+                    padding: 8px 20px !important;
+                    border-color: $stroke-color !important;
+                }
+                .ant-statistic-content {
+                    font-size: 19px !important;
+                }
             }
         }
     }
@@ -76,5 +83,29 @@
     }
     .ant-statistic-content {
         font-size: 19px !important;
+    }
+}
+
+.states-performances {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    gap: 10px;
+    >.states-listing {
+        height: 490px;
+        overflow-y: scroll;
+        border: solid 1px $stroke-color;
+        padding: 10px;
+        >p {
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+            padding: 3px;
+            &:hover {
+                font-weight: bold;
+            }
+        }
+        >p.selected {
+            background-color: $primary;
+            color: $white;
+        }
     }
 }
