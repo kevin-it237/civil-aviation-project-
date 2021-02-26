@@ -95,7 +95,7 @@ const AfcacKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg}) => {
             </div>
 
             <div className="summary-table">
-                <div className="single-kpi-row">
+                <div className="single-kpi-row__afcac">
                     <div className="bar-wrapper">
                         <BarChart groupMode={"stacked"} legend={false} data={BARDATA} keys={keys} />
                     </div>

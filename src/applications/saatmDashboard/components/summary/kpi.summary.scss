@@ -5,6 +5,14 @@
 
     >.summary-table {
         display: grid;
+        >.single-kpi-row__afcac {
+            display: grid;
+            padding: 20px;
+            gap: 10px;
+            border: solid 1px #ddd;
+            margin-bottom: 15px;
+            grid-template-rows: 370px;
+        }
         >.single-kpi-row {
             display: grid;
             padding: 20px;
