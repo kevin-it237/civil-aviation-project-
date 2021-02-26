@@ -55,7 +55,7 @@ const StateSummaryItem = ({data, totalStates}) => {
         let kpi3Value = parseFloat(((kpi3ValueTemp/kpi3TotalWeight)*100).toFixed(2))
 
         // Calculate kpi10 value
-        let kpi12Value = sortedData['kpi_12'][0].sp_response.weight_response
+        let kpi12Value = parseFloat((sortedData['kpi_12'][0].sp_response.weight_response).toFixed(2))
 
         // Calculate KPI_20 value
         let kpi20ValueTemp = 0; let kpi20TotalWeight = 0;
