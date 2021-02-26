@@ -64,7 +64,7 @@ const AfricaMap = ({mapData, dataClasses}) => {
                     },
                     tooltip: {
                         headerFormat: '',
-                        pointFormat: '{point.name}'
+                        pointFormat: '{point.name}: {point.value}%'
                     },
                     point: {
                         events: {
