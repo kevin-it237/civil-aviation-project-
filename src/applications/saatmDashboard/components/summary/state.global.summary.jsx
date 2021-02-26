@@ -23,7 +23,7 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states}) => {
 
     const calculateKPIsValues = () => {
 
-        const scores = SUMMARY_DATAS.map(data => {;
+        const scores = SUMMARY_DATAS.map(data => {
         
             const SPs = data.survey_protocols
             const sortedData = groupDataByProperty(SPs, 'YDMSKPIYDMSKPIsId')
