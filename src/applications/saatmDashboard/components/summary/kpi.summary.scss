@@ -1,9 +1,9 @@
 @import '../../../../assets/styles/global.scss';
 
 .kpisSummary-content {
-    padding: 30px;
+    padding: 20px 30px 30px;
 
-    >.summary-table {
+    .summary-table {
         display: grid;
         >.single-kpi-row__afcac {
             display: grid;
@@ -13,7 +13,7 @@
             margin-bottom: 15px;
             grid-template-rows: 370px;
         }
-        >.single-kpi-row {
+        .single-kpi-row {
             display: grid;
             padding: 20px;
             gap: 10px;
@@ -53,5 +53,28 @@
     }
     .red .ant-statistic-content-value{
         color: #f44336;
+    }
+}
+
+
+.graphics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: 1fr;
+    gap: 10px;
+    >.global-charts {
+        border: solid 1px $stroke-color;
+        padding: 10px;
+        height: 450px;
+    }
+}
+
+.global-states {
+    .ant-card-body {
+        padding: 8px 20px !important;
+        border-color: $stroke-color !important;
+    }
+    .ant-statistic-content {
+        font-size: 19px !important;
     }
 }

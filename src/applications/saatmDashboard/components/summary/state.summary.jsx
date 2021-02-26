@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react'
 import {connect, useDispatch} from 'react-redux'
-import { Statistic, Row, Col, Typography, Card } from 'antd';
 import {getKPIsDataSummary, getStates} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import BarChart from '../barChart/barChart'
 import StateSummaryItem from './state.summary.item'
+import StateGlobalSummary from './state.global.summary';
+import { Tabs } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import Empty from '../../../../app/components/empty/empty'
 import './kpi.summary.scss'
-const { Title } = Typography;
+const { TabPane } = Tabs;
 
 /**
  * @description content
@@ -18,6 +18,7 @@ const { Title } = Typography;
 const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, loadingStates}) => {
 
     const dispatch = useDispatch()
+    
 
     useEffect(() => {
         if(!states.length) {
@@ -58,13 +59,24 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
     
     return (
         <div className="kpisSummary-content">
-
-            <div className="summary-table">
-                {
-                    SUMMARY_DATAS.map(data => {
-                        return <StateSummaryItem key={data.YDMS_Org_id} data={data} totalStates={SUMMARY_DATAS.length} />
-                    })
-                }
+            <div className="state-summary-header">
+            <Tabs defaultActiveKey="1" centered>
+                <TabPane tab="GLOBAL SUMMARY" key="1">
+                    <StateGlobalSummary 
+                        states={states}
+                        SUMMARY_DATAS={SUMMARY_DATAS} 
+                        totalStates={SUMMARY_DATAS.length} />
+                </TabPane>
+                <TabPane tab="SUMMARY BY STATES" key="2">
+                    <div className="summary-table">
+                        {
+                            SUMMARY_DATAS.map(data => {
+                                return <StateSummaryItem key={data.YDMS_Org_id} data={data} totalStates={SUMMARY_DATAS.length} />
+                            })
+                        }
+                    </div>
+                </TabPane>
+            </Tabs>
             </div>
         </div>
     )

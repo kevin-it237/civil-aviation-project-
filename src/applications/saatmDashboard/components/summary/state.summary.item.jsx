@@ -149,11 +149,11 @@ const StateSummaryItem = ({data, totalStates}) => {
                             <Statistic title="Overall Score" value={`${KPI_SCORE}%`} />
                         </Card>
                     </Col>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <Card>
                             <Statistic title="KPI 5 Score" value={`${KPI5SCORE}%`} precision={2} />
                         </Card>
-                    </Col>
+                    </Col> */}
                 </Row>
                 <div className="summary-item-column">
                         {BARDATA.length&&
