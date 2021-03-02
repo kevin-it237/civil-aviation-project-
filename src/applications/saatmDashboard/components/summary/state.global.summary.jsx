@@ -146,7 +146,20 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states}) => {
                 "Not implementedColor": "#ddd"
             }
         })
-        setBARDATA(res.reverse())
+
+        const compare = (a, b) => {
+            if ( a["Percentage implementation"] < b["Percentage implementation"] ){
+              return -1;
+            }
+            if ( a["Percentage implementation"] > b["Percentage implementation"] ){
+              return 1;
+            }
+            return 0;
+        }
+        // Order data
+        res.sort(compare);
+        
+        setBARDATA(res)
     }
 
     const calculateGlobalScore = (data) => {
