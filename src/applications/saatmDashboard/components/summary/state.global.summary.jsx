@@ -187,6 +187,7 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states}) => {
                     <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
                 </div>
                 <div className="bar-global global-charts">
+                    <center><b>States Ranking</b></center>
                     {BARDATA.length&&
                     <BarChart groupMode={"stacked"} legend={false} data={BARDATA} keys={keys} />}
                 </div>
