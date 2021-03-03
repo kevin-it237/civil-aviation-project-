@@ -6,14 +6,14 @@ import MainHeader from '../../../../app/components/mainHeader/mainHeader'
 import {getStates, getUsers} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import { Select, Menu, Button } from 'antd';
+import { Menu, Button } from 'antd';
 import StateAccounts from '../../components/states.account/states.account'
+import EAccounts from '../../components/ea.account/ea.account'
 import {
     UserOutlined,
   } from '@ant-design/icons';
 import './adminDashboard.scss'
 
-const { Option } = Select;
 const { SubMenu } = Menu;
 
 const Login = ({ error, user, states, loadingStates, loadingUsers }) => {
@@ -32,6 +32,8 @@ const Login = ({ error, user, states, loadingStates, loadingUsers }) => {
     let renderContent = <StateAccounts />
     if(content === 'STATE_ACCOUNTS') {
         renderContent = <StateAccounts />
+    } else if(content === 'EA_ACCOUNTS') {
+        renderContent = <EAccounts />
     } else {
         renderContent = null
     }

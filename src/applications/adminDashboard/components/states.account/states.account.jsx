@@ -9,7 +9,7 @@ import { Button, Divider, Table, Space, Tag, message } from 'antd';
 import './states.account.scss';
 const { Column } = Table;
 
-const StateAccounts = ({ error, user, states, users, success, isCreating }) => {
+const StateAccounts = ({ error, user, states, users, success }) => {
     const dispatch = useDispatch()
     const [statesList, setStatesList] = useState([])
 
