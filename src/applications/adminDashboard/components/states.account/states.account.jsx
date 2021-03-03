@@ -19,7 +19,7 @@ const StateAccounts = ({ error, user, states, users, success }) => {
 
     const createAccount = (state) => {
         const user = {
-            username: state.cc,
+            username: state.cc.toLowerCase(),
             email: "email@email.com",
             role: "state",
             password: `${state.cc.toLowerCase()}2021`,

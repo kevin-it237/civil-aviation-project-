@@ -41,7 +41,7 @@ const EAccounts = ({ error, user, users, success }) => {
 
     const createAccount = (ea) => {
         const user = {
-            username: ea.name,
+            username: ea.name.toLowerCase(),
             email: "email@email.com",
             role: "ea",
             password: `${ea.name.toLowerCase()}2021`,
