@@ -1,54 +1,30 @@
 import { types } from './types';
 
 /**
- * @description get the current autheticated user.
+ * @description Get states
  */
-export const authCurrentAuthenticatedUser = () => ({
-	type: types.CURRENT_AUTHENTICATED_USER_REQUEST,
+export const getStates = () => ({
+    type: types.ADMIN_GET_STATES_REQUEST
 });
 
 /**
- * @description login user.
+ * @description Get all users
  */
-export const authSignIn = (payload) => ({
-	type: types.SIGN_IN_USER_REQUEST,
-	payload,
+export const getUsers = () => ({
+    type: types.ADMIN_GET_USERS_REQUEST
 });
 
 /**
- * @description login user.
+ * @description Create user acoount
  */
-export const authRegister = (payload) => ({
-	type: types.REGISTER_USER_REQUEST,
-	payload,
+export const createUserAccount = (payload) => ({
+    type: types.ADMIN_CREATE_USER_ACCOUNT_REQUEST,
+    payload
 });
 
 /**
- * @description logout user.
+ * @description set success to false
  */
-export const authLogout = () => ({
-	type: types.LOGOUT_USER_REQUEST,
-});
-
-/**
- * @description login with google, facebook, apple etc...
- */
-export const authFederatedSignIn = (payload) => ({
-	type: types.FEDERATED_SIGN_IN_REQUEST,
-	payload,
-});
-
-/**
- * @description clean redirect to prop.
- */
-export const cleanRedirect = () => ({
-	type: types.REDIRECT_REQUEST,
-	payload: null,
-});
-
-/**
- * @description gets profile actual profile information. 
- */
-export const authProfileInfo = () =>({
-	type: types.PROFILE_INFO_REQUEST
+export const resetResponseStatus = () => ({
+    type: types.RESTORE_RESPONSE_STATUS
 });

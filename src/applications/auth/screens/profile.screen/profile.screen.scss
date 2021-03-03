@@ -6,23 +6,10 @@
     width: 100vw;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(rgba($white, 0.1), rgba($white, 0.1)), url('../../../../assets/images/aa.jpg');
     background-size: cover;
     background-position: center;
 
     .auth-container__card {
-        border: solid 1px $stroke-color;
-        padding: 50px 75px;
-        border-radius: 5px;
-        background-color: rgba($white, 0.95);
-        .auth-container__title {
-            color: $primary;
-            font-family: "Poppins Medium", sans-serif;
-            font-size: 22px;
-            text-align: center;
-            padding: 40px;
-            padding-top: 0;
-        }
 
         select:focus, select:active {
             box-shadow: none !important;

@@ -25,11 +25,11 @@ const MainHeader = ({user}) => {
 
     return (
         <div className="main-header">
-            <Link to='/' className="logo">Dashboard</Link>
+            <Link to='/' className="logo">Home</Link>
             <div className="header-right">
-                <NavLink exact={true} to='/'>Home</NavLink>
                 <NavLink exact={true} to='/yd-monitoring'>YD Monitoring System</NavLink>
                 <NavLink exact={true} to='/saatm-dashboard'>SAATM Dashboard</NavLink>
+                {user.role === 'admin'&&<NavLink exact={true} to='/administration'>Admin Dashboard</NavLink>}
                 <NavLink exact={true} to='/help'>Help</NavLink>
                 <NavLink exact={true} to='/logout'>Logout</NavLink>
             </div>

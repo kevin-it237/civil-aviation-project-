@@ -1,82 +1,81 @@
 import { types } from './types';
 
 /**
- * @param {object} user logged in.
- * @param {object} form when creating an account.
- * @param {boolean} loading_current_user check if there is an account logged when the application loads.
- * @param {string} redirect path to redirect user to.
- * @param {object} error errors that may happen in authetication.
+ * @param {array} states
+ * @param {array} users
+ * @param {object} loader
  */
 const INITIAL_STATE = {
-	user: null,
-	loading_current_user: true,
-	redirect: null,
-	error: null,
+	states: [],
+	users: [],
+	success: null,
+	loader: {
+        actions: []
+    },
 };
 
-const AuthReducer = (state = INITIAL_STATE, action) => {
+const AdminReducer = (state = INITIAL_STATE, action) => {
+	const { loader } = state;
+    const { payload } = action;
 	switch (action.type) {
 		
-		case types.CURRENT_AUTHENTICATED_USER_SUCCESS:
-			return {
-				...state,
-				user: action.payload,
-				error: null,
-				loading_current_user: false,
-			};
+		case types.START_LOADING:
+            return {
+                ...state,
+                loader: {
+                    ...loader,
+                    actions: [...new Set([...loader.actions, payload])], 
+                }
+            };
 
-		case types.CURRENT_AUTHENTICATED_USER_FAILURE:
-			return {
-				...state,
-				user: null,
-				error: action.payload,
-				loading_current_user: false,
-			};
-		
-		case types.PROFILE_INFO_SUCCESS:
-			return {
-				...state,
-			};
+        case types.STOP_LOADING:
+            return {
+                ...state,
+                loader: {
+                    ...loader,
+                    actions: loader.actions.filter(action => action !== payload),
+                }
+            };
 
-		case types.PROFILE_INFO_FAILURE:
-			return {
-				...state,
-				user: null,
-				error: action.payload,
-				loading_current_user: false,
-			};
+        case types.ADMIN_GET_STATES_SUCCESS:
+            return {
+                ...state,
+                states: action.payload,
+            };
+        case types.ADMIN_GET_STATES_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+            };
 
-		case types.SIGN_IN_USER_SUCCESS:
-			return {
-				...state,
-				error: null,
-				user: action.payload
-			};
+        case types.ADMIN_GET_USERS_SUCCESS:
+            return {
+                ...state,
+                users: action.payload,
+            };
+        case types.ADMIN_GET_USERS_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+            };
 
-		case types.SIGN_IN_USER_FAILURE:
-			return {
-				...state,
-				error: action.payload,
-				loading_current_user: false,
-			};
+        case types.ADMIN_CREATE_USER_ACCOUNT_SUCCESS:
+            return {
+                ...state,
+                users: [...state.users, action.payload],
+				success: 'Action successfully executed.'
+            };
+        case types.ADMIN_CREATE_USER_ACCOUNT_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+				success: null
+            };
 
-		case types.LOGOUT_USER_SUCCESS:
+		case types.RESTORE_RESPONSE_STATUS:
 			return {
 				...state,
-				user: null,
-			};
-
-		case types.LOGOUT_USER_FAILURE:
-			return {
-				...state,
-				error: action.payload,
-			};
-
-		case types.REDIRECT_REQUEST:
-			return {
-				...state,
-				redirect: action.payload,
-				error: null,
+				success: null,
 			};
 
 		default:
@@ -84,4 +83,4 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
 	}
 };
 
-export default AuthReducer;
+export default AdminReducer;

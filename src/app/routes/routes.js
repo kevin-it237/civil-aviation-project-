@@ -8,6 +8,7 @@ import HomeScreen from '../screens/home/home.screen'
 import AuthScreen from '../../applications/auth/screens/auth.screen/auth.screen'
 import SaatmDashboard from '../../applications/saatmDashboard/screens/saatmDashboard'
 import YDSystemDashboard from '../../applications/ydMonitoring/screens/ydMonitoringDashboard'
+import AdminDashboard from '../../applications/adminDashboard/screens/adminDashboard/adminDashboard'
 import Help from '../../applications/help/screens/help'
 
 /**
@@ -29,6 +30,13 @@ const Routes = () => {
                     exact 
                     component={SaatmDashboard}
                     path={"/saatm-dashboard"} />
+            </PrivateRoute>
+            
+            <PrivateRoute path={"/administration"}>
+                <Route 
+                    exact 
+                    component={AdminDashboard}
+                    path={"/administration"} />
             </PrivateRoute>
 
             <PrivateRoute path={"/help"}>

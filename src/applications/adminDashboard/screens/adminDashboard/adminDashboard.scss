@@ -1,0 +1,19 @@
+@import '../../../../assets//styles/global.scss';
+
+#admin-dashboard {
+    .admin-container {
+        height: calc(100vh - 65px);
+        display: grid;
+        grid-template-columns: 20% 78%;
+        gap: 15px;
+        
+        .left-menu {
+            border: solid 1px $stroke-color;
+        }
+
+        .admin-content {
+            display: grid;
+            overflow-y: scroll;
+        }
+    }
+}
