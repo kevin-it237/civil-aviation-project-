@@ -70,9 +70,14 @@
     grid-auto-columns: 1fr;
     gap: 10px;
     >.global-charts {
+        position: relative;
         border: solid 1px $stroke-color;
         padding: 10px;
         height: 470px;
+        .ranking_text {
+            position: absolute;
+            left: 40%;
+        }
     }
 }
 
