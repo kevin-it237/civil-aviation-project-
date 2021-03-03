@@ -4,7 +4,7 @@ import {connect, useDispatch} from 'react-redux'
 import { BulbFilled } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
-import {getKPIs, selectKPI, getKPIsData} from '../../redux/reducer/actions'
+import {getKPIs, selectKPI, getKPIsData, selectOrg} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import Empty from '../../../../app/components/empty/empty';
 import './kpis.list.scss'
@@ -16,7 +16,7 @@ const { SubMenu } = Menu;
  * @description YD monitoring screen
  */
 
-const KPIsList = ({kpis, loading, selectedOrg}) => {
+const KPIsList = ({kpis, loading, selectedOrg, user}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('state')
@@ -24,6 +24,16 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
     const handleClick = e => {
         setCurrent(e.key);
     };
+
+    useEffect(() => {
+        if(user) {
+            let org = 'state'
+            if(user.role === 'ea') org = 'afcac'
+            if(user.role === 'airline') org = 'airline'
+            dispatch(selectOrg(org))
+            setCurrent(org)
+        }
+    }, [])
 
     useEffect(() => {
         dispatch(getKPIs(selectedOrg))
@@ -93,10 +103,11 @@ const KPIsList = ({kpis, loading, selectedOrg}) => {
 
 
 
-const mapStateToProps = ({ SAATMDashboardReducer }) => ({
+const mapStateToProps = ({ SAATMDashboardReducer, AuthReducer }) => ({
     kpis: SAATMDashboardReducer.kpis,
     loading: checkIfLoader(SAATMDashboardReducer, types.GET_KPIS_REQUEST),
     selectedOrg: SAATMDashboardReducer.selectedOrg,
+    user: AuthReducer.user
 })
 
 export default connect(mapStateToProps)(KPIsList);

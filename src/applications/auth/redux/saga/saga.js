@@ -11,6 +11,7 @@ function* authSignIn ({payload})
         const {data} = yield call(authClass.authSignIn, payload);
         yield put({ type: types.SIGN_IN_USER_SUCCESS, payload: data });
         localStorage.setItem('token', JSON.stringify(data.accessToken));
+        localStorage.setItem('orgId', JSON.stringify(data.orgId));
         localStorage.setItem('user', JSON.stringify(data));
         yield put({ type: types.REDIRECT_REQUEST, payload: payload.redirect });
     } 

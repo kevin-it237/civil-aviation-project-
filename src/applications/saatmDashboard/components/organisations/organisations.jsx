@@ -12,7 +12,7 @@ const { SubMenu } = Menu;
  * @description YD monitoring screen
  */
 
-const Organisations = ({states}) => {
+const Organisations = ({states, user}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('states')
@@ -39,9 +39,23 @@ const Organisations = ({states}) => {
                 mode="inline"
             >
                 <SubMenu key="sub1" icon={<FlagFilled />} title="Organisations">
-                    <Menu.Item onClick={() => handleSelectOrg('state')} key={0}>State/CAA KPIs</Menu.Item>
+                    {
+                        user.role === 'admin'&&
+                        <>
+                            <Menu.Item onClick={() => handleSelectOrg('state')} key={0}>State/CAA KPIs</Menu.Item>
+                            <Menu.Item onClick={() => handleSelectOrg('afcac')} key={1}>EA KPIs</Menu.Item>
+                            <Menu.Item onClick={() => handleSelectOrg('airline')} key={2}>Airline KPIs</Menu.Item>
+                        </>
+                    }
+                    {user.role==='ea'&&
                     <Menu.Item onClick={() => handleSelectOrg('afcac')} key={1}>EA KPIs</Menu.Item>
+                    }
+                    {user.role==='state'&&
+                    <Menu.Item onClick={() => handleSelectOrg('state')} key={0}>State/CAA KPIs</Menu.Item>
+                    }
+                    {user.role==='airline'&&
                     <Menu.Item onClick={() => handleSelectOrg('airline')} key={2}>Airline KPIs</Menu.Item>
+                    }
                 </SubMenu>
             </Menu>
         </div>
@@ -50,8 +64,9 @@ const Organisations = ({states}) => {
 
 
 
-const mapStateToProps = ({ SAATMDashboardReducer }) => ({
+const mapStateToProps = ({ SAATMDashboardReducer, AuthReducer }) => ({
     states: SAATMDashboardReducer.states,
+    user: AuthReducer.user
 })
 
 export default connect(mapStateToProps)(Organisations);

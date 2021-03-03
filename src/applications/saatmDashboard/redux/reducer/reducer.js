@@ -23,7 +23,7 @@ const INITIAL_STATE = {
         id: 0   
     }, 
     selectedState: null, 
-    selectedOrg: "state", 
+    selectedOrg: "", 
     loader: {
         actions: []
     },

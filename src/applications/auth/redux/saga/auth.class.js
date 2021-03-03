@@ -1,4 +1,4 @@
-import { postRequest, putRequest } from "../../../../helpers/api";
+import { postUnauthRequest, putRequest } from "../../../../helpers/api";
 
 var _URL = `${process.env.REACT_APP_API_URL}/auth`;
 
@@ -13,7 +13,7 @@ class AuthClass {
      * @returns Promise
      */
     authSignIn(payload) {   
-        return postRequest(`${_URL}/signin`, payload);
+        return postUnauthRequest(`${_URL}/signin`, payload);
     }
 
     /**
@@ -22,7 +22,7 @@ class AuthClass {
      * @returns Promise
      */
     authRegister(payload) {   
-        return postRequest(`${_URL}/register`, payload);
+        return postUnauthRequest(`${_URL}/register`, payload);
     }
     /**
      * @description Update user profile a user.

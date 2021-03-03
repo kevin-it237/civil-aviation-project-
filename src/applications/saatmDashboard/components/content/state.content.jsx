@@ -17,7 +17,7 @@ import './content.scss'
  * @description content
  */
 
-const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates, states}) => {
+const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadingStates, states, user}) => {
     
     const dispatch = useDispatch()
     const [MAPDATA, setMAPDATA] = useState([])
@@ -340,6 +340,11 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
         }
     }
 
+    let SAATMDATAS = generateSAATMDatas()
+    if(user.role !== "admin") {
+        SAATMDATAS = generateSAATMDatas().filter(st => st.YDMS_AU_id === user.orgId)
+    }
+
     return (
         <> 
             <div className="kpi-infos-box">
@@ -352,7 +357,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                         <div className="kpi-5-block">
                             <div className="saatm-states">
                                 {
-                                    generateSAATMDatas().map(state => (
+                                    SAATMDATAS.map(state => (
                                         <NavLink
                                             exact={true}
                                             className={`${activeStateKpi5===state.short_name?'actived':''}`}
@@ -423,12 +428,13 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
 
 
 
-const mapStateToProps = ({ SAATMDashboardReducer}) => ({
+const mapStateToProps = ({ SAATMDashboardReducer, AuthReducer}) => ({
     kpis: SAATMDashboardReducer.kpis,
     kpi: SAATMDashboardReducer.kpi,
     kpisData: SAATMDashboardReducer.kpisData,
     selectedOrg: SAATMDashboardReducer.selectedOrg,
     states: SAATMDashboardReducer.states,
+    user: AuthReducer.user,
     loading: checkIfLoader(SAATMDashboardReducer, types.GET_KPI_DATA_REQUEST),
     loadingKPIs: checkIfLoader(SAATMDashboardReducer, types.GET_KPIS_REQUEST),
     loadingStates: checkIfLoader(SAATMDashboardReducer, types.GET_STATES_REQUEST),

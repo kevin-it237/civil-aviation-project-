@@ -16,7 +16,7 @@ const { TabPane } = Tabs;
  */
 
 const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, loadingStates}) => {
-
+console.log(kpisSummaryData);
     const dispatch = useDispatch()
     const [selectedState, setSelectedState] = useState(null)
     const [SUMMARY_DATAS, setSUMMARY_DATAS] = useState([])
