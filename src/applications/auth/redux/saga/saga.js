@@ -36,6 +36,20 @@ function* authRegister ({payload})
     }
 }
 
+/**
+ * @description update user profile.  
+ */
+function* updateUser ({payload}) {
+    try {
+        const {data} = yield call(authClass.updateUser, payload);
+        yield put({ type: types.UPDATE_USER_SUCCESS, payload: data });
+    } 
+    catch (error)
+    {
+        yield put({ type: types.UPDATE_USER_FAILURE, payload: error.response.data });
+    }
+}
+
 
 /**
  * @description check the current autheticated user.   
@@ -103,4 +117,5 @@ export default function* AuthSaga()
     yield takeLatest(types.REGISTER_USER_REQUEST, authRegister);
     yield takeLatest(types.PROFILE_INFO_REQUEST, authProfileInfo);
     yield takeLeading(types.LOGOUT_USER_REQUEST, authLogout);
+    yield takeLeading(types.UPDATE_USER_REQUEST, updateUser);
 }

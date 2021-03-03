@@ -12,6 +12,7 @@ const INITIAL_STATE = {
 	loading_current_user: true,
 	redirect: null,
 	error: null,
+	success: null,
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -60,6 +61,20 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
 				loading_current_user: false,
 			};
 
+		case types.UPDATE_USER_SUCCESS:
+			return {
+				...state,
+				error: null,
+				// user: action.payload,
+				success: 'Password updated successfully.'
+			};
+
+		case types.UPDATE_USER_FAILURE:
+			return {
+				...state,
+				error: action.payload,
+			};
+
 		case types.LOGOUT_USER_SUCCESS:
 			return {
 				...state,
@@ -77,6 +92,12 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
 				...state,
 				redirect: action.payload,
 				error: null,
+			};
+
+		case types.RESET_RESPONSE_STATUS:
+			return {
+				...state,
+				success: null,
 			};
 
 		default:

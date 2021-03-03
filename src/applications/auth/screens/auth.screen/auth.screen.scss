@@ -114,25 +114,6 @@
             display: grid;
             justify-content: center;
             gap: 20px;
-            .auth-container__button-social {
-                cursor: pointer;
-                position: relative;
-                height: 40px;
-                line-height: 40px;
-                background-color: $white;
-                border: 1px solid $stroke-color;
-                border-radius: 50px;
-                font-family: "Poppins Medium", sans-serif;
-                font-size: 14px;
-                color: $grey-500;
-                padding: 0 35px;
-                -webkit-app-region: no-drag;
-                .auth-container__social-icon {
-                    position: absolute;
-                    left: 10px;
-                    margin: 10px 0;
-                }
-            }
         }
         .error-box {
             margin-top: 20px;

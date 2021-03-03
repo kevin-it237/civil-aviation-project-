@@ -31,10 +31,10 @@ export const authLogout = () => ({
 });
 
 /**
- * @description login with google, facebook, apple etc...
+ * @description update user
  */
-export const authFederatedSignIn = (payload) => ({
-	type: types.FEDERATED_SIGN_IN_REQUEST,
+export const updateUser= (payload) => ({
+	type: types.UPDATE_USER_REQUEST,
 	payload,
 });
 
@@ -51,4 +51,11 @@ export const cleanRedirect = () => ({
  */
 export const authProfileInfo = () =>({
 	type: types.PROFILE_INFO_REQUEST
+});
+
+/**
+ * @description reset response status
+ */
+export const resetResponseStatus = () =>({
+	type: types.RESET_RESPONSE_STATUS
 });
