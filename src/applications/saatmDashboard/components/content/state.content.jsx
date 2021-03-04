@@ -370,6 +370,8 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                             <div className="map-wrapper">
                                 {activeStateKpi5.length>0&&<p className="state-text">{activeStateKpi5}</p>}
                                 <AfricaMap 
+                                    state={SAATMDATAS[0]}
+                                    generateDestinations={generateDestinations}
                                     mapData={MAPDATA} 
                                     dataClasses={DATACLASSES} />
                             </div>
@@ -400,7 +402,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                         <PieChart data={PIECHART_DATA} />}
                         
                     </div>:
-                    <div id={`${kpi.YDMS_KPIs_id==='kpi_12'?'big-chart':'div-for-barchart'}`} className={'div-for-barchart'}>
+                    <div className={`${kpi.YDMS_KPIs_id==='kpi_12'?'big-chart':'div-for-barchart'}`} id={`${user.role !== 'admin' ? 'small-chart':''}`}>
                         <BarChart 
                             data={BARDATA} 
                             keys={keys} 

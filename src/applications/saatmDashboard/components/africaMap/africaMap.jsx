@@ -8,9 +8,14 @@ const map = require('@highcharts/map-collection/custom/africa.geo.json');
  * @description Africa Chart
  */
 
-const AfricaMap = ({mapData, dataClasses}) => {
+const AfricaMap = ({mapData, dataClasses, state, generateDestinations}) => {
 
-    const [state, setState] = useState("")
+
+    useEffect(() => {
+        if(state) {
+            generateDestinations(state)
+        }
+    }, [])
 
     useEffect(() => {
         if(mapData.length) {

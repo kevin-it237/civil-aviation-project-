@@ -104,11 +104,15 @@
                 width: 100% !important;
             }
         }
-        >#div-for-barchart {
+        >.div-for-barchart {
             height: 550px;
         }
-        >#big-chart {
-            height: 620px !important;
+        >.big-chart {
+            height: 620px;
+        }
+        >#small-chart {
+            height: 120px;
+            align-self: center;
         }
     }
     >.raw-datas {

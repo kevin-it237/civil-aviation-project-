@@ -10,6 +10,7 @@ const BarChart = ({ data, keys, groupMode, legend }) => (
         padding={0.4}
         groupMode={groupMode ? "stacked":"grouped"}
         layout="horizontal"
+        maxValue={100}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
         colors={({ id, data }) => data[`${id}Color`]}
