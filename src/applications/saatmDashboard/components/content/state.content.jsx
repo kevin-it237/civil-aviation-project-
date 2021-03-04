@@ -354,7 +354,8 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                 <div className="section africa-chart">
                     {
                         kpi?.YDMS_KPIs_id === 'kpi_5' ?
-                        <div className="kpi-5-block">
+                        <div className={`kpi-5-block ${user.role!=='admin'?'kpi-5-block-no-states':''}`}>
+                            {user.role==='admin'&&
                             <div className="saatm-states">
                                 {
                                     SAATMDATAS.map(state => (
@@ -367,6 +368,7 @@ const Content = ({kpisData, loading, kpis, kpi, selectedOrg, loadingKPIs, loadin
                                     ))
                                 }
                             </div>
+                            }
                             <div className="map-wrapper">
                                 {activeStateKpi5.length>0&&<p className="state-text">{activeStateKpi5}</p>}
                                 <AfricaMap 

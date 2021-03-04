@@ -14,7 +14,7 @@ import './saatmDashboard.scss'
  * @description SAATM Dashboard screen
  */
 
-const SaatmDashboard = ({selectedOrg}) => {
+const SaatmDashboard = ({selectedOrg, user}) => {
     
     const dispatch = useDispatch()
 
@@ -32,17 +32,23 @@ const SaatmDashboard = ({selectedOrg}) => {
     return (
         <div id="saatm-monitoring-container">
             <MainHeader />
-            <div className="saatm-monitoring-content-wrapper">
+            <div className="saatm-monitoring-content-wrapper" id={`${user.role === 'admin'?'':'saatm-monitoring-content-wrapper'}`}>
                 <div className="left-panel">
-                    <div className="org-kpis-content">
-                        <div className="org-listing">
-                            <Organisations />
-                        </div>
-                        <div className="line"></div>
+                    {
+                        user.role === 'admin' ?
+                        <div className="org-kpis-content">
+                            <div className="org-listing">
+                                <Organisations />
+                            </div>
+                            <div className="line"></div>
+                            <div className="kpis-listing">
+                                <KPIsList />
+                            </div>
+                            </div>:
                         <div className="kpis-listing">
                             <KPIsList />
                         </div>
-                    </div>
+                    }
                 </div>
                 <div className="data-content">
                     <Header />
@@ -53,10 +59,6 @@ const SaatmDashboard = ({selectedOrg}) => {
             </div>
         </div>
     )
-}
-
-SaatmDashboard.propTypes = {
-    user: PropTypes.object,
 }
 
 const mapStateToProps = ({ AuthReducer, SAATMDashboardReducer }) => ({

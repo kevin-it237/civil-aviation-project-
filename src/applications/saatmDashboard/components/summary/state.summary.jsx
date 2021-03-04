@@ -15,7 +15,7 @@ const { TabPane } = Tabs;
  * @description content
  */
 
-const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, loadingStates}) => {
+const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, loadingStates, user}) => {
 
     const dispatch = useDispatch()
     const [selectedState, setSelectedState] = useState(null)
@@ -87,17 +87,19 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
                         totalStates={generateSAATMStates().length-1} />
                 </TabPane>
                 <TabPane tab="SUMMARY BY STATES/ KPIs" key="2">
-                    <div className="states-performances">
-                        <div className="states-listing">
-                            {SUMMARY_DATAS.length&&
-                                SUMMARY_DATAS.map(data => {
-                                    return <p 
-                                    onClick={() => setSelectedState(data)} 
-                                    className={`${selectedState?.YDMS_Org_id === data.YDMS_Org_id ? 'selected':''}`}
-                                    key={data.YDMS_Org_id}>{data.short_name}</p>
-                                })
-                            }
-                        </div>
+                    <div className={`states-performances ${user.role!=='admin'?'states-performances-no':''}`}>
+                        {user.role==="admin"&&
+                            <div className="states-listing">
+                                {SUMMARY_DATAS.length&&
+                                    SUMMARY_DATAS.map(data => {
+                                        return <p 
+                                        onClick={() => setSelectedState(data)} 
+                                        className={`${selectedState?.YDMS_Org_id === data.YDMS_Org_id ? 'selected':''}`}
+                                        key={data.YDMS_Org_id}>{data.short_name}</p>
+                                    })
+                                }
+                            </div>
+                        }
                         <div className="summary-table">
                             {selectedState&&
                             <StateSummaryItem data={selectedState} totalStates={generateSAATMStates().length-1} />}
@@ -116,13 +118,14 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
     )
 }
 
-const mapStateToProps = ({ SAATMDashboardReducer }) => ({
+const mapStateToProps = ({ SAATMDashboardReducer, AuthReducer }) => ({
     kpis: SAATMDashboardReducer.kpis,
     kpisSummaryData: SAATMDashboardReducer.kpisSummaryData,
     loading: checkIfLoader(SAATMDashboardReducer, types.GET_KPI_DATA_SUMMARY_REQUEST),
     loadingStates: checkIfLoader(SAATMDashboardReducer, types.GET_STATES_REQUEST),
     selectedOrg: SAATMDashboardReducer.selectedOrg,
     states: SAATMDashboardReducer.states,
+    user: AuthReducer.user,
 })
 
 export default connect(mapStateToProps)(StateKPISummary);

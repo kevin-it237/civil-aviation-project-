@@ -2,6 +2,9 @@
 
 #saatm-monitoring-container {
     height: 100vh;
+    #saatm-monitoring-content-wrapper {
+        grid-template-columns: 20% 79% !important;
+    }
     .saatm-monitoring-content-wrapper {
         display: grid;
         grid-template-columns: 25% 73%;

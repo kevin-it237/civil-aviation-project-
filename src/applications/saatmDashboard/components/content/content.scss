@@ -85,6 +85,9 @@
                 }
             }
         }
+        .kpi-5-block-no-states {
+            grid-template-columns: 100% !important;
+        }
     }
     >.bar-lines {
         grid-area: a1;
@@ -113,6 +116,9 @@
         >#small-chart {
             height: 120px;
             align-self: center;
+        }
+        .ant-card-body {
+            padding: 15px !important;
         }
     }
     >.raw-datas {
