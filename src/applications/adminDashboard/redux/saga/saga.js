@@ -1,5 +1,5 @@
 import {call, put, takeLatest, takeLeading} from 'redux-saga/effects';
-import {getRequest, postRequest} from '../../../../helpers/api'
+import {getRequest, postRequest, putRequest} from '../../../../helpers/api'
 import { types } from "../reducer/types";
 
 const API_URL = `${process.env.REACT_APP_API_URL}`
@@ -35,7 +35,7 @@ function* getUsers ({type}) {
 }
 
 /**
- * @description user sign in.  
+ * @description create user account.  
  */
 function* createUserAccount ({payload, type}) 
 {
@@ -52,6 +52,24 @@ function* createUserAccount ({payload, type})
     }
 }
 
+/**
+ * @description reset account  
+ */
+function* resetUserAccount ({payload, type}) 
+{
+    yield put({type: types.START_LOADING, payload: type})
+    try {
+        const {data} = yield putRequest(`${API_URL}/auth/users`, payload);
+        yield put({ type: types.ADMIN_RESET_USER_ACCOUNT_SUCCESS, payload: data });
+    } 
+    catch (error)
+    {
+        yield put({ type: types.ADMIN_RESET_USER_ACCOUNT_FAILURE, payload: error.response.data });
+    } finally {
+        yield put({type: types.STOP_LOADING, payload: type})
+    }
+}
+
 
 
 export default function* AdminSaga() 
@@ -59,4 +77,5 @@ export default function* AdminSaga()
     yield takeLatest(types.ADMIN_GET_STATES_REQUEST, getStates);
     yield takeLatest(types.ADMIN_GET_USERS_REQUEST, getUsers);
     yield takeLatest(types.ADMIN_CREATE_USER_ACCOUNT_REQUEST, createUserAccount);
+    yield takeLatest(types.ADMIN_RESET_USER_ACCOUNT_REQUEST, resetUserAccount);
 }

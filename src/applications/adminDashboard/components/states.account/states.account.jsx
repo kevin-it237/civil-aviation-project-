@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import useError from '../../hooks/useError';
 import useResponseSuccess from '../../hooks/useResponseSuccess'
-import {createUserAccount} from '../../redux/reducer/actions';
+import {createUserAccount, resetUserAccount} from '../../redux/reducer/actions';
 import {types} from '../../redux/reducer/types';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import { Button, Divider, Table, Space, Tag, message } from 'antd';
@@ -27,6 +27,14 @@ const StateAccounts = ({ error, user, states, users, success }) => {
             orgId: state.key
         }
         dispatch(createUserAccount(user))
+    }
+
+    const resetAccount = (state) => {
+        const user = {
+            username: state.cc.toLowerCase(),
+            password: `${state.cc.toLowerCase()}2021`,
+        }
+        dispatch(resetUserAccount(user))
     }
 
     const displayStatesList = () => {
@@ -90,7 +98,7 @@ const StateAccounts = ({ error, user, states, users, success }) => {
                             <Space size="middle">
                                 {record.username ? 
                                     <Button 
-                                        onClick={() => createAccount(record)} 
+                                        onClick={() => resetAccount(record)} 
                                         type="secondary" size="small" 
                                         loading={false}>Reset Account</Button>:
                                     <Button 

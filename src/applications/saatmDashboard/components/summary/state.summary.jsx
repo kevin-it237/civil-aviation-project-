@@ -16,7 +16,7 @@ const { TabPane } = Tabs;
  */
 
 const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, loadingStates}) => {
-console.log(kpisSummaryData);
+
     const dispatch = useDispatch()
     const [selectedState, setSelectedState] = useState(null)
     const [SUMMARY_DATAS, setSUMMARY_DATAS] = useState([])
@@ -49,12 +49,19 @@ console.log(kpisSummaryData);
 
     /**
      *@description Generates SAATM countries id
-     * @returns {Array}
      */
     const generateSAATMDatas = () => {
         const saatmStates = states.filter(state => state.SAATM_membership == 1).map(state => state.YDMS_AU_id)
         const data = kpisSummaryData.filter(data => saatmStates.includes(data.YDMS_Org_id))
         setSUMMARY_DATAS(data)
+    }
+
+    /**
+     *@description Generates SAATM countries id
+     * @returns {Array}
+     */
+    const generateSAATMStates = () => {
+        return states.filter(state => state.SAATM_membership == 1)
     }
 
     if(loading || loadingStates) {
@@ -77,7 +84,7 @@ console.log(kpisSummaryData);
                     <StateGlobalSummary 
                         states={states}
                         SUMMARY_DATAS={SUMMARY_DATAS} 
-                        totalStates={SUMMARY_DATAS.length} />
+                        totalStates={generateSAATMStates().length-1} />
                 </TabPane>
                 <TabPane tab="SUMMARY BY STATES/ KPIs" key="2">
                     <div className="states-performances">
@@ -93,7 +100,7 @@ console.log(kpisSummaryData);
                         </div>
                         <div className="summary-table">
                             {selectedState&&
-                            <StateSummaryItem data={selectedState} totalStates={SUMMARY_DATAS.length} />}
+                            <StateSummaryItem data={selectedState} totalStates={generateSAATMStates().length-1} />}
                             
                             {/* {
                                 SUMMARY_DATAS.map(data => {

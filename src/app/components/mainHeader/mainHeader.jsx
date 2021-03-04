@@ -50,7 +50,7 @@ const MainHeader = ({user}) => {
                     <NavLink 
                         className="ant-dropdown-link" 
                         onClick={e => e.preventDefault()}
-                        exact={true} to='/logout'>{user.username.toUpperCase()} <DownOutlined /></NavLink>
+                        exact={true} to='/logout'>{user.short_name.toUpperCase()} <DownOutlined /></NavLink>
                 </Dropdown>
             </div>
         </div>

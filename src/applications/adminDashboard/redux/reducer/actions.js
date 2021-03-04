@@ -23,6 +23,14 @@ export const createUserAccount = (payload) => ({
 });
 
 /**
+ * @description Reset user acoount
+ */
+export const resetUserAccount = (payload) => ({
+    type: types.ADMIN_RESET_USER_ACCOUNT_REQUEST,
+    payload
+});
+
+/**
  * @description set success to false
  */
 export const resetResponseStatus = () => ({

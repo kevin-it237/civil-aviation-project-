@@ -25,13 +25,11 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
     const calculateKPIsValues = () => {
 
         const scores = SUMMARY_DATAS.map(data => {
-        
             const SPs = data.survey_protocols
             const sortedData = groupDataByProperty(SPs, 'YDMSKPIYDMSKPIsId')
 
             // Calculate KPI_1 value
             const kpi1Value = sortedData['kpi_1'][0].sp_response.questionnaire_response?100:0
-
             // Calculate KPI_2 value
             let kpi2ValueTemp = 0; let kpi2TotalWeight = 0;
             sortedData['kpi_2'].forEach(SP => {
@@ -40,7 +38,7 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
                 kpi2TotalWeight += SP.weight
             });
             let kpi2Value = parseFloat(((kpi2ValueTemp/kpi2TotalWeight)*100).toFixed(2))
-
+            
             // Calculate KPI_3 value
             let kpi3ValueTemp = 0; let kpi3TotalWeight = 0;
             sortedData['kpi_3'].forEach(SP => {
@@ -49,10 +47,10 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
                 kpi3TotalWeight += SP.weight
             });
             let kpi3Value = parseFloat(((kpi3ValueTemp/kpi3TotalWeight)*100).toFixed(2))
-
+            
             // Calculate kpi10 value
             let kpi12Value = parseFloat((sortedData['kpi_12'][0].sp_response.weight_response).toFixed(2))
-
+            
             // Calculate KPI_20 value
             let kpi20ValueTemp = 0; let kpi20TotalWeight = 0;
             sortedData['kpi_20'].forEach(SP => {
@@ -61,7 +59,7 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
                 kpi20TotalWeight += SP.weight
             });
             let kpi20Value = parseFloat(((kpi20ValueTemp/kpi20TotalWeight)*100).toFixed(2))
-
+            
             // Calculate KPI_4 value
             let kpi4ValueTemp = 0; let kpi4TotalWeight = 35;
             sortedData['kpi_4'].forEach(SP => {
@@ -70,6 +68,8 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
             });
             kpi4ValueTemp = kpi4ValueTemp/kpi4TotalWeight
             let kpi4Value = parseFloat(((kpi4ValueTemp/totalStates)*100).toFixed(2))
+            console.log(sortedData);
+            console.log(kpi4Value);
 
             let STATE_KPI_SCORE = parseFloat(((kpi1Value + kpi2Value + kpi3Value + kpi4Value + kpi12Value + kpi20Value)/6).toFixed(2))
 

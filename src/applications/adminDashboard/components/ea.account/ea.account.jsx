@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import useError from '../../hooks/useError';
 import useResponseSuccess from '../../hooks/useResponseSuccess'
-import {createUserAccount} from '../../redux/reducer/actions';
+import {createUserAccount, resetUserAccount} from '../../redux/reducer/actions';
 import {types} from '../../redux/reducer/types';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import { Button, Divider, Table, Space, Tag, message } from 'antd';
@@ -51,6 +51,14 @@ const EAccounts = ({ error, user, users, success }) => {
         dispatch(createUserAccount(user))
     }
 
+    const resetAccount = (ea) => {
+        const user = {
+            username: ea.name.toLowerCase(),
+            password: `${ea.name.toLowerCase()}2021`,
+        }
+        dispatch(resetUserAccount(user))
+    }
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
           console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -93,7 +101,7 @@ const EAccounts = ({ error, user, users, success }) => {
                             <Space size="middle">
                                 {record.username ? 
                                     <Button 
-                                        onClick={() => createAccount(record)} 
+                                        onClick={() => resetAccount(record)} 
                                         type="secondary" size="small" 
                                         loading={false}>Reset Account</Button>:
                                     <Button 

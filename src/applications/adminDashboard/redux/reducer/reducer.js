@@ -63,9 +63,21 @@ const AdminReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 users: [...state.users, action.payload],
-				success: 'Action successfully executed.'
+				success: 'Account activated successfully.'
             };
         case types.ADMIN_CREATE_USER_ACCOUNT_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+				success: null
+            };
+
+        case types.ADMIN_RESET_USER_ACCOUNT_SUCCESS:
+            return {
+                ...state,
+				success: 'Account successfully reinitialized.'
+            };
+        case types.ADMIN_RESET_USER_ACCOUNT_FAILURE:
             return {
                 ...state,
                 error: action.payload,
