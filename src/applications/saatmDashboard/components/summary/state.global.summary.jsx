@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import BarChart from '../barChart/barChart'
 import AfricaMap from '../africaMap/africaMap'
+import {connect} from 'react-redux'
 import { Statistic, Row, Col, Typography, Card } from 'antd';
 import './kpi.summary.scss'
 
@@ -8,7 +9,7 @@ import './kpi.summary.scss'
  * @description content
  */
 
-const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states}) => {
+const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
 
     const [KPI_SCORE, setKPI_SCORE] = useState(0)
     const [MAPDATA, setMAPDATA] = useState([])
@@ -186,7 +187,7 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states}) => {
                 <div className="map-global global-charts">
                     <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
                 </div>
-                <div className="bar-global global-charts">
+                <div className="bar-global global-charts" id={`${user.role !== 'admin'?'small-bar':''}`}>
                     <p className="ranking_text"><b>States Ranking</b></p>
                     {BARDATA.length&&
                     <BarChart groupMode={"stacked"} legend={false} data={BARDATA} keys={keys} />}
@@ -196,6 +197,9 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states}) => {
     )
 }
 
+const mapStateToProps = ({ AuthReducer }) => ({
+    user: AuthReducer.user,
+})
 
-export default StateGlobalSummary;
+export default connect(mapStateToProps)(StateGlobalSummary);
 

@@ -10,7 +10,7 @@ import './header.scss'
  * @param {string} page yd or saatm
  */
 
-const Header = ({selectedOrg, kpi, selectedState, page}) => {
+const Header = ({selectedOrg, kpi, selectedState, page, user}) => {
     
     const dispatch = useDispatch()
 
@@ -23,6 +23,9 @@ const Header = ({selectedOrg, kpi, selectedState, page}) => {
     }, [])
 
     let headerName = selectedOrg
+    if(user.role !== 'admin') {
+        headerName = user.short_name
+    }
     if(selectedOrg==='afcac') {
         headerName = 'EXECUTING AGENCY'
     }

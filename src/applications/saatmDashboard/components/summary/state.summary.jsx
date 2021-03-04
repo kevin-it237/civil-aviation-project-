@@ -79,7 +79,7 @@ console.log(kpisSummaryData);
                         SUMMARY_DATAS={SUMMARY_DATAS} 
                         totalStates={SUMMARY_DATAS.length} />
                 </TabPane>
-                <TabPane tab="SUMMARY BY STATES" key="2">
+                <TabPane tab="SUMMARY BY STATES/ KPIs" key="2">
                     <div className="states-performances">
                         <div className="states-listing">
                             {SUMMARY_DATAS.length&&

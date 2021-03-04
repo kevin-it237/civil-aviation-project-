@@ -22,6 +22,7 @@ const StateAccounts = ({ error, user, states, users, success }) => {
             username: state.cc.toLowerCase(),
             email: "email@email.com",
             role: "state",
+            short_name: state.name,
             password: `${state.cc.toLowerCase()}2021`,
             orgId: state.key
         }

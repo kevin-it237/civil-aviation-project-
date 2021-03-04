@@ -44,6 +44,7 @@ const EAccounts = ({ error, user, users, success }) => {
             username: ea.name.toLowerCase(),
             email: "email@email.com",
             role: "ea",
+            short_name: 'Executing Agency',
             password: `${ea.name.toLowerCase()}2021`,
             orgId: ea.key
         }
