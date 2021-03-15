@@ -34,56 +34,82 @@ const StateSummaryItem = ({data, totalStates}) => {
         const sortedData = groupDataByProperty(SPs, 'YDMSKPIYDMSKPIsId')
 
         // Calculate KPI_1 value
-        const kpi1Value = sortedData['kpi_1'][0].sp_response.questionnaire_response?100:0
+        let kpi1Value = sortedData['kpi_1']
+        if(kpi1Value) {
+            kpi1Value = kpi1Value[0].sp_response.questionnaire_response?100:0
+        }
 
         // Calculate KPI_2 value
-        let kpi2ValueTemp = 0; let kpi2TotalWeight = 0;
-        sortedData['kpi_2'].forEach(SP => {
-            const response = SP.sp_response.questionnaire_response?1:0
-            kpi2ValueTemp += response*SP.weight
-            kpi2TotalWeight += SP.weight
-        });
-        let kpi2Value = parseFloat(((kpi2ValueTemp/kpi2TotalWeight)*100).toFixed(2))
+        let kpi2ValueTemp = 0; 
+        let kpi2TotalWeight = 0;
+        let kpi2Value = 0;
+        if(sortedData['kpi_2']) {
+            sortedData['kpi_2'].forEach(SP => {
+                const response = SP.sp_response.questionnaire_response?1:0
+                kpi2ValueTemp += response*SP.weight
+                kpi2TotalWeight += SP.weight
+            });
+            kpi2Value = parseFloat(((kpi2ValueTemp/kpi2TotalWeight)*100).toFixed(2))
+        }
 
         // Calculate KPI_3 value
-        let kpi3ValueTemp = 0; let kpi3TotalWeight = 0;
-        sortedData['kpi_3'].forEach(SP => {
-            const response = SP.sp_response.questionnaire_response?1:0
-            kpi3ValueTemp += response*SP.weight
-            kpi3TotalWeight += SP.weight
-        });
-        let kpi3Value = parseFloat(((kpi3ValueTemp/kpi3TotalWeight)*100).toFixed(2))
+        let kpi3ValueTemp = 0; 
+        let kpi3TotalWeight = 0;
+        let kpi3Value = 0;
+        if(sortedData['kpi_3']) {
+            sortedData['kpi_3'].forEach(SP => {
+                const response = SP.sp_response.questionnaire_response?1:0
+                kpi3ValueTemp += response*SP.weight
+                kpi3TotalWeight += SP.weight
+            });
+            kpi3Value = parseFloat(((kpi3ValueTemp/kpi3TotalWeight)*100).toFixed(2))
+        }
 
         // Calculate kpi10 value
-        let kpi12Value = parseFloat((sortedData['kpi_12'][0].sp_response.weight_response).toFixed(2))
+        let kpi12Value = 0;
+        if(sortedData['kpi_12']) {
+            kpi12Value = parseFloat((sortedData['kpi_12'][0].sp_response.weight_response).toFixed(2))
+        }
 
         // Calculate KPI_20 value
-        let kpi20ValueTemp = 0; let kpi20TotalWeight = 0;
-        sortedData['kpi_20'].forEach(SP => {
-            const response = SP.sp_response.questionnaire_response?1:0
-            kpi20ValueTemp += response*SP.weight
-            kpi20TotalWeight += SP.weight
-        });
-        let kpi20Value = parseFloat(((kpi20ValueTemp/kpi20TotalWeight)*100).toFixed(2))
+        let kpi20ValueTemp = 0; 
+        let kpi20TotalWeight = 0;
+        let kpi20Value = 0;
+        if(sortedData['kpi_20']) {
+            sortedData['kpi_20'].forEach(SP => {
+                const response = SP.sp_response.questionnaire_response?1:0
+                kpi20ValueTemp += response*SP.weight
+                kpi20TotalWeight += SP.weight
+            });
+            kpi20Value = parseFloat(((kpi20ValueTemp/kpi20TotalWeight)*100).toFixed(2))
+        }
 
         // Calculate KPI_4 value
-        let kpi4ValueTemp = 0; let kpi4TotalWeight = 35;
-        sortedData['kpi_4'].forEach(SP => {
-            const response = SP.sp_response.questionnaire_response?1:0
-            kpi4ValueTemp += response*SP.sp_response.weight_response
-        });
-        kpi4ValueTemp = kpi4ValueTemp/kpi4TotalWeight
-        let kpi4Value = parseFloat(((kpi4ValueTemp/totalStates)*100).toFixed(2))
+        let kpi4ValueTemp = 0; 
+        let kpi4TotalWeight = 35;
+        let kpi4Value = 0;
+        if(sortedData['kpi_4']) {
+            sortedData['kpi_4'].forEach(SP => {
+                const response = SP.sp_response.questionnaire_response?1:0
+                kpi4ValueTemp += response*SP.sp_response.weight_response
+            });
+            kpi4ValueTemp = kpi4ValueTemp/kpi4TotalWeight
+            kpi4Value = parseFloat(((kpi4ValueTemp/totalStates)*100).toFixed(2))
+        }
 
         // Calculate KPI_5 score
-        let kpi5ValueTemp = 0; let kpi5TotalSp = 0;
-        const KPI5Data = sortedData['kpi_4'].filter(SP => new RegExp("\\b" + 'the right of the fifth freedom of the air' + "\\b").test(SP.questionnaire_text.toLowerCase()));
-        KPI5Data.forEach(SP => {
-            const response = SP.sp_response.questionnaire_response?1:0
-            kpi5ValueTemp += response
-            kpi5TotalSp++
-        });
-        let kpi5Value = parseFloat((kpi5ValueTemp/kpi5TotalSp*100).toFixed(2))
+        let kpi5ValueTemp = 0; 
+        let kpi5TotalSp = 0;
+        let kpi5Value = 0;
+        if(sortedData['kpi_4']) {
+            const KPI5Data = sortedData['kpi_4'].filter(SP => new RegExp("\\b" + 'the right of the fifth freedom of the air' + "\\b").test(SP.questionnaire_text.toLowerCase()));
+            KPI5Data.forEach(SP => {
+                const response = SP.sp_response.questionnaire_response?1:0
+                kpi5ValueTemp += response
+                kpi5TotalSp++
+            });
+            kpi5Value = parseFloat((kpi5ValueTemp/kpi5TotalSp*100).toFixed(2))
+        }
         setKPI5SCORE(kpi5Value)
 
         setValues({
