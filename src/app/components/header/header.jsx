@@ -35,11 +35,14 @@ const Header = ({selectedOrg, kpi, selectedState, page, user}) => {
             {
                 page === 'yd' ?
                 <>
-                    {/* <p className="state-label">State:</p> */}
+                {
+                   user.role === 'admin' ? 
                     <PageHeader
                         title={selectedOrg==='state'?`State: ${selectedState?selectedState.full_name.toUpperCase():'No selected state'}`:'EA'}
                         >
-                    </PageHeader>
+                    </PageHeader>:
+                    <PageHeader title={user.short_name}></PageHeader>
+                }
                 </>
                 :
                 <PageHeader

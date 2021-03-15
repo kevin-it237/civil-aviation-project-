@@ -18,7 +18,7 @@ const INITIAL_STATE = {
     kpi: null, 
     selectedState: null, 
     currentSection: null,  // questionnaire sections
-    selectedOrg: "state", 
+    selectedOrg: "", 
     organisations: [],
     loader: {
         actions: []

@@ -31,7 +31,8 @@ const Questionnaire = ({
     saving,
     error,
     success,
-    organisations}) => {
+    organisations,
+    user,}) => {
     
     const dispatch = useDispatch()
     const history = useHistory()
@@ -178,8 +179,6 @@ const Questionnaire = ({
                 } else {
                     return condition2(q, selectedState)
                 }
-                // return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
-                // !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
             })
         }
 
@@ -369,28 +368,30 @@ const Questionnaire = ({
                         question={question} />)
                 }
             </div>
-            
-            <div className="buttons">
-                {/* <Button type="secondary" size="large" onClick={clearResponse}>
-                    Clear
-                </Button> */}
-                <Button 
-                    type="primary" 
-                    size="large" 
-                    loading={saving} 
-                    disabled={saving}
-                    onClick={submit}>
-                    Save/Next
-                </Button>
-                <Button danger size="large" onClick={(e) => history.push('/')}>
-                    Exit
-                </Button>
-            </div>
+            {
+                onScreenQuestions.length > 0&&
+                <div className="buttons">
+                    {/* <Button type="secondary" size="large" onClick={clearResponse}>
+                        Clear
+                    </Button> */}
+                    <Button 
+                        type="primary" 
+                        size="large" 
+                        loading={saving} 
+                        disabled={saving}
+                        onClick={submit}>
+                        Save/Next
+                    </Button>
+                    <Button danger size="large" onClick={(e) => history.push('/')}>
+                        Exit
+                    </Button>
+                </div>
+            }
         </div>
     )
 }
 
-const mapStateToProps = ({ YDMonitoringReducer}) => ({
+const mapStateToProps = ({ YDMonitoringReducer, AuthReducer}) => ({
     questions: YDMonitoringReducer.questions,
     selectedOrg: YDMonitoringReducer.selectedOrg,
     error: YDMonitoringReducer.error,
@@ -404,6 +405,7 @@ const mapStateToProps = ({ YDMonitoringReducer}) => ({
     loadingOrgResponses: checkIfLoader(YDMonitoringReducer, types.GET_ORG_RESPONSES_REQUEST),
     loadingOrgs: checkIfLoader(YDMonitoringReducer, types.GET_ORGANISATIONS_REQUEST),
     saving: checkIfLoader(YDMonitoringReducer, types.SAVE_RESPONSE_REQUEST),
+    user: AuthReducer.user,
 })
 
 export default connect(mapStateToProps)(Questionnaire);

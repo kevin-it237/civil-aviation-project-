@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import { FlagFilled, ArrowLeftOutlined } from '@ant-design/icons';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import Loader from '../../../../app/components/loader/loader'
-import {getStates, selectState, setCurrentSection} from '../../redux/reducer/actions'
+import {getStates, selectState, setCurrentSection, selectOrgType} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import Empty from '../../../../app/components/empty/empty';
 import './states.list.scss'
@@ -36,7 +36,7 @@ const AFCAC_SECTIONS = [
  * @description State listing
  */
 
-const StateList = ({loading, selectedOrg, states, selectedState, currentSection}) => {
+const StateList = ({loading, selectedOrg, states, selectedState, currentSection, user}) => {
     
     const dispatch = useDispatch()
     const [current, setCurrent] = useState('state')
@@ -62,7 +62,7 @@ const StateList = ({loading, selectedOrg, states, selectedState, currentSection}
     useEffect(() => {
         if(selectedState) {
             if(!selectedState.YD_membership || !selectedState.SAATM_membership) {
-                const data = sections.filter(section => !["kpi_2", "kpi_4"].includes(section.id))
+                const data = sections.filter(section => !["kpi_2", "kpi_3", "kpi_4", "kpi_20"].includes(section.id))
                 setSections(data)
             } else {
                 setSections(STATE_SECTIONS)
@@ -109,7 +109,7 @@ const StateList = ({loading, selectedOrg, states, selectedState, currentSection}
     }
 
     let data = null
-    if(selectedOrg === "afcac") {
+    if(selectedOrg === "afcac" || user.role === 'ea') {
         data = (
             <div className="state-infos-wrapper">
                 <div className="questions-sections">
@@ -131,16 +131,21 @@ const StateList = ({loading, selectedOrg, states, selectedState, currentSection}
             </div>
         )
     } else if(selectedOrg==='state') {
-        if(selectedState) {
+        if(user.role === 'state' || selectedState) {
             data = (
                 <div className="state-infos-wrapper">
                     <div className="state-info">
-                        <h5>{selectedState.short_name}</h5>
+                        <h5>{user.short_name || selectedState.short_name}</h5>
                         <p>Additional infomations about the state</p>
                     </div>
-                    <div className="link-wrapper">
-                        <Link to='#' onClick={() => unSelectedState()}><ArrowLeftOutlined />States List</Link>
-                    </div>
+                    {
+                        user.role === 'admin'&&
+                        <>
+                            <div className="link-wrapper">
+                                <Link to='#' onClick={() => unSelectedState()}><ArrowLeftOutlined />States List</Link>
+                            </div>
+                        </>
+                    }
                     <div className="questions-sections">
                         <Steps direction="vertical" current={currentSection?.i}>
                             {
@@ -183,12 +188,13 @@ const StateList = ({loading, selectedOrg, states, selectedState, currentSection}
 
 
 
-const mapStateToProps = ({ YDMonitoringReducer }) => ({
+const mapStateToProps = ({ YDMonitoringReducer, AuthReducer }) => ({
     states: YDMonitoringReducer.states,
     loading: checkIfLoader(YDMonitoringReducer, types.GET_KPIS_REQUEST),
     selectedOrg: YDMonitoringReducer.selectedOrg,
     selectedState: YDMonitoringReducer.selectedState,
     currentSection: YDMonitoringReducer.currentSection,
+    user: AuthReducer.user,
 })
 
 export default connect(mapStateToProps)(StateList);

@@ -37,6 +37,12 @@
                 }
             }
         }
+        >.left-panel-single-column {
+            >.org-states-content {
+                display: grid;
+                grid-template-columns: 100% !important;
+            }
+        }
     
         >.data-content {
             border: solid 1px $stroke-color;
