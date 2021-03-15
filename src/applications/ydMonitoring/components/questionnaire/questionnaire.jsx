@@ -159,14 +159,29 @@ const Questionnaire = ({
             // if(!selectedState.SAATM_membership) {
             //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
             // }
+
+            const condition1 = (data, state) => !new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+        
+            const condition2 =  (data, state) =>  !new RegExp("\\b" +state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) && 
+            !new RegExp("\\b" + state.short_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
+
+            const condition3 = (data, state) => !new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase()) || 
+            new RegExp("\\b" + 'Guinea Bissau'.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())
     
             // Remove questions related to the given state
             data = data.filter(q => {
-                return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
-                !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
+                const stateShortName = selectedState.short_name
+                if(stateShortName === 'Congo') {
+                    return condition1(q, selectedState)
+                } else if (stateShortName === 'Guinea') {
+                    return condition3(q, selectedState)
+                } else {
+                    return condition2(q, selectedState)
+                }
+                // return !q.questionnaire_text.toLowerCase().includes(selectedState.short_name.toLowerCase()) &&
+                // !q.questionnaire_text.toLowerCase().includes(selectedState.full_name.toLowerCase())
             })
         }
-
 
         // Numbered datas
         let finalData = data.map(q => {

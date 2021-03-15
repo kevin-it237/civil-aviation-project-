@@ -36,7 +36,7 @@ const Content = ({kpisData, states, loading, kpis, kpi, selectedOrg, loadingKPIs
             dispatch(selectKPI(
                 {
                     KPIs_label: "Summary",
-                    KPIs_org_type: "state",
+                    KPIs_org_type: "afcac",
                     KPIs_text: "Summary",
                     YDMS_KPIs_id: "all",
                     id: 0   
