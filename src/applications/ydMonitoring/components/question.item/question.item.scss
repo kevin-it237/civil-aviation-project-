@@ -35,3 +35,21 @@
         }
     }
 }
+
+.sp-responded {
+    padding: 5px 15px;
+    >.question-label {
+        font-size: 12px;
+        line-height: 15px;
+        margin-top: 0;
+    }
+    >.checkboxes {
+        .ant-radio-wrapper {
+            line-height: 10px !important;
+            height: 20px !important;
+            span {
+                font-size: 11px;
+            }
+        }
+    }
+}

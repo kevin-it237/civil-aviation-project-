@@ -4,9 +4,10 @@ import './question.item.scss'
 
 /**
  * @description content
+ * @param {string} hardQuestion for displaying responded questions
  */
 
-const QuestionItem = ({question, onSelect, selectedState}) => {
+const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hardQuestion}) => {
     const {questionnaire_text} = question
 
     const [isChecked, setIsChecked] = useState(false)
@@ -16,7 +17,8 @@ const QuestionItem = ({question, onSelect, selectedState}) => {
         const response = {
             YDMS_SP_id: question.YDMS_SP_id,
             response: e.target.value,
-            weight: weightRes
+            weight: weightRes,
+            kpi: kpiId
         }
         setIsChecked(e.target.value)
         onSelect(response)
@@ -27,7 +29,8 @@ const QuestionItem = ({question, onSelect, selectedState}) => {
         const response = {
             YDMS_SP_id: question.YDMS_SP_id,
             response: 1,
-            weight: value
+            weight: value,
+            kpi: kpiId
         }
         onSelect(response)
         setWeightRes(value)
@@ -49,22 +52,36 @@ const QuestionItem = ({question, onSelect, selectedState}) => {
     }
     
     return (
-        <div className="question-item">
+        <div className={`question-item ${className ? className: ''}`}>
             <p className="question-label"><b>{question.YDMS_SP_id!=='YDMS_SP_01'&&`Q-${question.number}:`}</b> {questionText}</p>
             {
                 question.YDMS_SP_id !== 'YDMS_SP_01'&&
                 <div className="checkboxes">
                     {
                         question.YDMSKPIYDMSKPIsId === 'kpi_12' ?
-                        <InputNumber min={0} max={100} defaultValue={0} onChange={(value) => respond(value)} />:
-                        <Radio.Group onChange={onChange} value={isChecked}>
-                            <Radio style={radioStyle} value={1}>
-                                YES
-                            </Radio>
-                            <Radio style={radioStyle} value={0}>
-                                NO
-                            </Radio>
-                        </Radio.Group>
+                        <>
+                            {hardQuestion ?
+                            <h3>{question.sp_response.weight_response}</h3>:
+                            <InputNumber min={0} max={100} defaultValue={0} onChange={(value) => respond(value)} />}
+                        </>:
+                        <>
+                        {
+                            hardQuestion ?
+                            <Radio.Group onChange={onChange}>
+                                <Radio style={radioStyle} checked={true}>
+                                    {question.sp_response.questionnaire_response ? 'Yes': 'No'}
+                                </Radio>
+                            </Radio.Group>:
+                            <Radio.Group onChange={onChange} value={isChecked}>
+                                <Radio style={radioStyle} value={1}>
+                                    YES
+                                </Radio>
+                                <Radio style={radioStyle} value={0}>
+                                    NO
+                                </Radio>
+                            </Radio.Group>
+                        }
+                        </>
                     }
                 </div>
             }

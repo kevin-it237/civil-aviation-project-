@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import {getQuestionnaire, getOrgResponses, saveResponse, getOrganisations} from '../../redux/reducer/actions'
+import {getQuestionnaire, getOrgResponses, saveResponse, getOrganisations, getOrgSPsAndResponses} from '../../redux/reducer/actions'
 import Loader from '../../../../app/components/loader/loader'
 import QuestionItem from '../question.item/question.item'
 import Empty from '../../../../app/components/empty/empty'
@@ -32,7 +32,9 @@ const Questionnaire = ({
     error,
     success,
     organisations,
-    user,}) => {
+    user,
+    spsAndResponses,
+    loadingSPsAndResponses}) => {
     
     const dispatch = useDispatch()
     const history = useHistory()
@@ -58,28 +60,30 @@ const Questionnaire = ({
 
     useEffect(() => {
         // For state
-        if(questions.length && selectedState && currentSection) {
+        if(Object.keys(spsAndResponses).length && questions.length && selectedState && currentSection) {
             cookNotAnsweredQuestions()
         }
         // For afcac
-        if(questions.length && selectedOrg==="afcac" && currentSection) {
+        if(Object.keys(spsAndResponses).length && questions.length && selectedOrg==="afcac" && currentSection) {
             cookNotAnsweredQuestions()
         }
         if(orgResponses) {
             setTotalQUestionsAnwserd(orgResponses.length)
         }
-    }, [questions, orgResponses, currentSection, selectedOrg])
+    }, [questions, orgResponses, currentSection, selectedOrg, spsAndResponses])
     
     // Fetch org responses
     useEffect(() => {
         if(selectedOrg === "state") {
             if(selectedState) {
                 dispatch(getOrgResponses(selectedState.YDMS_AU_id))
+                dispatch(getOrgSPsAndResponses(selectedState.YDMS_AU_id))
             }
         } else if(selectedOrg === "afcac") {
             if(organisations.length) {
                 const afcac = organisations.find(org => org.short_name.toLowerCase() === 'ea')
                 dispatch(getOrgResponses(afcac.YDMS_Org_id))
+                dispatch(getOrgSPsAndResponses(afcac.YDMS_Org_id))
             }
         }
     }, [selectedState, organisations, selectedOrg, currentSection])
@@ -124,7 +128,7 @@ const Questionnaire = ({
     // }
 
     const cookNotAnsweredQuestions = () => {
-        
+
         // Just keep questions related to the current section
         let data = questions.filter(q => q.YDMSKPIYDMSKPIsId === currentSection.id)
 
@@ -237,10 +241,12 @@ const Questionnaire = ({
         if(selectedState) {
             if(!questions.length) dispatch(getQuestionnaire()) // Fetch questions
             dispatch(getOrgResponses(selectedState.YDMS_AU_id)) // Fetch anwsered responses
+            dispatch(getOrgSPsAndResponses(selectedState.YDMS_AU_id)) // Fetch anwsered responses and questions
         } else if(selectedOrg === 'afcac') {
             if(!questions.length) dispatch(getQuestionnaire()) // Fetch questions
             const afcac = organisations.find(org => org.short_name.toLowerCase() === 'ea')
             dispatch(getOrgResponses(afcac.YDMS_Org_id)) // Fetch anwsered responses
+            dispatch(getOrgSPsAndResponses(afcac.YDMS_Org_id)) // Fetch anwsered responses and questions
         }
     }
 
@@ -270,7 +276,7 @@ const Questionnaire = ({
         setUserResponses([])
     }]);
 
-    if(loading || loadingOrgResponses || loadingOrgs) {
+    if(loading || loadingOrgResponses || loadingOrgs || loadingSPsAndResponses) {
         return <Loader />
     }
 
@@ -288,10 +294,32 @@ const Questionnaire = ({
 
     // When user anwser to all the questions 1 because of kpi_0
     if(selectedOrg==='afcac' || selectedState) {
-        if(questionsToDisplay.length === 0 && !loading && !loadingOrgResponses) {
+        if(questionsToDisplay.length === 0 && !loading && !loadingOrgResponses && !loadingSPsAndResponses) {
             return (
                 <div className="completed--res">
+                    <div className="sps-listing">
+                        <h4>Questions List & Responses</h4>
+                        {
+                            Object.keys(spsAndResponses).length&&spsAndResponses.survey_protocols
+                            .filter(q => q.sp_response.kpi_id === currentSection.id)
+                            .map((question, i) => {
+                                question.number = i+1
+                                return (
+                                    <QuestionItem 
+                                        className='sp-responded'
+                                        onSelect={onCheck} 
+                                        hardQuestion={true}
+                                        kpiId={currentSection.id}
+                                        selectedState={selectedState}
+                                        key={question.YDMS_SP_id} 
+                                        question={question} />
+                                )
+                            })
+                        }
+                    </div>
+                    <div style={{height: '20px'}}></div>
                     <Progress
+                        size='small'
                         type="circle"
                         strokeColor={{
                             '0%': '#108ee9',
@@ -316,7 +344,7 @@ const Questionnaire = ({
 
     // When user come again on the system, display a menu
     if(selectedOrg==='afcac' || selectedState) {
-        if(questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses && !continueQues) {
+        if(questionsToDisplay.length > 0 && orgResponses.length > 0 && !loading && !loadingOrgResponses  && !continueQues) {
             return (
                 <div className="yd-menu-wrapper">
                     <Divider>Select an option</Divider>
@@ -363,6 +391,7 @@ const Questionnaire = ({
                     onScreenQuestions.map(question => 
                     <QuestionItem 
                         onSelect={onCheck} 
+                        kpiId={currentSection.id}
                         selectedState={selectedState}
                         key={question.YDMS_SP_id} 
                         question={question} />)
@@ -393,6 +422,7 @@ const Questionnaire = ({
 
 const mapStateToProps = ({ YDMonitoringReducer, AuthReducer}) => ({
     questions: YDMonitoringReducer.questions,
+    spsAndResponses: YDMonitoringReducer.spsAndResponses,
     selectedOrg: YDMonitoringReducer.selectedOrg,
     error: YDMonitoringReducer.error,
     success: YDMonitoringReducer.success,
@@ -405,6 +435,7 @@ const mapStateToProps = ({ YDMonitoringReducer, AuthReducer}) => ({
     loadingOrgResponses: checkIfLoader(YDMonitoringReducer, types.GET_ORG_RESPONSES_REQUEST),
     loadingOrgs: checkIfLoader(YDMonitoringReducer, types.GET_ORGANISATIONS_REQUEST),
     saving: checkIfLoader(YDMonitoringReducer, types.SAVE_RESPONSE_REQUEST),
+    loadingSPsAndResponses: checkIfLoader(YDMonitoringReducer, types.GET_SPS_AND_RESPONSES_REQUEST),
     user: AuthReducer.user,
 })
 

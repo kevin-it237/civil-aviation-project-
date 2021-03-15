@@ -20,6 +20,7 @@ const INITIAL_STATE = {
     currentSection: null,  // questionnaire sections
     selectedOrg: "", 
     organisations: [],
+    spsAndResponses: {},
     loader: {
         actions: []
     },
@@ -62,6 +63,13 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 questions: action.payload,
+                error: null
+            };
+
+        case types.GET_SPS_AND_RESPONSES_SUCCESS:
+            return {
+                ...state,
+                spsAndResponses: action.payload,
                 error: null
             };
 

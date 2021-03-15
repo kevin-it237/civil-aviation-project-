@@ -24,6 +24,15 @@ export const getOrgResponses = (payload) => ({
 });
 
 /**
+ * @description Get questionnaire and responses
+ * @param {orgId: String} payload
+ */
+export const getOrgSPsAndResponses = (payload) => ({
+    type: types.GET_SPS_AND_RESPONSES_REQUEST,
+    payload
+});
+
+/**
  * @description Get organisations
  */
 export const getOrganisations = () => ({
