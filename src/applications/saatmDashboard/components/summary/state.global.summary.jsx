@@ -197,13 +197,16 @@ const StateGlobalSummary = ({SUMMARY_DATAS, totalStates, states, user}) => {
     
     return (
         <div className="summary-item single-kpi-row global-states">
-            <Row gutter={16} style={{marginBottom: 20}}>
-                <Col span={24}>
-                    <Card>
-                        <Statistic title="Overall Score" value={`${KPI_SCORE}%`} />
-                    </Card>
-                </Col>
-            </Row>
+            {
+                user.role === 'admin' &&
+                <Row gutter={16} style={{marginBottom: 20}}>
+                    <Col span={24}>
+                        <Card>
+                            <Statistic title="Overall Score" value={`${KPI_SCORE}%`} />
+                        </Card>
+                    </Col>
+                </Row>
+            }
             <div className="graphics">
                 <div className="map-global global-charts">
                     <AfricaMap mapData={MAPDATA} dataClasses={DATACLASSES} />
