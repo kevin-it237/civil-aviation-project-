@@ -318,14 +318,14 @@ const Questionnaire = ({
                         }
                     </div>
                     <div style={{height: '20px'}}></div>
-                    <Progress
+                    {/* <Progress
                         size='small'
                         type="circle"
                         strokeColor={{
                             '0%': '#108ee9',
                             '100%': '#87d068',
                         }}
-                        percent={100} />
+                        percent={100} /> */}
                     <p style={{textAlign: 'center'}}>You answered all the questions of this section.</p>
                     <div className="yd-menu">
                         <div className="yd-menu-2 yd-menu">

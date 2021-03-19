@@ -6,9 +6,10 @@ import MainHeader from '../../../../app/components/mainHeader/mainHeader'
 import {getStates, getUsers} from '../../redux/reducer/actions'
 import {types} from '../../redux/reducer/types'
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
-import { Menu, Button } from 'antd';
+import { Menu, Divider } from 'antd';
 import StateAccounts from '../../components/states.account/states.account'
 import EAccounts from '../../components/ea.account/ea.account'
+import OnlineUsers from '../../components/online.users/online.users'
 import {
     UserOutlined,
   } from '@ant-design/icons';
@@ -34,7 +35,9 @@ const Login = ({ error, user, states, loadingStates, loadingUsers }) => {
         renderContent = <StateAccounts />
     } else if(content === 'EA_ACCOUNTS') {
         renderContent = <EAccounts />
-    } else {
+    }else if(content === 'ONLINE_USERS') {
+        renderContent = <OnlineUsers />
+    }  else {
         renderContent = null
     }
 
@@ -54,6 +57,8 @@ const Login = ({ error, user, states, loadingStates, loadingUsers }) => {
                         <Menu.Item onClick={() => setContent('STATE_ACCOUNTS')} key="1">States Accounts</Menu.Item>
                         <Menu.Item onClick={() => setContent('EA_ACCOUNTS')} key="2">EA Account</Menu.Item>
                         <Menu.Item onClick={() => setContent('AIRLINE_ACCOUNTS')} key="3">Airline Accounts</Menu.Item>
+                        <Divider />
+                        <Menu.Item onClick={() => setContent('ONLINE_USERS')} key="4">Connected Users</Menu.Item>
                     </SubMenu>
                     </Menu>
                 </div>
