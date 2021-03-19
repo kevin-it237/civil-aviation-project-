@@ -2,7 +2,7 @@ import {call, put, takeLatest, takeLeading} from 'redux-saga/effects';
 import {getRequest, postRequest, putRequest} from '../../../../helpers/api'
 import { types } from "../reducer/types";
 
-const API_URL = `${process.env.REACT_APP_API_URL}`
+const API_URL = `${process.env.REACT_APP_API_URL}/api`
 
 /**
  * @description get states

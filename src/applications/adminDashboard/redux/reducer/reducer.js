@@ -8,6 +8,7 @@ import { types } from './types';
 const INITIAL_STATE = {
 	states: [],
 	users: [],
+	connectedUsers: [],
 	success: null,
 	loader: {
         actions: []
@@ -88,6 +89,12 @@ const AdminReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				success: null,
+			};
+
+		case types.SET_CONNECTED_USERS:
+			return {
+				...state,
+				connectedUsers: action.payload,
 			};
 
 		default:

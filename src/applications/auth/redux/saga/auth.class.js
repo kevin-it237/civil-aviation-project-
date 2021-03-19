@@ -1,6 +1,6 @@
 import { postUnauthRequest, putRequest } from "../../../../helpers/api";
 
-var _URL = `${process.env.REACT_APP_API_URL}/auth`;
+var _URL = `${process.env.REACT_APP_API_URL}/api/auth`;
 
 /**
  * @description Authentication API calls. 

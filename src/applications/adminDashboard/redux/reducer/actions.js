@@ -36,3 +36,11 @@ export const resetUserAccount = (payload) => ({
 export const resetResponseStatus = () => ({
     type: types.RESTORE_RESPONSE_STATUS
 });
+
+/**
+ * @description set connected users
+ */
+export const setConnectedUsers = (payload) => ({
+    type: types.SET_CONNECTED_USERS,
+    payload
+});
