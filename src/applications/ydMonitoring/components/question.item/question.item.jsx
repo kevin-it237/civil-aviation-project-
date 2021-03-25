@@ -58,7 +58,7 @@ const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hard
                 question.YDMS_SP_id !== 'YDMS_SP_01'&&
                 <div className="checkboxes">
                     {
-                        question.YDMSKPIYDMSKPIsId === 'kpi_12' ?
+                        question.ydmsKpiYDMSKPIsId === 'kpi_12' ?
                         <>
                             {hardQuestion ?
                             <h3>{question.sp_response.weight_response}</h3>:

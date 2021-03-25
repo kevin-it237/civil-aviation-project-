@@ -1,7 +1,10 @@
 import {put, takeEvery} from 'redux-saga/effects'
 import {getRequest} from '../../../../helpers/api'
 import { types } from "../reducer/types";
-import {API_URL} from './saga.helper'
+
+import {config} from '../../../../helpers/constants'
+
+const API_URL = `${config.API_URL}/api`
 
 /**
  * @description get states
