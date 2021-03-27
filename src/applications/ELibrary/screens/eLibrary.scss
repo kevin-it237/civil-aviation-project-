@@ -1,0 +1,85 @@
+@import '../../../assets/styles/global.scss';
+
+#elibrary-container {
+    height: 100vh;
+    >.elibrary-content-wrapper {
+        display: grid;
+        grid-template-columns: 30% 67%;
+        grid-template-rows: calc(100vh - 100px);
+        justify-content: space-between;
+        margin: 10px;
+        margin-top: 20px;
+        >.elibrary-left-panel {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            background-color: $white;
+            >.sections-listing {
+                overflow-y: scroll;
+                height: 100%;
+                overflow-x: hidden;
+            }
+        }
+    
+        >.data-content {
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            padding: 0 !important;
+            background-color: $white;
+            .content-container {
+                height: 100%;
+                overflow-y: scroll;
+            }
+        }
+
+    }
+
+    .definitions-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: center;
+        justify-items: center;
+        .definitions-list {
+            background-color: $white;
+            border: solid 1px $stroke-color;
+            border-radius: 5px;
+            padding: 50px 35px;
+            width: 65%;
+            margin-top: 65px;
+            @media only screen and (max-width: 768px) {
+                width: 90%;
+            }
+
+            .search--box {
+                margin-top: 15px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .definition-items {
+                margin-top: 30px;
+                height: calc(100vh - 400px);
+                overflow-y: scroll;
+                overflow-x: hidden;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                justify-items: center;
+                align-content: flex-start;
+                .def--item {
+                    width: 60%;
+                    border-radius: 5px;
+                    margin-top: 8px;
+                    cursor: pointer;
+                    border: solid 1px $stroke-color;
+                    padding: 10px 15px;
+                    transition: all .1s ease-in;
+                    background-color: #f5f8fa;
+                    h5 {margin-bottom: 0;}
+                    &:hover {
+                        background-color: #eff1f1;
+                    }
+                }
+            }
+        }
+    }
+}
