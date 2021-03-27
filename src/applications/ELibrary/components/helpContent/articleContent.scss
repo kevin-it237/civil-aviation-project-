@@ -1,0 +1,46 @@
+@import '../../../../assets/styles/global.scss';
+
+.article-content{
+    display: grid;
+    grid-auto-columns: 1fr;
+    padding: 40px 50px 40px 50px;
+    background-color: $white;
+    align-content: flex-start;
+
+    >.search--box {
+        margin-top: 5px;
+        display: flex;
+        justify-content: center;
+    }
+    >.article-items {
+        margin-top: 30px;
+        height: calc(100vh - 360px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        justify-items: center;
+        align-content: flex-start;
+        .article--item {
+            width: 80%;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: solid 1px $stroke-color;
+            padding: 10px 15px;
+            transition: all .1s ease-in;
+            background-color: #f5f8fa;
+            h5 {margin-bottom: 0;}
+            &:hover {
+                background-color: #eff1f1;
+            }
+            @media only screen and (max-width: 1024px) {
+                width: 95%;
+            }
+            .ant-typography {
+                font-size: 15px !important;
+            }
+        }
+    }
+}

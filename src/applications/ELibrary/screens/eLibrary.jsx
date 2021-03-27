@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {connect, useDispatch} from 'react-redux'
-import Sections from '../components/sections.list/sections.list'
-import HelpContent from '../components/helpContent/helpContent'
+import InstumentsList from '../components/sections.list/instruments.list'
+import ArticleContent from '../components/helpContent/articleContent'
 import MainHeader from '../../../app/components/mainHeader/mainHeader'
 import './eLibrary.scss'
 
@@ -24,12 +24,12 @@ const Help = ({}) => {
             <div className="elibrary-content-wrapper">
                 <div className="elibrary-left-panel">
                     <div className="sections-listing">
-                        <Sections />
+                        <InstumentsList />
                     </div>
                 </div>
                 <div className="data-content">
                     <div className="content-container">
-                        <HelpContent />
+                        <ArticleContent />
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@ const Help = ({}) => {
 
 
 
-const mapStateToProps = ({ AuthReducer }) => ({
+const mapStateToProps = ({ ELibraryReducer }) => ({
     
 })
 

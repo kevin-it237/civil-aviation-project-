@@ -4,7 +4,7 @@
     height: 100vh;
     >.elibrary-content-wrapper {
         display: grid;
-        grid-template-columns: 30% 67%;
+        grid-template-columns: 25% 73%;
         grid-template-rows: calc(100vh - 100px);
         justify-content: space-between;
         margin: 10px;
@@ -75,6 +75,9 @@
                     transition: all .1s ease-in;
                     background-color: #f5f8fa;
                     h5 {margin-bottom: 0;}
+                    @media only screen and (max-width: 1024px) {
+                        width: 90%;
+                    }
                     &:hover {
                         background-color: #eff1f1;
                     }

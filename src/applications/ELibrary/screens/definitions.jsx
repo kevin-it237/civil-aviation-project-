@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
-import { Typography, Divider, Input, Space, Modal, Button  } from 'antd';
+import { Typography, Divider, Input, Space, Modal  } from 'antd';
 
 import MainHeader from '../../../app/components/mainHeader/mainHeader'
 import './eLibrary.scss'
@@ -41,7 +41,7 @@ const Help = ({}) => {
             <MainHeader />
            <div className="definitions-container">
                 <div className="definitions-list">
-                    <Divider><Title level={3}>Definitions</Title></Divider>
+                    <Divider><Title level={3}>DEFINITIONS</Title></Divider>
                     <div className="search--box">
                         <Space direction="horizontal">
                             <Search placeholder="Search definition" allowClear onSearch={onSearch} style={{ width: 250 }} />
