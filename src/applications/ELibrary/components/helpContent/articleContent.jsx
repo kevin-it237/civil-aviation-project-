@@ -10,21 +10,8 @@ const { Search } = Input;
  */
 
 const ArticleContent = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-
-    const onSearch = value => console.log(value);
+    // const onSearch = value => console.log(value);
 
     return (
         <>
@@ -40,23 +27,20 @@ const ArticleContent = () => {
             <div><Divider><b>Provisions</b></Divider></div>
             
             <div className="article-items">
-                <div onClick={showModal} className="article--item">
+                <div className="article--item">
                     <Title level={5}>In the various types of information modal dialog, only one button to close dialog is provided.</Title>
                 </div>
-                <div onClick={showModal} className="article--item">
+                <div className="article--item">
                     <Title level={5}>In the various types of information modal dialog, only one button to close dialog is provided.. In the various types of information modal dialog, only one button to close dialog is provided.</Title>
                 </div>
-                <div onClick={showModal} className="article--item">
+                <div className="article--item">
                     <Title level={5}>In the various types of information modal dialog, only one button to close dialog is provided.</Title>
                 </div>
-                <div onClick={showModal} className="article--item">
+                <div className="article--item">
                     <Title level={5}>In the various types of information modal dialog, only one button to close dialog is provided.</Title>
                 </div>
             </div>
         </div>
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <p>Some contents...</p>
-        </Modal>
         </>
     )
 }
