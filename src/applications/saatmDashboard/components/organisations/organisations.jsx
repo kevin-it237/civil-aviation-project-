@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Menu  } from "antd";
 import {connect, useDispatch} from 'react-redux'
 import { FlagFilled } from '@ant-design/icons';
-import {selectOrg} from '../../redux/reducer/actions'
+import {selectOrg, getKPIs} from '../../redux/reducer/actions'
 import './organisations.scss'
 
 const { SubMenu } = Menu;
@@ -27,6 +27,7 @@ const Organisations = ({states, user}) => {
 
     const handleSelectOrg = (org) => {
         dispatch(selectOrg(org))
+        dispatch(getKPIs(org))
     }
 
     return (

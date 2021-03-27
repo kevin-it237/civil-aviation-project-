@@ -36,7 +36,9 @@ const KPIsList = ({kpis, loading, selectedOrg, user}) => {
     }, [])
 
     useEffect(() => {
-        dispatch(getKPIs(selectedOrg))
+        if(!kpis.length) {
+            dispatch(getKPIs(selectedOrg))
+        }
     }, [selectedOrg])
 
     const handleSelectKPI = (kpi) => {
