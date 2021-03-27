@@ -160,7 +160,7 @@
 }
 
 @mixin setFontFamily($weight) {
-	font-family: 'Poppins #{capitalize($weight)}', sans-serif;
+	font-family: 'Open Sans #{capitalize($weight)}', sans-serif; 
 }
 
 @mixin transition {

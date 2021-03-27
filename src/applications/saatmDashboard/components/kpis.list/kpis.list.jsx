@@ -59,10 +59,15 @@ const KPIsList = ({kpis, loading, selectedOrg, user}) => {
     }
 
     if(loading) {
-        return <Loader />
+        return <div className="loader--wrapper"><Loader /></div>
     }
 
-    let KPIS = [kpis.map((kpi, i) => {
+    let KPIS = null
+    if((!kpis || kpis.length === 0) && !loading) {
+        KPIS = <div className="empty--wrapper"><Empty fetch={fetchKPIs} /></div>
+    }
+
+    KPIS = [kpis.map((kpi, i) => {
         if(i === 0) {
             return (
                 <>
@@ -78,11 +83,6 @@ const KPIsList = ({kpis, loading, selectedOrg, user}) => {
             )
         }
     })]
-  
-    if(KPIS.length === 0 && !loading) {
-        KPIS = <Empty fetch={fetchKPIs} />
-    }
-
 
     return (
         <div className="kpis">

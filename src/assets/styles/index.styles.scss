@@ -1,26 +1,6 @@
 @import './base/variables';
 @import 'antd/dist/antd.css';
-
-@font-face {
-  font-family: 'Poppins';
-  src: url(../fonts/poppins-regular.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Poppins Bold';
-  src: url(../fonts/poppins-bold.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Poppins Light';
-  src: url(../fonts/poppins-light.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Poppins SemiBold';
-  src: url(../fonts/poppins-semibold.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Poppins Thin';
-  src: url(../fonts/poppins-thin.ttf) format('truetype');
-}
+@import '../styles/base/fonts';
 
 
 /**************************
@@ -34,7 +14,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   padding: 0;
   border: 0;
   font-size: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   vertical-align: baseline;
 
 } 
@@ -58,6 +38,7 @@ body {
   border-radius: 10px; 
   background: $white; 
   height: 100vh;
+  background-color: #f5f8fa;
 }
 
 ol, ul {

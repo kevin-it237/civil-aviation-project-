@@ -12,6 +12,7 @@
         >.help-left-panel {
             border: solid 1px $stroke-color;
             border-radius: 5px;
+            background-color: $white;
             >.org-sections-content {
     
                 >.sections-listing {
@@ -26,6 +27,7 @@
             border: solid 1px $stroke-color;
             border-radius: 5px;
             padding: 0 !important;
+            background-color: $white;
             .content-container {
                 height: 100%;
                 overflow-y: scroll;

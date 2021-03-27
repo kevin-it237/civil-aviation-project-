@@ -11,17 +11,21 @@
     "win": {
       "target": [
         {
-          "target": "nsis",
+          "target": "msi",
           "arch": [
-            "x64",
-            "ia32"
+            "x64"
           ]
         }
       ]
     },
     "mac": {
       "category": "utility"
-    }
+    },
+    "directories":{
+      "buildResources":"public",
+      "output":"release"
+    },
+    "files": ["public/**/*"]
   },
   "dependencies": {
     "@ant-design/icons": "4.0.0",

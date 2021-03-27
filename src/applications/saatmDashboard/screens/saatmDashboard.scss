@@ -16,6 +16,7 @@
             overflow: scroll;
             border: solid 1px $stroke-color;
             border-radius: 5px;
+            background-color: $white;
             >.org-kpis-content {
                 display: grid;
                 grid-template-columns: 49% 1px 49%;
@@ -29,22 +30,23 @@
                     height: 100%;
                     overflow-x: hidden;
                 }
-                >.kpis-listing {
-                    overflow-y: scroll;
-                    height: 100%;
-                    overflow-x: hidden;
-                }
                 .line {
                     height: 100%;
                     width: 1px;
                     background-color: $stroke-color;
                 }
             }
+            .kpis-listing {
+                overflow-y: scroll;
+                height: 100%;
+                overflow-x: hidden;
+            }
         }
     
         >.data-content {
             border: solid 1px $stroke-color;
             border-radius: 5px;
+            background-color: $white;
             .content-container {
                 overflow: scroll !important;
                 height: calc(100vh - 165px);
