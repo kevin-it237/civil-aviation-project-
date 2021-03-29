@@ -29,12 +29,12 @@ const INSTRUMENTS = [
     }
 ]
 
-const Sections = ({}) => {
+const Sections = ({instruments, setProvisions}) => {
     
     const dispatch = useDispatch()
 
-    const handleSelectArticle = (articleId) => {
-        
+    const handleSelectArticle = (provisions) => {
+        setProvisions(provisions)
     }
 
     return (
@@ -45,24 +45,26 @@ const Sections = ({}) => {
                 defaultOpenKeys={['sub0']}
                 mode="inline"
             >
-                    {
-                        INSTRUMENTS.map((inst, i) => (
-                            <SubMenu key={`sub${i}`} icon={<QuestionCircleFilled />} title={inst.label}>
-                                {
-                                    inst.articles.map((article, i) => (
-                                        <Menu.Item onClick={() => handleSelectArticle(article.id)} key={i}>{article.label}</Menu.Item>
-                                    ))
-                                }
-                            </SubMenu>      
-                        ))
-                    }
+                {
+                    instruments.map((inst, i) => (
+                        <SubMenu key={`sub${i}`} icon={<QuestionCircleFilled />} title={inst.instrument_name}>
+                            {
+                                inst.articles.map((article, i) => (
+                                    <Menu.Item onClick={() => handleSelectArticle(article.provisions)} key={i}>
+                                        {article.article_number}: {article.article_part}
+                                    </Menu.Item>
+                                ))
+                            }
+                        </SubMenu>      
+                    ))
+                }
             </Menu>
         </div>
     )
 }
 
 const mapStateToProps = ({ ELibraryReducer }) => ({
-   
+    instruments: ELibraryReducer.instruments,
 })
 
 export default connect(mapStateToProps)(Sections);

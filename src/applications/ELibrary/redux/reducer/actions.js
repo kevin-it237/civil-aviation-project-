@@ -10,7 +10,7 @@ export const getDefinitions = () => ({
 /**
  * @description Get Instruments datas
  */
-export const getQuestionnaire = () => ({
+export const getInstruments = () => ({
     type: types.GET_INSTRUMENTS_REQUEST
 });
 

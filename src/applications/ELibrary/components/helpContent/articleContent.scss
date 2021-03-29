@@ -31,12 +31,21 @@
             padding: 10px 15px;
             transition: all .1s ease-in;
             background-color: #f5f8fa;
+            animation: display .3s ease-in;
             h5 {margin-bottom: 0;}
             &:hover {
                 background-color: #eff1f1;
             }
             @media only screen and (max-width: 1024px) {
                 width: 95%;
+            }
+            @keyframes display {
+                from {
+                    transform: translateY(-10px);
+                }
+                to {
+                    transform: translateY(0px);
+                }
             }
             .ant-typography {
                 font-size: 15px !important;
