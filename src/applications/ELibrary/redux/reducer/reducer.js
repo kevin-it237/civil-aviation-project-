@@ -11,6 +11,9 @@ import { types } from "./types";
  * @param {object} selectedOrg
  */
 const INITIAL_STATE = {
+    definitions: [],
+    instruments: [],
+    article: null,
     loader: {
         actions: []
     },
@@ -39,6 +42,24 @@ const ELibraryReducer = (state = INITIAL_STATE, action) => {
                     ...loader,
                     actions: loader.actions.filter(action => action !== payload),
                 }
+            };
+
+        case types.GET_DEFINITIONS_SUCCESS:
+            return {
+                ...state,
+                definitions: action.payload
+            };
+
+        case types.GET_ARTICLE_PROVISIONS_SUCCESS:
+            return {
+                ...state,
+                article: action.payload
+            };
+
+        case types.GET_INSTRUMENTS_SUCCESS:
+            return {
+                ...state,
+                instruments: action.payload
             };
 
         default:

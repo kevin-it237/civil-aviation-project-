@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch} from 'react-redux'
 import { Typography, Divider, Input, Space, Modal  } from 'antd';
-
 import MainHeader from '../../../app/components/mainHeader/mainHeader'
+import {getDefinitions} from '../redux/reducer/actions'
+import Loader from '../../../app/components/loader/loader'
+import {types} from '../redux/reducer/types'
+import {checkIfLoader} from '../redux/reducer/reducer.helper'
 import './eLibrary.scss'
 const { Title } = Typography;
 const { Search } = Input;
@@ -12,17 +15,26 @@ const { Search } = Input;
  * @description YD monitoring screen
  */
 
-const Help = ({}) => {
+const Definitions = ({definitions, loading}) => {
+    
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [definitions, setDefinitions] = useState([])
+    const [definitionsList, setDefinitions] = useState(definitions)
+    const [selectedTerm, setSelectedTerm] = useState(null)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        
+        dispatch(getDefinitions())
     }, [])
 
-    const showModal = () => {
+    useEffect(() => {
+        if(definitions.length) {
+            setDefinitions(definitions)
+        }
+    }, [definitions])
+
+    const showModal = (term) => {
         setIsModalVisible(true);
+        setSelectedTerm(term)
     };
 
     const handleOk = () => {
@@ -33,7 +45,12 @@ const Help = ({}) => {
         setIsModalVisible(false);
     };
 
-    const onSearch = value => console.log(value);
+    const filterList = (value) => {
+        const items = definitions.filter(def => def.term.toLowerCase().includes(value.toLowerCase()))
+        setDefinitions(items)
+    }
+
+    const onSearch = value => filterList(value);
 
     return (
         <>
@@ -44,30 +61,34 @@ const Help = ({}) => {
                     <Divider><Title level={3}>DEFINITIONS</Title></Divider>
                     <div className="search--box">
                         <Space direction="horizontal">
-                            <Search placeholder="Search definition" allowClear onSearch={onSearch} style={{ width: 250 }} />
+                            <Search 
+                                onChange={(e) => filterList(e.target.value)}
+                                placeholder="Search definition" 
+                                allowClear onSearch={onSearch} 
+                                style={{ width: 250 }} />
                         </Space>
                     </div>
+                    {loading ? <div className='loader--wrapper'><Loader /></div>:
+                    definitionsList&&definitionsList.length === 0? <div className='not-found'>No item found.</div>:
                     <div className="definition-items">
-                        <div onClick={showModal} className="def--item">
-                            <Title level={5}>Definition Item</Title>
-                        </div>
-                        <div onClick={showModal} className="def--item">
-                            <Title level={5}>Definition Item</Title>
-                        </div>
-                        <div onClick={showModal} className="def--item">
-                            <Title level={5}>Definition Item</Title>
-                        </div>
-                        <div onClick={showModal} className="def--item">
-                            <Title level={5}>Definition Item</Title>
-                        </div>
+                        {
+                            definitionsList.map(def => (
+                                <div key={def.YDMS_Def_id} onClick={() => showModal(def)} className="def--item">
+                                    <Title level={5}>{def.term}</Title>
+                                </div>
+                            ))
+                        }
                     </div>
+                    }
                 </div>
            </div>
         </div>
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+        <Modal cancelText={false} cancelButtonProps={false} title="Definition" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            {selectedTerm&&
+            <div>
+                <h2 style={{fontWeight: 'bold', fontSize: '16px', marginBottom: '10px'}}>{selectedTerm.term}:</h2>
+                <p>{selectedTerm.definition}</p>
+            </div>}
         </Modal>
         </>
     )
@@ -75,9 +96,10 @@ const Help = ({}) => {
 
 
 
-const mapStateToProps = ({ AuthReducer }) => ({
-    
+const mapStateToProps = ({ ELibraryReducer }) => ({
+    definitions: ELibraryReducer.definitions,
+    loading: checkIfLoader(ELibraryReducer, types.GET_DEFINITIONS_REQUEST)
 })
 
-export default connect(mapStateToProps)(Help);
+export default connect(mapStateToProps)(Definitions);
 
