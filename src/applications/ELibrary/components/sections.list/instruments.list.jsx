@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Menu  } from "antd";
+import { Menu, Divider } from "antd";
 import {connect, useDispatch} from 'react-redux'
 import { QuestionCircleFilled} from '@ant-design/icons';
 import './instruments.list.scss'
@@ -11,30 +11,13 @@ const { SubMenu } = Menu;
  * @description Instrument content
  */
 
-const INSTRUMENTS = [
-    {
-        id: 1,
-        label: 'Instrument 1',
-        code: 'inst_1',
-        articles: [
-            {
-                id: 1,
-                label: 'Article title'
-            },
-            {
-                id: 2,
-                label: 'Article title 2'
-            },
-        ]
-    }
-]
-
-const Sections = ({instruments, setProvisions}) => {
+const Sections = ({instruments, setInstrument, setArticle}) => {
     
     const dispatch = useDispatch()
 
-    const handleSelectArticle = (provisions) => {
-        setProvisions(provisions)
+    const handleSelectArticle = (inst, article) => {
+        setInstrument(inst)
+        setArticle(article)
     }
 
     return (
@@ -48,10 +31,11 @@ const Sections = ({instruments, setProvisions}) => {
                 {
                     instruments.map((inst, i) => (
                         <SubMenu key={`sub${i}`} icon={<QuestionCircleFilled />} title={inst.instrument_name}>
+                            <Divider>Articles</Divider>
                             {
                                 inst.articles.map((article, i) => (
-                                    <Menu.Item onClick={() => handleSelectArticle(article.provisions)} key={i}>
-                                        {article.article_number}: {article.article_part}
+                                    <Menu.Item onClick={() => handleSelectArticle(inst, article)} key={i}>
+                                        {article.article_number}: {article.article_title}
                                     </Menu.Item>
                                 ))
                             }

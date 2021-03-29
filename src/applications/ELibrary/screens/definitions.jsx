@@ -58,7 +58,9 @@ const Definitions = ({definitions, loading}) => {
             <MainHeader />
            <div className="definitions-container">
                 <div className="definitions-list">
-                    <Divider><Title level={3}>DEFINITIONS</Title></Divider>
+                    <div className="title-box">
+                        <Divider><Title level={3}>DEFINITIONS</Title></Divider>
+                    </div>
                     <div className="search--box">
                         <Space direction="horizontal">
                             <Search 

@@ -15,7 +15,9 @@ import './eLibrary.scss'
 
 const Instrument = ({instruments, loading}) => {
     
-    const [provisions, setProvisions] = useState([])
+    const [instrument, setInstrument] = useState(null)
+    const [article, setArticle] = useState(null)
+    
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -28,12 +30,12 @@ const Instrument = ({instruments, loading}) => {
             <div className="elibrary-content-wrapper">
                 <div className="elibrary-left-panel">
                     <div className="sections-listing">
-                        <InstumentsList setProvisions={setProvisions} />
+                        <InstumentsList setInstrument={setInstrument} setArticle={setArticle} />
                     </div>
                 </div>
                 <div className="data-content">
                     <div className="content-container">
-                        <ArticleContent loading={loading} provisions={provisions} />
+                        <ArticleContent loading={loading} instrument={instrument} article={article} />
                     </div>
                 </div>
             </div>

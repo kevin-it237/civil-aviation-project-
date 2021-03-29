@@ -102,8 +102,9 @@ const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hard
                 </div>
             }
         </div>
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <p>Some contents...</p>
+        <Modal title="About the Article" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <h2>Instrument here</h2>
+            <p>Article here</p>
         </Modal>
         </>
     )

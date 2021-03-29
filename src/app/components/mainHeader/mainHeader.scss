@@ -15,6 +15,9 @@
       line-height: 20px;
       border-radius: 4px;
       color: $white;
+      &:hover {
+        color: $white !important;
+      }
     }
     
     a.logo {
