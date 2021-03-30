@@ -75,7 +75,7 @@ const ArticleContent = ({instruments, loading, instrument, article}) => {
             {(loading) ? <div className='loader--wrapper'><Loader /></div>:
             !searching?
             <>
-                {(selectedArticle && instrument)&&
+                {(selectedArticle && selectedInstrument)&&
                 <div className="article--title">
                     <h3>{selectedInstrument?.instrument_name}</h3>
                     <p>{selectedInstrument?.description}</p>
