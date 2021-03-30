@@ -47,6 +47,9 @@ const ArticleContent = ({instruments, loading, instrument, article}) => {
             });
         });
         setSearchResult(results)
+        if(!value || value.length === 0) {
+            setSearching(false)
+        }
     }
 
     const onSearch = value => filterList(value);
