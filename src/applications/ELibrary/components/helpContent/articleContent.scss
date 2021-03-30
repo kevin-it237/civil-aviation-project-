@@ -3,27 +3,29 @@
 .article-content{
     display: grid;
     grid-auto-columns: 1fr;
-    padding: 40px 80px;
+    padding: 20px 80px 40px 80px;
     background-color: $white;
     align-content: flex-start;
 
     .title-box {
-        background-color: $primary;
+        // background-color: $primary;
+        // border-radius: 10px;
         margin-bottom: 10px;
         h3 {
             margin-bottom: 0;
-            color: $white;
-            font-size: 20px;
+            // color: $white;
+            font-size: 17px;
         }
     }
 
     >.search--box {
         margin-top: 5px;
+        margin-bottom: 15px;
         display: flex;
         justify-content: center;
     }
     >.article-items {
-        padding: 10px;
+        padding: 5px 10px;
         height: calc(100vh - 450px);
         overflow-y: scroll;
         overflow-x: hidden;
@@ -42,7 +44,11 @@
             transition: all .1s ease-in;
             background-color: rgba($stroke-color, .15);
             animation: display .3s ease-in;
-            h5 {margin-bottom: 0;}
+            h5 {
+                margin-bottom: 0; 
+                font-size: 14px !important;
+                font-weight: 500;
+            }
             &:hover {
                 background-color: rgba($stroke-color, .3);
             }
@@ -63,23 +69,59 @@
         }
     }
     .article--title {
-        margin-bottom: 20px;
+        margin-bottom: 5px;
         box-shadow: 0 2px 10px rgba(#000, .15);
         padding: 20px 15px;;
         h3 {
             line-height: 22px;
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 600;
         }
         h4 {
             line-height: 22px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             margin-top: 8px;
         }
         p {
-            font-size: 14.5px;
+            font-size: 12.5px;
             line-height: 22px;
+        }
+    }
+
+    .search--result {
+        .no--result {
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+        .results--list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            justify-content: center;
+            .result--item {
+                width: 100%;
+                border-radius: 5px;
+                margin-top: 8px;
+                cursor: pointer;
+                border: solid 1px $stroke-color;
+                padding: 10px 15px;
+                transition: all .1s ease-in;
+                background-color: rgba($stroke-color, .4);
+                h5 {
+                    margin-bottom: 0;
+                    font-size: 14px;
+                    font-weight: 400;
+                    b {font-weight: bold;}
+                }
+                @media only screen and (max-width: 1024px) {
+                    width: 90%;
+                }
+                &:hover {
+                    background-color: #eff1f1;
+                }
+            }
         }
     }
 }
