@@ -4,6 +4,7 @@ import SAATMDashboardReducer from '../applications/saatmDashboard/redux/reducer/
 import YDMonitoringReducer from '../applications/ydMonitoring/redux/reducer/reducer'
 import HelpReducer from '../applications/help/redux/reducer/reducer'
 import AdminReducer from '../applications/adminDashboard/redux/reducer/reducer'
+import ELibraryReducer from '../applications/ELibrary/redux/reducer/reducer'
 
 const reducerCombination = combineReducers({
 	AuthReducer,
@@ -11,6 +12,7 @@ const reducerCombination = combineReducers({
 	YDMonitoringReducer,
 	HelpReducer,
 	AdminReducer,
+	ELibraryReducer,
 });
 
 export default reducerCombination;

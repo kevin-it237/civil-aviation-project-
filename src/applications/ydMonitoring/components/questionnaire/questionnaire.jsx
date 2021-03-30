@@ -120,8 +120,8 @@ const Questionnaire = ({
 
     // const groupQuestionsByKPI = (questions) => {
     //     const result = questions.reduce(function (r, a) {
-    //         r[a.YDMSKPIYDMSKPIsId] = r[a.YDMSKPIYDMSKPIsId] || [];
-    //         r[a.YDMSKPIYDMSKPIsId].push(a);
+    //         r[a.ydmsKpiYDMSKPIsId] = r[a.ydmsKpiYDMSKPIsId] || [];
+    //         r[a.ydmsKpiYDMSKPIsId].push(a);
     //         return r;
     //     }, Object.create(null));
     //     return result
@@ -130,7 +130,7 @@ const Questionnaire = ({
     const cookNotAnsweredQuestions = () => {
 
         // Just keep questions related to the current section
-        let data = questions.filter(q => q.YDMSKPIYDMSKPIsId === currentSection.id)
+        let data = questions.filter(q => q.ydmsKpiYDMSKPIsId === currentSection.id)
 
         // Remove questions that user has already anwsered
         data = data.filter(question => {
@@ -141,28 +141,28 @@ const Questionnaire = ({
         if(selectedOrg === 'state') {
             // Non SAATM members cannot answer to KPI_4 SP
             if(!selectedState.SAATM_membership) {
-                data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_4')
+                data = data.filter(question => question.ydmsKpiYDMSKPIsId !== 'kpi_4')
             }
     
             // Non SAATM members cannot answer to KPI_2 SP
             if(!selectedState.SAATM_membership) {
-                data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_2')
+                data = data.filter(question => question.ydmsKpiYDMSKPIsId !== 'kpi_2')
             }
     
             // Remove SP for KPI_0
-            data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_0')
+            data = data.filter(question => question.ydmsKpiYDMSKPIsId !== 'kpi_0')
     
             // Remove KPI_12 SP
-            // data = data.filter(question => question.YDMSKPIYDMSKPIsId !== 'kpi_12')
+            // data = data.filter(question => question.ydmsKpiYDMSKPIsId !== 'kpi_12')
     
             // Non YD_Membership members cannot answer to other questions
             // if(!selectedState.YD_membership) {
-            //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
+            //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.ydmsKpiYDMSKPIsId))
             // }
     
             // Non SAATM members members cannot answer to other questions 
             // if(!selectedState.SAATM_membership) {
-            //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.YDMSKPIYDMSKPIsId))
+            //     data = data.filter(question => ['kpi_0',  'kpi_1'].includes(question.ydmsKpiYDMSKPIsId))
             // }
 
             const condition1 = (data, state) => !new RegExp("\\b" + state.full_name.toLowerCase() + "\\b").test(data.questionnaire_text.toLowerCase())

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import useError from '../../hooks/useError';
-import {createUserAccount} from '../../redux/reducer/actions';
 import {types} from '../../redux/reducer/types';
 import {checkIfLoader} from '../../redux/reducer/reducer.helper'
 import { Divider, Table, Tag, message } from 'antd';
@@ -9,40 +8,24 @@ import './online.users.scss';
 const { Column } = Table;
 
 
-const EAccounts = ({ error, user, users }) => {
+const EAccounts = ({ error, connectedUsers}) => {
     const dispatch = useDispatch()
-    const [EAList, setEAList] = useState([{
-        key: '58',
-        name: 'EA',
-        fullName: 'Executing Agency',
-        username: null,
-        role: 'ea',
-    }])
-
+    const [onlineUsers, setOnlineUsers] = useState([])
+    console.log(connectedUsers)
     useEffect(() => {
         processData()
-    }, [users])
+    }, [connectedUsers])
 
     const processData = () => {
-        const EA = users.find(user => user.username.toLowerCase() === 'ea')
-        if(EA) {
-            setEAList([
-                {
-                    key: '58',
-                    name: 'EA',
-                    fullName: 'Executing Agency',
-                    username: EA.username,
-                    role: 'ea',
-                },
-                {
-                    key: '3',
-                    name: 'Benin',
-                    fullName: 'Republic of Benin',
-                    username: 'Benin',
-                    role: 'state',
-                },
-            ])
-        }
+        console.log(connectedUsers)
+        const users = connectedUsers
+        .filter(user => user.role !== 'admin')
+        .map(user => ({
+            key: user.id,
+            name: user.short_name,
+            role: user.role,
+        }))
+        setOnlineUsers(users)
     }
 
     const rowSelection = {
@@ -68,9 +51,8 @@ const EAccounts = ({ error, user, users }) => {
                         type: 'checkbox',
                         ...rowSelection,
                     }}
-                    dataSource={EAList}>
+                    dataSource={onlineUsers}>
                     <Column title="Short Name" dataIndex="name" key="1" />
-                    <Column title="Full Name" dataIndex="fullName" key="2" />
                     <Column
                         title="Role"
                         dataIndex="role"
@@ -87,7 +69,6 @@ const EAccounts = ({ error, user, users }) => {
 
 const mapStateToProps = ({ AuthReducer, AdminReducer }) => ({
     error: AuthReducer.error,
-    user: AuthReducer.user,
-    users: AdminReducer.users,
+    connectedUsers: AdminReducer.connectedUsers
 })
 export default connect(mapStateToProps)(EAccounts);

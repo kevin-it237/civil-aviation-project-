@@ -1,7 +1,10 @@
-import {put, takeEvery} from 'redux-saga/effects'
+import {put, takeEvery, takeLatest} from 'redux-saga/effects'
 import {getRequest} from '../../../../helpers/api'
 import { types } from "../reducer/types";
-import {API_URL} from './saga.helper'
+
+import {config} from '../../../../helpers/constants'
+
+const API_URL = `${config.API_URL}/api`
 
 /**
  * @description get states
@@ -71,8 +74,8 @@ function* getKpis ({payload}) {
 
 
 export default function* SAATMDashboardSaga() {
-    yield takeEvery(types.GET_STATES_REQUEST, getStates);
+    yield takeLatest(types.GET_STATES_REQUEST, getStates);
     yield takeEvery(types.GET_KPI_DATA_REQUEST, getKpisData);
-    yield takeEvery(types.GET_KPIS_REQUEST, getKpis);
+    yield takeLatest(types.GET_KPIS_REQUEST, getKpis);
     yield takeEvery(types.GET_KPI_DATA_SUMMARY_REQUEST, getKpisDataSummary);
 }

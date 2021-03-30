@@ -11,6 +11,8 @@ import YDSystemDashboard from '../../applications/ydMonitoring/screens/ydMonitor
 import AdminDashboard from '../../applications/adminDashboard/screens/adminDashboard/adminDashboard'
 import Profile from '../../applications/auth/screens/profile.screen/profile.screen'
 import Help from '../../applications/help/screens/help'
+import ELibrary from '../../applications/ELibrary/screens/eLibrary'
+import Definitions from '../../applications/ELibrary/screens/definitions'
 
 /**
  * @description this is the main routes for the main application src/app. 
@@ -52,6 +54,20 @@ const Routes = () => {
                     exact 
                     component={Help}
                     path={"/help"} />
+            </PrivateRoute>
+
+            <PrivateRoute path={"/e-library"}>
+                <Route 
+                    exact 
+                    component={ELibrary}
+                    path={"/e-library"} />
+            </PrivateRoute>
+
+            <PrivateRoute path={"/definitions"}>
+                <Route 
+                    exact 
+                    component={Definitions}
+                    path={"/definitions"} />
             </PrivateRoute>
             
             <NormalRoute>

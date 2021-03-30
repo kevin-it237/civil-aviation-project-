@@ -58,7 +58,7 @@ const Login = ({ error, user, states, loadingStates, loadingUsers }) => {
                         <Menu.Item onClick={() => setContent('EA_ACCOUNTS')} key="2">EA Account</Menu.Item>
                         <Menu.Item onClick={() => setContent('AIRLINE_ACCOUNTS')} key="3">Airline Accounts</Menu.Item>
                         <Divider />
-                        <Menu.Item onClick={() => setContent('ONLINE_USERS')} key="4">Connected Users</Menu.Item>
+                        <Menu.Item onClick={() => setContent('ONLINE_USERS')} key="4"><span id="online-circle"></span>Connected Users</Menu.Item>
                     </SubMenu>
                     </Menu>
                 </div>

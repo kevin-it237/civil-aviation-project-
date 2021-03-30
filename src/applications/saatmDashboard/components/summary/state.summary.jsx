@@ -80,13 +80,15 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
         <div className="kpisSummary-content">
             <div className="state-summary-header">
             <Tabs defaultActiveKey="1" centered>
+                {user.role === 'admin'&&
                 <TabPane tab="GLOBAL SUMMARY" key="1">
                     <StateGlobalSummary 
                         states={states}
                         SUMMARY_DATAS={SUMMARY_DATAS} 
                         totalStates={generateSAATMStates().length-1} />
                 </TabPane>
-                <TabPane tab="SUMMARY BY STATES/ KPIs" key="2">
+                }
+                <TabPane tab="STATES SUMMARY / KPIs" key="2">
                     <div className={`states-performances ${user.role!=='admin'?'states-performances-no':''}`}>
                         {user.role==="admin"&&
                             <div className="states-listing">
@@ -103,12 +105,6 @@ const StateKPISummary = ({loading, kpis, kpisSummaryData, selectedOrg, states, l
                         <div className="summary-table">
                             {selectedState&&
                             <StateSummaryItem data={selectedState} totalStates={generateSAATMStates().length-1} />}
-                            
-                            {/* {
-                                SUMMARY_DATAS.map(data => {
-                                    return <StateSummaryItem key={data.YDMS_Org_id} data={data} totalStates={SUMMARY_DATAS.length} />
-                                })
-                            } */}
                         </div>
                     </div>
                 </TabPane>

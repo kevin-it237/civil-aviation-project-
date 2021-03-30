@@ -1,0 +1,17 @@
+@import '../../../../assets/styles/global.scss';
+
+.sections {
+    .ant-menu-inline .ant-menu-submenu-title {
+        padding-left: 15px !important;
+    }
+    .ant-menu {
+        border: none !important;
+        .ant-menu-item {
+            padding-left: 15px !important;
+            font-weight: 500 !important;
+        }
+        .ant-menu-item-only-child {
+            font-size: 12px !important;
+        }
+    }
+}

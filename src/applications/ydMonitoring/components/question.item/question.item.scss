@@ -12,6 +12,13 @@
     background-color: rgba($stroke-color, .25);
     border-left: solid 3px $primary;
     animation: appear .2s ease-in;
+    position: relative;
+
+    >.help--button {
+        position: absolute;
+        right: 5px;
+        top: 7px;
+    }
 
     @keyframes appear {
         from {

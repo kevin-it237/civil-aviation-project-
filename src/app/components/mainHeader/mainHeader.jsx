@@ -21,22 +21,30 @@ const MainHeader = ({user}) => {
 
     const logout = () => {
         dispatch(authLogout())
-        // setTimeout(() => {
-        //     history.push('/')
-        // }, 1000);
     }
 
-    const menu = (
+    const userMenu = (
         <Menu>
           <Menu.Item>
             <NavLink exact={true} to='/profile'>Account</NavLink>
           </Menu.Item>
-          <Menu.Item disabled>
-            <NavLink exact={true} to='/'>other item</NavLink>
+          <Menu.Item>
+            <NavLink exact={true} to='/help'>Help</NavLink>
           </Menu.Item>
           <Menu.Item onClick={logout}>Logout</Menu.Item>
         </Menu>
     );
+
+    const libraryMenu = (
+        <Menu>
+          <Menu.Item>
+            <NavLink exact={true} to='/definitions'>Definitions</NavLink>
+          </Menu.Item>
+          <Menu.Item>
+            <NavLink exact={true} to='/e-library'>YD Instruments/Regulations</NavLink>
+          </Menu.Item>
+        </Menu>
+    )
 
     return (
         <div className="main-header">
@@ -45,12 +53,17 @@ const MainHeader = ({user}) => {
                 <NavLink exact={true} to='/yd-monitoring'>YD Monitoring System</NavLink>
                 <NavLink exact={true} to='/saatm-dashboard'>SAATM Dashboard</NavLink>
                 {user.role === 'admin'&&<NavLink exact={true} to='/administration'>Admin Dashboard</NavLink>}
-                <NavLink exact={true} to='/help'>Help</NavLink>
-                <Dropdown overlay={menu}>
+                <Dropdown overlay={libraryMenu}>
                     <NavLink 
+                        to="/e-library/#"
                         className="ant-dropdown-link" 
-                        onClick={e => e.preventDefault()}
-                        exact={true} to='/logout'>{user.short_name.toUpperCase()} <DownOutlined /></NavLink>
+                        onClick={e => e.preventDefault()}>E Library <DownOutlined /></NavLink>
+                </Dropdown>
+                <Dropdown overlay={userMenu}>
+                    <NavLink 
+                        to="/profile/#"
+                        className="ant-dropdown-link" 
+                        onClick={e => e.preventDefault()}>{user.short_name.toUpperCase()} <DownOutlined /></NavLink>
                 </Dropdown>
             </div>
         </div>

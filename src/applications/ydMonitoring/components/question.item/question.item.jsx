@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import { Radio, InputNumber  } from 'antd';
+import { Radio, InputNumber, Modal  } from 'antd';
+import { QuestionCircleFilled} from '@ant-design/icons';
 import './question.item.scss'
 
 /**
@@ -9,9 +10,22 @@ import './question.item.scss'
 
 const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hardQuestion}) => {
     const {questionnaire_text} = question
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const [isChecked, setIsChecked] = useState(false)
     const [weightRes, setWeightRes] = useState(0)
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     const onChange = e => {
         const response = {
@@ -52,13 +66,15 @@ const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hard
     }
     
     return (
+        <>
         <div className={`question-item ${className ? className: ''}`}>
+            <div className="help--button"><QuestionCircleFilled onClick={showModal} /></div>
             <p className="question-label"><b>{question.YDMS_SP_id!=='YDMS_SP_01'&&`Q-${question.number}:`}</b> {questionText}</p>
             {
                 question.YDMS_SP_id !== 'YDMS_SP_01'&&
                 <div className="checkboxes">
                     {
-                        question.YDMSKPIYDMSKPIsId === 'kpi_12' ?
+                        question.ydmsKpiYDMSKPIsId === 'kpi_12' ?
                         <>
                             {hardQuestion ?
                             <h3>{question.sp_response.weight_response}</h3>:
@@ -86,6 +102,11 @@ const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hard
                 </div>
             }
         </div>
+        <Modal title="About the Article" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <h2>Instrument here</h2>
+            <p>Article here</p>
+        </Modal>
+        </>
     )
 }
 

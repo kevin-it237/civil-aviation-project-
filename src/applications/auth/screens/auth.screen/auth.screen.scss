@@ -17,7 +17,7 @@
         background-color: rgba($white, 0.95);
         .auth-container__title {
             color: $primary;
-            font-family: "Poppins Medium", sans-serif;
+            font-family: 'Open Sans', sans-serif;
             font-size: 22px;
             text-align: center;
             padding: 40px;
@@ -62,7 +62,8 @@
             background-color: $primary;
             padding: 5px 70px;
             color: $white;
-            font-family: "Poppins Medium", sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
             font-size: 20px;
             border-radius: 80px;
             border: 0;
@@ -88,7 +89,7 @@
                 margin-top: -0.8rem;
                 color: $grey-500;
                 font-size: 16px;
-                font-family: "Poppins Regular", sans-serif;
+                font-family: 'Open Sans', sans-serif;
             }
             .auth-text {
                 color: $primary;

@@ -16,4 +16,13 @@
             overflow-y: scroll;
         }
     }
+
+    #online-circle {
+        margin-right: 8px;
+        background-color: rgb(28, 202, 13);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
 }

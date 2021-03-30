@@ -5,13 +5,14 @@
     >.help-content-wrapper {
         display: grid;
         grid-template-columns: 30% 67%;
-        grid-template-rows: calc(100vh - 120px);
+        grid-template-rows: calc(100vh - 100px);
         justify-content: space-between;
         margin: 10px;
         margin-top: 20px;
         >.help-left-panel {
             border: solid 1px $stroke-color;
             border-radius: 5px;
+            background-color: $white;
             >.org-sections-content {
     
                 >.sections-listing {
@@ -26,6 +27,7 @@
             border: solid 1px $stroke-color;
             border-radius: 5px;
             padding: 0 !important;
+            background-color: $white;
             .content-container {
                 height: 100%;
                 overflow-y: scroll;
