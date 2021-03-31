@@ -41,7 +41,7 @@ const MainHeader = ({user}) => {
             <NavLink exact={true} to='/definitions'>Definitions</NavLink>
           </Menu.Item>
           <Menu.Item>
-            <NavLink exact={true} to='/e-library'>YD Instruments/Regulations</NavLink>
+            <NavLink exact={true} to='/e-library'>YD Regulations</NavLink>
           </Menu.Item>
         </Menu>
     )

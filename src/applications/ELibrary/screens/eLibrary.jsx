@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect, useDispatch, useStore} from 'react-redux'
 import InstumentsList from '../components/sections.list/instruments.list'
-import ArticleContent from '../components/helpContent/articleContent'
+import ArticleContent from '../components/articleContent/articleContent'
 import MainHeader from '../../../app/components/mainHeader/mainHeader'
 import {getInstruments} from '../redux/reducer/actions'
 import {types} from '../redux/reducer/types'

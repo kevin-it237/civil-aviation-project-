@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import { Typography, Divider, Input, Space } from 'antd';
+import { Typography, Divider, Input, Space, Select  } from 'antd';
 import Loader from '../../../../app/components/loader/loader'
 import './articleContent.scss'
 const { Title } = Typography;
 const { Search } = Input;
+const { Option } = Select;
 
 /**
  * @description content
@@ -15,6 +16,7 @@ const ArticleContent = ({instruments, loading, instrument, article}) => {
     const [selectedArticle, setSelectedArticle] = useState(article)
     const [selectedInstrument, setSelectedInstrument] = useState(instrument)
     const [searchResult, setSearchResult] = useState([])
+    const [searchQuery, setSearchQuery] = useState('')
     const [searching, setSearching] = useState(false)
     const [fakeLoading, setFakeLoading] = useState(false)
 
@@ -33,22 +35,35 @@ const ArticleContent = ({instruments, loading, instrument, article}) => {
     const filterList = (value) => {
         setSearching(true)
         setFakeLoading(true)
+        setSearchQuery(value)
         setTimeout(() => {
             setFakeLoading(false)
         }, 1000);
         let results = []
 
-        instruments.forEach(instrument => {
-            const articles = instrument.articles
+        if(selectedInstrument) {
+            const articles = selectedInstrument.articles
             articles.forEach(article => {
                 if(article.article_number.startsWith(value)) {
-                    results.push({article, instrument})
+                    results.push({article, selectedInstrument})
                 }
             });
-        });
+        } else {
+            instruments.forEach(instrument => {
+                const articles = instrument.articles
+                articles.forEach(article => {
+                    if(article.article_number.startsWith(value)) {
+                        results.push({article, instrument})
+                    }
+                });
+            });
+        }
+
         setSearchResult(results)
+
         if(!value || value.length === 0) {
             setSearching(false)
+            setSelectedArticle(null)
         }
     }
 
@@ -56,22 +71,38 @@ const ArticleContent = ({instruments, loading, instrument, article}) => {
 
     const showProvisions = ({article, instrument}) => {
         setSelectedArticle(article)
-        setSelectedInstrument(instrument)
         setSearching(false)
+    }
+
+    // Select Instrument from input selection
+    const handleChange = (instrumentIndex) => {
+        setSearching(true)
+        const instrument = instruments[instrumentIndex]
+        setSelectedInstrument(instrument)
+        setSearchQuery('')
+        setSearchResult([])
     }
 
     return (
         <>
         <div className="article-content">
             <div className="title-box">
-                <Divider><Title level={3}>YD INSTRUMENTS/ REGULATIONS</Title></Divider>
+                <Divider><Title level={3}>INSTITUTIONAL AND REGULATORY INSTRUMENTS</Title></Divider>
             </div>
             <div className="search--box">
+                <Select defaultValue="Select Instrument" style={{ width: 250 }} onChange={handleChange}>
+                    {
+                        instruments.map((inst, i) => (
+                            <Option key={i} value={i}>{inst.instrument_name}</Option>     
+                        ))
+                    }
+                </Select>
                 <Space direction="horizontal">
                     <Search 
                         onChange={(e) => filterList(e.target.value)}
-                        placeholder="Search by article number" 
-                        allowClear onSearch={onSearch} 
+                        placeholder="Enter article number" 
+                        value={searchQuery}
+                        onSearch={onSearch} 
                         style={{ width: 250 }} />
                 </Space>
             </div>
@@ -82,7 +113,7 @@ const ArticleContent = ({instruments, loading, instrument, article}) => {
                 <div className="article--title">
                     <h3>{selectedInstrument?.instrument_name}</h3>
                     <p>{selectedInstrument?.description}</p>
-                    <h4><u>Article</u>: {selectedArticle?.article_part !== 'nil' ? selectedArticle?.article_part: selectedArticle?.article_title}</h4>
+                    <h4><u>Article <b>{selectedArticle?.article_number}</b></u>: {selectedArticle?.article_part !== 'nil' ? selectedArticle?.article_part: selectedArticle?.article_title}</h4>
                 </div>}
                 <div><Divider><b>Provisions</b></Divider></div>
                 {(!selectedArticle && !selectedInstrument)&&<p style={{textAlign: 'center'}}>Please select an Article.</p>}
