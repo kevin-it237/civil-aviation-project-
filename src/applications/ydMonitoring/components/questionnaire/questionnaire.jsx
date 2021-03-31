@@ -298,7 +298,7 @@ const Questionnaire = ({
             return (
                 <div className="completed--res">
                     <div className="sps-listing">
-                        <h4>Questions List & Responses</h4>
+                        <h4>{currentSection?.name}: Questions and Responses</h4>
                         {
                             Object.keys(spsAndResponses).length&&spsAndResponses.survey_protocols
                             .filter(q => q.sp_response.kpi_id === currentSection.id)
@@ -326,7 +326,7 @@ const Questionnaire = ({
                             '100%': '#87d068',
                         }}
                         percent={100} /> */}
-                    <p style={{textAlign: 'center'}}>You answered all the questions of this section.</p>
+                    <p style={{textAlign: 'center'}}>You have answered all the questions in this section.</p>
                     <div className="yd-menu">
                         <div className="yd-menu-2 yd-menu">
                             <h2>Review</h2>
