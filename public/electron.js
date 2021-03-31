@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, nativeImage, Menu, session } = require('electron')
+const { app, BrowserWindow, Tray, nativeImage, Menu, session, screen } = require('electron')
 const path = require("path");
 const isDev = require("electron-is-dev");
 
@@ -33,11 +33,12 @@ function createTray() {
 }
 
 function createWindow () {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
 
   win = new BrowserWindow({
     title: 'Monitoring System',
-    width: 1024,
-    height: 768,
+    width: width,
+    height: height,
     minWidth: 1024,
     minHeight: 768,
     resizable: true,
