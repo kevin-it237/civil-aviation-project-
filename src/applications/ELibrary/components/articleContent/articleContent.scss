@@ -1,4 +1,4 @@
-@import '../../../../assets/styles/global.scss';
+@import '../../../../assets/styles/base/variables';
 
 .article-content{
     display: grid;
@@ -23,6 +23,7 @@
         margin-bottom: 15px;
         display: flex;
         justify-content: center;
+        align-items: center;
         gap: 5px;
     }
     >.article-items {

@@ -7,10 +7,8 @@ import { authSignIn} from '../../redux/reducer/actions';
 import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as Uneye } from '../../../../assets/icons/uneye.svg';
 import Button from '../../../../app/components/buttons/button/button';
-import { Select } from 'antd';
+import { Select, Input } from 'antd';
 import './auth.screen.scss'
-
-const { Option } = Select;
 
 
 const Login = ({ error, redirect, user }) => {
@@ -48,17 +46,15 @@ const Login = ({ error, redirect, user }) => {
                 {
                     Object.keys(loginForm).map((input, index) => (
                         <div key={index} className="auth-container__input-container">
-                            <input
+                            <Input 
+                                size="large" 
                                 name={input}
+                                type={input === 'password' ? showPassword ? 'text' : 'password' : 'text'}
                                 onChange={onChange}
                                 value={loginForm[input]}
-                                placeholder={`${input}`}
-                                type={input === 'password' ? showPassword ? 'text' : 'password' : 'text'}
-                                autoComplete={"off"}
                                 required
-                                className={`auth-container__input ${input === 'password' ? 'password' : ''}`}
-                            />
-                            {input === 'password' ? showPassword ? <Uneye onClick={() => setPassword(!showPassword)} /> : <Eye onClick={() => setPassword(!showPassword)} /> : ''}
+                                placeholder={`${input}`}
+                                className={`auth-container__input ${input === 'password' ? 'password' : ''}`} />
                         </div>
                     ))
                 }

@@ -8,7 +8,7 @@ import { ReactComponent as Eye } from '../../../../assets/icons/eye.svg';
 import { ReactComponent as Uneye } from '../../../../assets/icons/uneye.svg';
 import Button from '../../../../app/components/buttons/button/button';
 import MainHeader from '../../../../app/components/mainHeader/mainHeader'
-import { Select, Divider, message } from 'antd';
+import { Select, Divider, message, Input } from 'antd';
 import './profile.screen.scss'
 
 const { Option } = Select;
@@ -89,7 +89,8 @@ const UserProfile = ({ error, redirect, user, success }) => {
                         if(input === 'state') return null
                         return (
                             <div key={index} className="auth-container__input-container">
-                                <input
+                                <Input 
+                                    size="large" 
                                     name={input}
                                     onChange={onChange}
                                     disabled={input === 'username'}
@@ -99,8 +100,7 @@ const UserProfile = ({ error, redirect, user, success }) => {
                                     autoComplete={"off"}
                                     required
                                     className={`auth-container__input ${(input === 'password' || input === 'confirmation') ? 'password' : ''}`}
-                                />
-                                {(input === 'password' || input === 'confirmation') ? showPassword ? <Uneye onClick={() => setPassword(!showPassword)} /> : <Eye onClick={() => setPassword(!showPassword)} /> : ''}
+                                    />
                             </div>
                         )
                     })}
