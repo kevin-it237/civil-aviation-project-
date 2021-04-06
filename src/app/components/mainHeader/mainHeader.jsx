@@ -29,6 +29,9 @@ const MainHeader = ({user}) => {
             <NavLink exact={true} to='/profile'>Account</NavLink>
           </Menu.Item>
           <Menu.Item>
+            <NavLink exact={true} to='/reports'>Reports</NavLink>
+          </Menu.Item>
+          <Menu.Item>
             <NavLink exact={true} to='/help'>Help</NavLink>
           </Menu.Item>
           <Menu.Item onClick={logout}>Logout</Menu.Item>

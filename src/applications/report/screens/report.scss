@@ -1,0 +1,19 @@
+@import '../../../assets/styles/base/variables';
+
+#report-container {
+    height: 100vh;
+    
+    >.reports-content {
+        margin-top: 25px;
+        >.button--wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        >.reports-listing {
+            
+        }
+    }
+
+}

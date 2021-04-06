@@ -1,0 +1,13 @@
+.help-content-text {
+    h3 {
+        margin-bottom: 0;
+    }
+
+    p, span.ant-typography {
+        font-size: 15px;
+        line-height: 22px;
+        @media only screen and(max-width: 1366px) {
+            font-size: 13px;
+        }
+    }
+}
