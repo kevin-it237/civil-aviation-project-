@@ -105,7 +105,21 @@ function* saveResponse ({payload}) {
     }
 }
 
-
+/**
+ * @description get provision
+ */
+ function* getProvision ({payload}) {
+     const {instId, provisionNumber} = payload
+    yield put({type: types.START_LOADING, payload: types.GET_PROVISION_REQUEST})
+    try { 
+        const {data} = yield getRequest(`${API_URL}/libraries/provision/${instId}/${provisionNumber}`);
+        yield put({type: types.GET_PROVISION_SUCCESS, payload: data})
+    } catch (error) {
+        yield put({type: types.GET_PROVISION_FAILURE, payload: error.response.data.message});
+    } finally {
+        yield put({type: types.STOP_LOADING, payload: types.GET_PROVISION_REQUEST})
+    }
+}
 
 export default function* YDMonitoringSaga() {
     yield takeEvery(types.GET_STATES_REQUEST, getStates);
@@ -114,4 +128,5 @@ export default function* YDMonitoringSaga() {
     yield takeEvery(types.GET_SPS_AND_RESPONSES_REQUEST, getSPsAndResponses);
     yield takeEvery(types.SAVE_RESPONSE_REQUEST, saveResponse);
     yield takeEvery(types.GET_ORGANISATIONS_REQUEST, getOrganisations);
+    yield takeEvery(types.GET_PROVISION_REQUEST, getProvision);
 }

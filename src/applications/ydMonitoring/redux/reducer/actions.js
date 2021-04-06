@@ -79,3 +79,11 @@ export const setCurrentSection = (payload) => ({
     type: types.SET_CURRENT_SECTION,
     payload
 });
+
+/**
+ * @description get provision
+ */
+export const getProvision = (payload) => ({
+    type: types.GET_PROVISION_REQUEST,
+    payload
+});

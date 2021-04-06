@@ -24,6 +24,7 @@ const INITIAL_STATE = {
     loader: {
         actions: []
     },
+    provision: null,
     error: null,
     success: false,
 }
@@ -130,6 +131,18 @@ const YDMonitoringReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentSection: action.payload,
+            };
+
+        case types.GET_PROVISION_SUCCESS:
+            return {
+                ...state,
+                provision: action.payload,
+            };
+
+        case types.GET_PROVISION_FAILURE:
+            return {
+                ...state,
+                provision: [],
             };
 
         default:

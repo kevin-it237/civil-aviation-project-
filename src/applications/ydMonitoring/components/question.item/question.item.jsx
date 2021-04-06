@@ -1,19 +1,41 @@
 import React, {useEffect, useState} from 'react'
-import { Radio, InputNumber, Modal  } from 'antd';
+import {useDispatch, connect} from 'react-redux'
+import {getProvision} from '../../redux/reducer/actions'
+import {types} from '../../redux/reducer/types'
+import Loader from '../../../../app/components/loader/loader'
+import {checkIfLoader} from '../../redux/reducer/reducer.helper'
+import { Radio, InputNumber, Modal, Typography  } from 'antd';
 import { QuestionCircleFilled} from '@ant-design/icons';
 import './question.item.scss'
+const { Title } = Typography;
 
 /**
  * @description content
  * @param {string} hardQuestion for displaying responded questions
  */
 
-const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hardQuestion}) => {
+const QuestionItem = ({
+    question, 
+    onSelect, 
+    selectedState, 
+    kpiId, 
+    className, 
+    hardQuestion, 
+    loadingProvision,
+    provision}) => {
     const {questionnaire_text} = question
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const [isChecked, setIsChecked] = useState(false)
     const [weightRes, setWeightRes] = useState(0)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(isModalVisible) {
+            dispatch(getProvision({instId: question?.YDMS_Inst_id, provisionNumber: question?.provision_id.trim()}))
+        }
+    }, [isModalVisible, dispatch])
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -103,12 +125,26 @@ const QuestionItem = ({question, onSelect, selectedState, kpiId, className, hard
             }
         </div>
         <Modal title="About the Article" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-            <h2>Instrument here</h2>
-            <p>Article here</p>
+            {
+                loadingProvision ? <Loader />:
+                provision ? (
+                    <div id="provision-content">
+                        <h3>{provision?.article?.instrument?.instrument_name}</h3>
+                        <p>{provision?.article?.instrument?.description}</p>
+                        <h4><u><b>Article {provision?.article?.article_number}</b></u>: {provision?.article?.article_part !== 'nil' ? provision?.article?.article_part: provision?.article?.article_title}</h4>
+                        <Title level={5}><b>{provision.provision_number}</b>: {provision.text_content}</Title>
+                    </div>
+                ): <span>No provision found</span>
+            }
         </Modal>
         </>
     )
 }
 
-export default QuestionItem;
+const mapStateToProps = ({ YDMonitoringReducer }) => ({
+    provision: YDMonitoringReducer.provision,
+    loadingProvision: checkIfLoader(YDMonitoringReducer, types.GET_PROVISION_REQUEST),
+})
+
+export default connect(mapStateToProps)(QuestionItem);
 

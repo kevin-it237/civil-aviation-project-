@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import PropTypes from 'prop-types'
 import {connect, useDispatch} from 'react-redux'
 import Organisations from '../components/organisations/organisations'
 import StateList from '../components/states.list/states.list'
