@@ -8,6 +8,7 @@ import img2 from '../../../assets/images/2.png'
 import img3 from '../../../assets/images/3.png'
 import img4 from '../../../assets/images/4.png'
 import img5 from '../../../assets/images/5.png'
+import {Button} from 'antd'
 import './home.screen.scss'
 
 const { Title } = Typography;
@@ -28,8 +29,13 @@ const HomeScreen = ({user}) => {
 
     return (
         <div id="home-screen-container">
-            <Title className="title">Welcome to the YD Monitoring <br/>and SAATM Dashboard</Title>
-            <p className="select">Please select</p>
+            <Title className="title">Welcome to the Yamoussoukro Decision <br/> Monitoring System and SAATM Dashboard</Title>
+            <div className="system-description">
+                <p>Beta version 1.0  - release April 2021</p>
+                <Button size='large' onClick={() => select('/saatm-dashboard')} >CONTINUE</Button>
+                <article><p>The Monitoring Tool  is released for the purpose of providing the main functionalities and data views for the Beta version of the YD monitoring and SAATM dashboard. This is released for the use by  UNECA/AFCAC  under the terms of the  engagement.</p></article>
+            </div>
+            {/* <p className="select">Please select</p>
             <div className="options">
                 <div onClick={() => select('/yd-monitoring')} className="option option--1">
                     <DashboardFilled />
@@ -47,7 +53,7 @@ const HomeScreen = ({user}) => {
                 <img src={img3} alt=""/>
                 <img src={img4} alt=""/>
                 <img src={img5} alt=""/>
-            </div>
+            </div> */}
         </div>
     )
 }

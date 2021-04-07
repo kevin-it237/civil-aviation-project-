@@ -9,6 +9,9 @@
     background-image: linear-gradient(rgba($white, 0.1), rgba($white, 0.1)), url('../../../../assets/images/aa.jpg');
     background-size: cover;
     background-position: center;
+    justify-items: center;
+    align-content: center;
+    gap: 18px;
 
     .auth-container__card {
         border: solid 1px $stroke-color;
@@ -71,8 +74,19 @@
             text-align: center;
         }
 
+        .line-element--wrapper {
+            display: grid;
+            justify-content: center;
+            justify-items: center;
+            align-content: center;
+            p {
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+        }
+
         .auth-container__line-element {
-            margin-top: 20px;
             opacity: 0.8;
 
             .auth-container__line {
@@ -103,7 +117,7 @@
 
             .back-home-text {
                 display: block;
-                margin-top: 40px;
+                margin-top: 20px;
                 cursor: pointer;
                 font-size: 12.5px;
                 text-align: center;
@@ -122,6 +136,44 @@
                 color: $danger;
                 font-size: 15px;
                 text-align: center;
+            }
+        }
+    }
+
+    #desc {
+        margin-top: 15px;
+        background-color: rgba($white, 0.8);
+        padding: 25px 40px;
+        h5 {
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: bold;
+        }
+        p{
+            font-size: 13px;
+            color: $secondary;
+            line-height: 20px;
+        }
+        .main-apps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            .app {
+                h4 {
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                    color: $primary;
+                    font-size: 14.5px;
+                    text-transform: uppercase;
+                }
+                ol {
+                    margin-top: 8px;
+                    li {
+                        font-size: 11px;
+                        margin-top: 5px;
+                    }
+                }
             }
         }
     }

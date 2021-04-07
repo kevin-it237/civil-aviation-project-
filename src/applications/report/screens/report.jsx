@@ -31,7 +31,7 @@ const Report = () => {
         }
         
         let win = new BrowserWindow({
-            show: true,
+            show: false,
             webPreferences: {
                 nodeIntegration: true
             }
