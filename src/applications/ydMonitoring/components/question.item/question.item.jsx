@@ -33,7 +33,7 @@ const QuestionItem = ({
 
     useEffect(() => {
         if(isModalVisible) {
-            dispatch(getProvision({instId: question?.YDMS_Inst_id, provisionNumber: question?.provision_id.trim()}))
+            dispatch(getProvision({instId: question?.YDMS_Inst_id || '', provisionNumber: question?.provision_id?.trim() || ''}))
         }
     }, [isModalVisible, dispatch])
 
@@ -127,8 +127,8 @@ const QuestionItem = ({
         <Modal title="Article Appliance" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
             {
                 loadingProvision ? <Loader />:
-                provision ? (
-                    <div id="provision-content">
+                provision&&Object.keys(provision).length ? (
+                    <div id="provision-content">{console.log(provision)}
                         <h3>{provision?.article?.instrument?.instrument_name}</h3>
                         <p>{provision?.article?.instrument?.description}</p>
                         <h4><u><b>Article {provision?.article?.article_number}</b></u>: {provision?.article?.article_part !== 'nil' ? provision?.article?.article_part: provision?.article?.article_title}</h4>

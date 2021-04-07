@@ -61,11 +61,10 @@ const Login = ({ error, user, states, loadingStates, loadingUsers }) => {
                             <Menu.Item onClick={() => setContent('STATE_ACCOUNTS')} key="1">States Accounts</Menu.Item>
                             <Menu.Item onClick={() => setContent('EA_ACCOUNTS')} key="2">EA Account</Menu.Item>
                             <Menu.Item onClick={() => setContent('AIRLINE_ACCOUNTS')} key="3">Airline Accounts</Menu.Item>
-                            <Divider />
                             <Menu.Item onClick={() => setContent('ONLINE_USERS')} key="4"><span id="online-circle"></span>Connected Users</Menu.Item>
                         </SubMenu>
                         <SubMenu key="sub2" icon={<CommentOutlined />} title="Comments">
-                            <Menu.Item onClick={() => setContent('COMMENTS')} key="1">All comments</Menu.Item>
+                            <Menu.Item onClick={() => setContent('COMMENTS')} key="5">All comments</Menu.Item>
                         </SubMenu>
                     </Menu>
                 </div>
