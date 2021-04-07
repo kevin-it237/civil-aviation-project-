@@ -1,8 +1,9 @@
-import { postUnauthRequest, putRequest } from "../../../../helpers/api";
+import { postUnauthRequest, putRequest, postRequest } from "../../../../helpers/api";
 
 import {config} from '../../../../helpers/constants'
 
 var _URL = `${config.API_URL}/api/auth`;
+var _URL_BASE = `${config.API_URL}/api`;
 
 /**
  * @description Authentication API calls. 
@@ -26,6 +27,7 @@ class AuthClass {
     authRegister(payload) {   
         return postUnauthRequest(`${_URL}/register`, payload);
     }
+
     /**
      * @description Update user profile a user.
      * @param {{ password : string}} payload 
@@ -33,6 +35,15 @@ class AuthClass {
      */
     updateUser(payload) {   
         return putRequest(`${_URL}/users`, payload);
+    }
+
+    /**
+     * @description submit comment
+     * @param {user, comment, date} payload 
+     * @returns Promise
+     */
+    submitComment(payload) {   
+        return postRequest(`${_URL_BASE}/comments`, payload);
     }
 
     /**

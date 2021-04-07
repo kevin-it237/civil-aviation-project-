@@ -59,3 +59,12 @@ export const authProfileInfo = () =>({
 export const resetResponseStatus = () =>({
 	type: types.RESET_RESPONSE_STATUS
 });
+
+
+/**
+ * @description Submit comment
+ */
+export const submitComment = (payload) =>({
+	type: types.SUBMIT_COMMENT_REQUEST,
+	payload
+});

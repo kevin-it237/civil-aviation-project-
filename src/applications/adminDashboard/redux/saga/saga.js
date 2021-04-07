@@ -71,6 +71,20 @@ function* resetUserAccount ({payload, type})
     }
 }
 
+/**
+ * @description get comments
+ */
+function* listComments ({type}) {
+    yield put({type: types.START_LOADING, payload: type})
+    try { 
+        const {data} = yield getRequest(`${API_URL}/comments`);
+        yield put({type: types.ADMIN_LIST_COMMENTS_SUCCESS, payload: data})
+    } catch (error) {
+        yield put({type: types.ADMIN_LIST_COMMENTS_FAILURE, payload: error.response.data.message});
+    } finally {
+        yield put({type: types.STOP_LOADING, payload: type})
+    }
+}
 
 
 export default function* AdminSaga() 
@@ -79,4 +93,5 @@ export default function* AdminSaga()
     yield takeLatest(types.ADMIN_GET_USERS_REQUEST, getUsers);
     yield takeLatest(types.ADMIN_CREATE_USER_ACCOUNT_REQUEST, createUserAccount);
     yield takeLatest(types.ADMIN_RESET_USER_ACCOUNT_REQUEST, resetUserAccount);
+    yield takeLatest(types.ADMIN_LIST_COMMENTS_REQUEST, listComments);
 }

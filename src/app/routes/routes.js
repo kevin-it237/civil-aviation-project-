@@ -14,6 +14,7 @@ import Help from '../../applications/help/screens/help'
 import ELibrary from '../../applications/ELibrary/screens/eLibrary'
 import Definitions from '../../applications/ELibrary/screens/definitions'
 import Reports from '../../applications/report/screens/report'
+import Comments from '../components/add.comment/add.comment'
 
 /**
  * @description this is the main routes for the main application src/app. 
@@ -76,6 +77,13 @@ const Routes = () => {
                     exact 
                     component={Reports}
                     path={"/reports"} />
+            </PrivateRoute>
+
+            <PrivateRoute path={"/comments"}>
+                <Route 
+                    exact 
+                    component={Comments}
+                    path={"/comments"} />
             </PrivateRoute>
             
             <NormalRoute>

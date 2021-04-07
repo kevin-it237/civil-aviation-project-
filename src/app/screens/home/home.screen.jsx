@@ -8,6 +8,7 @@ import img2 from '../../../assets/images/2.png'
 import img3 from '../../../assets/images/3.png'
 import img4 from '../../../assets/images/4.png'
 import img5 from '../../../assets/images/5.png'
+import logo from '../../../assets/images/logo.PNG'
 import {Button} from 'antd'
 import './home.screen.scss'
 
@@ -29,6 +30,8 @@ const HomeScreen = ({user}) => {
 
     return (
         <div id="home-screen-container">
+            <h3 id='exit' onClick={() => history.push('/comments')}>Exit</h3>
+            <img src={logo} alt=""/>
             <Title className="title">Welcome to the Yamoussoukro Decision <br/> Monitoring System and SAATM Dashboard</Title>
             <div className="system-description">
                 <p>Beta version 1.0  - release April 2021</p>

@@ -90,10 +90,10 @@ const Login = ({ error, redirect, user }) => {
                     Sign In
                 </Button>
 
-                <div className="auth-container__line-element line-element--wrapper">
+                {/* <div className="auth-container__line-element line-element--wrapper">
                     <center><p>ARE YOU A GENERAL USER ?</p></center>
                     <Btn>Access Here</Btn>
-                </div>
+                </div> */}
 
                 <div className="auth-container__line-element">
                     <span onClick={() => history.push({pathname: '/', state: {isMounted: true}})} className="back-home-text">{'<'} Back to Home</span>

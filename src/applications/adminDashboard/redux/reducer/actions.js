@@ -44,3 +44,10 @@ export const setConnectedUsers = (payload) => ({
     type: types.SET_CONNECTED_USERS,
     payload
 });
+
+/**
+ * @description get comments
+ */
+export const listComments = () => ({
+    type: types.ADMIN_LIST_COMMENTS_REQUEST
+});

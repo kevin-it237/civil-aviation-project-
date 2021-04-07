@@ -20,7 +20,7 @@ const MainHeader = ({user}) => {
     const history = useHistory()
 
     const logout = () => {
-        dispatch(authLogout())
+        history.push('/comments')
     }
 
     const userMenu = (
@@ -34,7 +34,7 @@ const MainHeader = ({user}) => {
           <Menu.Item>
             <NavLink exact={true} to='/help'>Help</NavLink>
           </Menu.Item>
-          <Menu.Item onClick={logout}>Logout</Menu.Item>
+          <Menu.Item onClick={logout}>Logout/ Quit</Menu.Item>
         </Menu>
     );
 

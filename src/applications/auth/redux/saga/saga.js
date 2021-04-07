@@ -1,4 +1,4 @@
-import {call, put, takeLatest, takeLeading} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import { types } from "../reducer/types";
 import authClass from "./auth.class";
 
@@ -111,12 +111,27 @@ function* authProfileInfo () {
     }
 }
 
+/**
+ * @description submit commet
+ */
+function* submitComment ({payload}) {
+    try {
+        const {data} = yield call(authClass.submitComment, payload);
+        yield put({ type: types.SUBMIT_COMMENT_SUCCESS, payload: data });
+    } 
+    catch (error)
+    {
+        yield put({ type: types.SUBMIT_COMMENT_FAILURE, payload: error.response.data });
+    }
+}
+
 export default function* AuthSaga() 
 {
     yield takeLatest(types.CURRENT_AUTHENTICATED_USER_REQUEST, authCurrentAuthenticatedUser);
     yield takeLatest(types.SIGN_IN_USER_REQUEST, authSignIn);
     yield takeLatest(types.REGISTER_USER_REQUEST, authRegister);
     yield takeLatest(types.PROFILE_INFO_REQUEST, authProfileInfo);
-    yield takeLeading(types.LOGOUT_USER_REQUEST, authLogout);
-    yield takeLeading(types.UPDATE_USER_REQUEST, updateUser);
+    yield takeLatest(types.LOGOUT_USER_REQUEST, authLogout);
+    yield takeLatest(types.UPDATE_USER_REQUEST, updateUser);
+    yield takeLatest(types.SUBMIT_COMMENT_REQUEST, submitComment);
 }

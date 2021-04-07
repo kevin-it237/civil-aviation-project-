@@ -13,6 +13,7 @@ const INITIAL_STATE = {
 	redirect: null,
 	error: null,
 	success: null,
+	commentSubmited: false
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -98,6 +99,22 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				success: null,
+			};
+
+		case types.SUBMIT_COMMENT_REQUEST:
+			return {
+				...state,
+				commentSubmited: false,
+			};
+		case types.SUBMIT_COMMENT_SUCCESS:
+			return {
+				...state,
+				commentSubmited: true,
+			};
+		case types.SUBMIT_COMMENT_FAILURE:
+			return {
+				...state,
+				commentSubmited: false,
 			};
 
 		default:
