@@ -30,7 +30,7 @@ const HomeScreen = ({user}) => {
 
     return (
         <div id="home-screen-container">
-            <h3 id='exit' onClick={() => history.push('/comments')}>Exit</h3>
+            {/* <h3 id='exit' onClick={() => history.push('/comments')}>Exit</h3> */}
             <img src={logo} alt=""/>
             <Title className="title">Welcome to the Yamoussoukro Decision <br/> Monitoring System and SAATM Dashboard</Title>
             <div className="system-description">

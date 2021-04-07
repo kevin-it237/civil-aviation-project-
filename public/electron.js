@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, nativeImage, Menu, session, screen } = require('electron')
+const { app, BrowserWindow, Tray, nativeImage, Menu, session, screen, ipcMain } = require('electron')
 const path = require("path");
 const isDev = require("electron-is-dev");
 
@@ -81,4 +81,8 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+ipcMain.on('close-me', (evt, arg) => {
+  app.quit()
 })

@@ -6,6 +6,7 @@ import {connect, useDispatch} from 'react-redux'
 import './add.comment.scss'
 import img from '../../../assets/images/logo.PNG'
 const {TextArea} = Input
+const {ipcRenderer} = window.require('electron');
 
 /**
  * @description empty data
@@ -19,7 +20,8 @@ const AddComment = ({commentSubmited, user}) => {
     const [submitting, setSubmitting] = useState(false)
 
     const closeApplication = () => {
-        dispatchEvent(authLogout())
+        dispatch(authLogout())
+        ipcRenderer.send('close-me')
     }
 
     useEffect(() => {
