@@ -50,9 +50,10 @@ const AddComment = ({commentSubmited, user}) => {
                 <p>Please provide your observation regarding the beta version 1.0</p>
                 <TextArea 
                     value={comment}
+                    rows={4}
                     onChange={e => setComment(e.target.value)}
                     placeholder='Enter  comments or observations'></TextArea>
-                <Button disabled={submitting} onClick={submit} type="primary" color='primary'>Submit your comment</Button>
+                <Button disabled={submitting} size='middle' onClick={submit} type="primary" color='primary'>Submit your comment</Button>
 
                 {
                     commentSubmited&&<p className="success">Comment submitted successfully.</p>
@@ -60,7 +61,7 @@ const AddComment = ({commentSubmited, user}) => {
 
                 <Divider>Or</Divider>
                 <div className="buttons">
-                    <Button onClick={closeApplication} danger>EXIT</Button>
+                    <Button onClick={closeApplication} danger>QUIT</Button>
                     <Button onClick={() => history.push('/saatm-dashboard')}>Return to the Dashboard</Button>
                 </div>
             </div>

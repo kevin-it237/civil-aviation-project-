@@ -124,7 +124,7 @@ const QuestionItem = ({
                 </div>
             }
         </div>
-        <Modal title="About the Article" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Article Appliance" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
             {
                 loadingProvision ? <Loader />:
                 provision ? (

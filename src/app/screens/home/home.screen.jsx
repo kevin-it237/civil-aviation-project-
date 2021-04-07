@@ -31,7 +31,7 @@ const HomeScreen = ({user}) => {
     return (
         <div id="home-screen-container">
             {/* <h3 id='exit' onClick={() => history.push('/comments')}>Exit</h3> */}
-            <img src={logo} alt=""/>
+            <img className="app-logo" src={logo} alt=""/>
             <Title className="title">Welcome to the Yamoussoukro Decision <br/> Monitoring System and SAATM Dashboard</Title>
             <div className="system-description">
                 <p>Beta version 1.0  - release April 2021</p>
@@ -48,7 +48,7 @@ const HomeScreen = ({user}) => {
                     <MonitorOutlined />
                     <h4 className="option-name">SAATM KPIs/Dashboard</h4>
                 </div>
-            </div>
+            </div> */}
 
             <div className="icons">
                 <img src={img1} alt=""/>
@@ -56,7 +56,7 @@ const HomeScreen = ({user}) => {
                 <img src={img3} alt=""/>
                 <img src={img4} alt=""/>
                 <img src={img5} alt=""/>
-            </div> */}
+            </div>
         </div>
     )
 }

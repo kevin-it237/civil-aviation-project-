@@ -108,7 +108,7 @@
             color: rgba($white, 0.85);
         }
         .button {
-
+            font-size: 18px;
         }
         article {
             margin-top: 15px;
@@ -117,13 +117,13 @@
             p{
                 font-size: 13px;
                 color: $secondary;
-                line-height: 24px;
+                line-height: 21px;
                 text-align: center;
             }
         }
     }
 
-    img {
+    .app-logo {
         width: 100px;
         height: 100px;
         border-radius: 50%;

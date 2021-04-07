@@ -12,6 +12,9 @@
         justify-items: center;
         align-content: center;
         gap: 25px;
+        @media only screen and (min-width: 1600px)  {
+            width: 40%;
+        }
         img {
             width: 100px;
             height: 100px;

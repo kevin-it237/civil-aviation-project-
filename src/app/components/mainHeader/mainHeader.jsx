@@ -28,7 +28,7 @@ const MainHeader = ({user}) => {
           <Menu.Item>
             <NavLink exact={true} to='/profile'>Account</NavLink>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item disabled>
             <NavLink exact={true} to='/reports'>Reports</NavLink>
           </Menu.Item>
           <Menu.Item>
