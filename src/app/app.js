@@ -5,8 +5,10 @@ import {connect} from 'react-redux'
 import {setConnectedUsers} from '../applications/adminDashboard/redux/reducer/actions'
 import { authCurrentAuthenticatedUser } from '../applications/auth/redux/reducer/actions';
 
+import {config} from '../helpers/constants'
+
 const io = require('socket.io-client');
-const socket = io(`${process.env.REACT_APP_API_URL}`);
+const socket = io(`${config.API_URL}`);
 
 const App = ({user}) => {
     const [hasMountedBefore, setHasMountedBefore] = useState(false);
